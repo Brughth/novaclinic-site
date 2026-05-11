@@ -46,38 +46,116 @@ const ogImageUrl = ogImage.startsWith("http")
 const frUrl = `${siteUrl}${getLocalizedUrl(canonicalPath, "fr")}`;
 const enUrl = `${siteUrl}${getLocalizedUrl(canonicalPath, "en")}`;
 
-// Schema.org JSON-LD — Centre médical
-const jsonLd = {
+// Schema.org JSON-LD — Centre médical (MedicalBusiness enrichi)
+const jsonLdMedical = {
   "@context": "https://schema.org",
-  "@type": "MedicalBusiness",
+  "@type": ["MedicalBusiness", "MedicalClinic", "HealthCare"],
   "@id": `${siteUrl}/#novacare`,
   name: "Novacare",
-  alternateName: "Centre Novacare Malley",
+  alternateName: [
+    "Centre Novacare Malley",
+    "Novacare Lausanne",
+    "Novacare Malley",
+    "SylvanaCare",
+    "SylvanaCare Lausanne",
+    "SylvanaCare Malley",
+    "Novacare technology",
+  ],
   description: pageDescription,
   url: siteUrl,
   image: ogImageUrl,
   logo: `${siteUrl}/og-image.png`,
   email: "adner.neyret@gmail.com",
-  medicalSpecialty: ["FunctionalMedicine", "WomensHealth", "Endocrinology"],
+  telephone: "+33784683417",
+  medicalSpecialty: [
+    "FunctionalMedicine",
+    "WomensHealth",
+    "Endocrinology",
+    "HormonalHealth",
+    "DigestiveHealth",
+    "FatigueChronic",
+    "Burnout",
+    "IntegrativeMedicine",
+    "Menopause",
+    "Perimenopause",
+    "ChronicFatigue",
+    "HormonalDisorders",
+    "IntegrativeMedicine",
+    "GeneralPractice",
+    "InternalMedicine",
+    "GeneralSurgery",
+    "Gynecology",
+    "Obstetrics",
+    "Ophthalmology",
+    "Pediatrics",
+    "Podiatry",
+    "Podiatry",
+    "Psychiatry",
+    "Psychology",
+    "Radiology",
+    "Rehabilitation",
+    "Dermatology",
+    "Urology",
+    "VascularSurgery",
+    "Neurology",
+    "Urology",
+    "VascularSurgery",
+    "Neurology",
+  ],
   priceRange: "$$$",
+  currenciesAccepted: "CHF",
+  paymentAccepted: "Cash, Credit Card",
   address: {
     "@type": "PostalAddress",
-    streetAddress: "Complexe Malley",
+    streetAddress: "Complexe Malley, 7ème étage",
     addressLocality: "Lausanne",
     postalCode: "1007",
     addressRegion: "VD",
     addressCountry: "CH",
   },
-  areaServed: {
-    "@type": "Place",
-    name: "Lausanne, Vaud, Suisse",
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: 46.5286,
+    longitude: 6.6049,
   },
+  areaServed: [
+    { "@type": "City", name: "Lausanne" },
+    { "@type": "State", name: "Vaud" },
+    { "@type": "Country", name: "Switzerland" },
+  ],
   audience: {
     "@type": "PeopleAudience",
     audienceType: "Women's health 35–60",
+    suggestedMinAge: 30,
+    suggestedMaxAge: 70,
+    suggestedGender: "Female",
+  },
+  founder: {
+    "@type": "Person",
+    name: "Dr Adner Neyret",
+    jobTitle: "Médecin fondateur",
+    url: siteUrl,
   },
   foundingDate: "2026-09",
+  openingDate: "2026-09",
   sameAs: [],
+  knowsAbout: [
+    "Médecine fonctionnelle",
+    "Santé féminine",
+    "Ménopause",
+    "Périménopause",
+    "Fatigue chronique",
+    "Burn-out",
+    "Troubles hormonaux",
+    "Médecine intégrative",
+    "SII",
+    "Dysbiose intestinale",
+    "Médecine de la femme",
+    "Santé digestive",
+    "Santé hormonale",
+    "Santé féminine",
+    "Santé intime",
+  ],
   hasOfferCatalog: {
     "@type": "OfferCatalog",
     name: "Programmes Novacare",
@@ -89,6 +167,88 @@ const jsonLd = {
       description: card.engagement,
     })),
   },
+};
+
+// Schema.org — WebSite (active le sitelinks search box Google)
+const jsonLdWebsite = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": `${siteUrl}/#website`,
+  name: "Novacare",
+  alternateName: "Centre Novacare Malley",
+  url: siteUrl,
+  inLanguage: [
+    { "@type": "Language", name: "French", alternateName: "fr" },
+    { "@type": "Language", name: "English", alternateName: "en" },
+  ],
+  publisher: { "@id": `${siteUrl}/#novacare` },
+};
+
+// Schema.org — Organization
+const jsonLdOrg = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": `${siteUrl}/#organization`,
+  name: "NovaCare Technology SA",
+  legalName: "NovaCare Technology SA",
+  url: siteUrl,
+  logo: `${siteUrl}/og-image.png`,
+  email: "adner.neyret@gmail.com",
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Prilly",
+    addressRegion: "VD",
+    addressCountry: "CH",
+  },
+  founder: {
+    "@type": "Person",
+    name: "Dr Adner Neyret",
+  },
+};
+
+// Schema.org — BreadcrumbList
+const jsonLdBreadcrumb = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Accueil",
+      item: siteUrl,
+    },
+    ...(lang === "en"
+      ? [
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "English",
+            item: `${siteUrl}/en/`,
+          },
+        ]
+      : []),
+  ],
+};
+
+// Schema.org — FAQPage (questions des 3 piliers → rich snippets Google)
+const faqItems = i18n.pillars.items.flatMap((pillar) =>
+  pillar.questions.map((q) => ({
+    "@type": "Question",
+    name: q,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text:
+        lang === "fr"
+          ? `Chez Novacare, nous abordons cette question dans notre pilier ${pillar.title}. ${pillar.text} Prenez rendez-vous pour une consultation découverte de 90 minutes à Lausanne.`
+          : `At Novacare, we address this through our ${pillar.title} pillar. ${pillar.text} Book a 90-minute discovery consultation in Lausanne.`,
+    },
+  })),
+);
+
+const jsonLdFaq = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqItems,
 };
 ---
 
@@ -107,12 +267,36 @@ const jsonLd = {
     <meta name="keywords" content={i18n.meta.keywords} />
     <meta name="author" content="Novacare" />
 
-    <!-- Robots -->
+    <!-- Robots — indexation agressive -->
     <meta
       name="robots"
       content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
     />
-    <meta name="googlebot" content="index, follow" />
+    <meta
+      name="googlebot"
+      content="index, follow, max-image-preview:large, max-snippet:-1"
+    />
+    <meta name="bingbot" content="index, follow" />
+
+    <!-- Google Search Console verification (remplacer par votre code) -->
+    <meta
+      name="google-site-verification"
+      content="VOTRE_CODE_GOOGLE_SEARCH_CONSOLE"
+    />
+    <!-- Bing Webmaster Tools verification (remplacer par votre code) -->
+    <meta name="msvalidate.01" content="VOTRE_CODE_BING_WEBMASTER" />
+
+    <!-- Geo-targeting local — Lausanne, Suisse -->
+    <meta name="geo.region" content="CH-VD" />
+    <meta name="geo.placename" content="Lausanne" />
+    <meta name="geo.position" content="46.5286;6.6049" />
+    <meta name="ICBM" content="46.5286, 6.6049" />
+
+    <!-- Content language -->
+    <meta
+      http-equiv="content-language"
+      content={lang === "fr" ? "fr-CH" : "en"}
+    />
 
     <!-- Canonical -->
     <link rel="canonical" href={canonicalUrl} />
@@ -170,8 +354,21 @@ const jsonLd = {
       href="https://fonts.googleapis.com/css2?family=Cormorant+Infant:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Cardo:ital,wght@0,400;1,400&family=Caveat:wght@400;500&display=swap"
     />
 
-    <!-- JSON-LD MedicalBusiness -->
-    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    <!-- JSON-LD Structured Data (5 schemas pour rich snippets agressifs) -->
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(jsonLdMedical)}
+    />
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(jsonLdWebsite)}
+    />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLdOrg)} />
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(jsonLdBreadcrumb)}
+    />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLdFaq)} />
 
     <meta name="generator" content={Astro.generator} />
 

@@ -89,6 +89,29 @@ fi
 # Retour au répertoire racine du projet
 cd ..
 
+# Étape 5: Ping des moteurs de recherche pour indexation immédiate
+log_info "Notification des moteurs de recherche (ping sitemap)..."
+
+# Ping Google
+curl -s "https://www.google.com/ping?sitemap=https://novaclinic.ch/sitemap-index.xml" > /dev/null 2>&1 && \
+    log_success "Google notifié" || log_warning "Ping Google échoué (non bloquant)"
+
+# Ping Bing / IndexNow
+curl -s "https://www.bing.com/ping?sitemap=https://novaclinic.ch/sitemap-index.xml" > /dev/null 2>&1 && \
+    log_success "Bing notifié" || log_warning "Ping Bing échoué (non bloquant)"
+
+# IndexNow — notification instantanée Bing/Yandex/Seznam/Naver
+if [ -f "indexnow-key.txt" ]; then
+    INDEXNOW_KEY=$(cat indexnow-key.txt | tr -d '[:space:]')
+    curl -s -X POST "https://api.indexnow.org/indexnow" \
+        -H "Content-Type: application/json" \
+        -d "{\"host\":\"novaclinic.ch\",\"key\":\"$INDEXNOW_KEY\",\"keyLocation\":\"https://novaclinic.ch/$INDEXNOW_KEY.txt\",\"urlList\":[\"https://novaclinic.ch/\",\"https://novaclinic.ch/en/\"]}" \
+        > /dev/null 2>&1 && \
+        log_success "IndexNow notifié (Bing, Yandex, Seznam, Naver)" || log_warning "IndexNow échoué (non bloquant)"
+else
+    log_warning "Pas de clé IndexNow trouvée (créez indexnow-key.txt pour activer)"
+fi
+
 # Résumé
 echo ""
 log_success "======================================"

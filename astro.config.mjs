@@ -17,7 +17,8 @@ export default defineConfig({
 
   integrations: [
     sitemap({
-      changefreq: 'monthly',
+      // Fréquence agressive — signale à Google de revenir souvent
+      changefreq: 'daily',
       priority: 0.7,
       lastmod: new Date(),
       serialize(item) {
@@ -28,6 +29,7 @@ export default defineConfig({
             { lang: 'en', url: SITE_URL + '/en/' },
             { lang: 'x-default', url: SITE_URL + '/' },
           ];
+          // Priorité maximale pour la page FR, haute pour EN
           item.priority = item.url.endsWith('/en/') ? 0.9 : 1.0;
         }
         return item;

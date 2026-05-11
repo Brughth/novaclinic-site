@@ -1,5 +1,22 @@
+# Novacare — Crawl directives agressives
+# Autoriser tous les robots à tout indexer
+
 User-agent: *
 Allow: /
 Disallow: /api/
 
+# Googlebot — crawl agressif
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+# Bingbot
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 0
+
+# Sitemap
 Sitemap: https://novaclinic.ch/sitemap-index.xml
+
+# Host canonique
+Host: https://novaclinic.ch

@@ -6,14 +6,14 @@ import type { Translation } from './fr';
 
 export const en: Translation = {
   meta: {
-    title: 'Novacare — A place for women in transition',
+    title: 'Novacare Lausanne — Functional Medicine Center for Women | Menopause, Fatigue, Hormones',
     description:
-      'A functional medicine center for women 35–60 in Lausanne. Fatigue, hormones, digestion: we look at them together.',
+      "Functional medicine center in Lausanne, Switzerland dedicated to women 35-60. Specialists in menopause, perimenopause, chronic fatigue, burnout, hormonal and digestive disorders. 90-minute consultations, coordinated multidisciplinary team, dedicated care manager. Malley Center, Vaud.",
     keywords:
-      'functional medicine, women health, menopause, perimenopause, chronic fatigue, burnout, hormonal imbalance, Lausanne, Malley, care manager, integrative medicine',
-    ogTitle: 'Novacare — A place for women in transition',
+      'functional medicine Lausanne, women health Lausanne, menopause treatment Switzerland, perimenopause specialist, chronic fatigue Lausanne, burnout women, hormonal disorders Switzerland, integrative medicine Vaud, Malley medical center, care manager health, IBS treatment, gut dysbiosis, Novacare, Novacare Malley center, functional doctor Swiss Romandy, women menopause support',
+    ogTitle: 'Novacare Lausanne — Functional Medicine for Women 35-60',
     ogDescription:
-      'Functional medicine center dedicated to women 35–60. A coordinated care team, long consultations, continuous support.',
+      'Functional medicine center dedicated to women in Lausanne. Menopause, chronic fatigue, hormonal and digestive disorders. Coordinated team, long consultations, continuous support. Opening Sept. 2026.',
   },
 
   nav: {
@@ -415,7 +415,7 @@ export const en: Translation = {
     contactLinks: [
       { label: 'adner.neyret@gmail.com', href: 'mailto:adner.neyret@gmail.com' },
       { label: 'Waitlist', href: '#contact' },
-      { label: '+33 7 84 68 34 17', href: 'tel:+41000000000' },
+      { label: '+33 7 84 68 34 17', href: 'tel:+33784683417' },
     ],
     copyright: '© 2026 NovaCare Technology SA · Prilly, Switzerland',
     legal: 'Legal notice · Privacy · nLPD Compliance',
