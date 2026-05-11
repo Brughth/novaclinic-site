@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /api/
 
-Sitemap: https://www.novaclinic.ch/sitemap-index.xml
+Sitemap: https://novaclinic.ch/sitemap-index.xml

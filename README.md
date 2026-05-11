@@ -300,7 +300,7 @@ npm run build
 
 | Donnée | Fichier |
 |---|---|
-| `https://www.novaclinic.ch` | `astro.config.mjs`, `public/robots.txt` |
+| `https://novaclinic.ch` | `astro.config.mjs`, `public/robots.txt` |
 | `+33 7 84 68 34 17` | `src/i18n/fr.ts`, `src/i18n/en.ts` (footer) |
 | URL du backend `ENDPOINT` | `src/components/Contact.astro` |
 | Coordonnées GPS du centre | `src/layouts/BaseLayout.astro` (JSON-LD) |
@@ -309,7 +309,7 @@ npm run build
 
 ## 📈 Recommandations SEO post-déploiement
 
-1. **Soumettre le sitemap** à Google Search Console : `https://www.novaclinic.ch/sitemap-index.xml`
+1. **Soumettre le sitemap** à Google Search Console : `https://novaclinic.ch/sitemap-index.xml`
 2. **Valider les Rich Snippets** sur [Google Rich Results Test](https://search.google.com/test/rich-results)
 3. **Valider OpenGraph** avec [opengraph.xyz](https://www.opengraph.xyz/)
 4. **Inscrire Novacare** sur Google Business Profile et annuaires médicaux suisses

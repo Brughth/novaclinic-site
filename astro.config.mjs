@@ -3,7 +3,7 @@ import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
 // Site URL — à remplacer par le vrai domaine en production
-const SITE_URL = 'https://www.novaclinic.ch';
+const SITE_URL = 'https://novaclinic.ch';
 
 // https://astro.build/config
 export default defineConfig({
