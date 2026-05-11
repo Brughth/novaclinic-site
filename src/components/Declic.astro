@@ -1,0 +1,99 @@
+---
+/**
+ * Section Déclic — texte avec pullquote central
+ */
+
+import { getLangFromUrl, type Lang } from '../i18n/config';
+import { t } from '../i18n/ui';
+
+const lang: Lang = getLangFromUrl(Astro.url);
+const i18n = t(lang);
+---
+
+<section class="declic">
+  <div class="declic-container reveal">
+    <div class="section-eyebrow"><span>{i18n.declic.eyebrow}</span></div>
+    <div class="declic-text">
+      {i18n.declic.paragraphs.map((p) => (
+        <p>
+          {p.text}
+          {'em' in p && p.em && <em>{p.em}</em>}
+          {'suffix' in p && p.suffix}
+        </p>
+      ))}
+      <p class="pull">{i18n.declic.pull}</p>
+      <p>{i18n.declic.finalParagraph}</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .declic {
+    padding: 9rem 3.5rem;
+    background: var(--cream);
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+  }
+
+  /* Guillemet géant en fond */
+  .declic::before {
+    content: '"';
+    position: absolute;
+    top: -3rem;
+    left: 5%;
+    font-family: 'Cormorant Infant', serif;
+    font-size: 35rem;
+    color: rgba(109, 46, 70, 0.05);
+    line-height: 1;
+    font-style: italic;
+    pointer-events: none;
+  }
+
+  .declic-container {
+    max-width: 880px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Background du label sur la ligne — cream */
+  .declic :global(.section-eyebrow span) {
+    background: var(--cream);
+  }
+
+  .declic-text {
+    font-family: 'Cormorant Infant', serif;
+    font-size: clamp(1.4rem, 2.4vw, 1.85rem);
+    line-height: 1.55;
+    color: var(--ink);
+    font-weight: 400;
+  }
+
+  .declic-text :global(p) {
+    margin-bottom: 1.8rem;
+  }
+
+  .declic-text :global(em) {
+    font-style: italic;
+    color: var(--berry);
+  }
+
+  .declic-text :global(.pull) {
+    font-size: clamp(1.6rem, 3vw, 2.3rem);
+    color: var(--berry);
+    font-style: italic;
+    text-align: center;
+    margin: 3rem 0;
+    line-height: 1.3;
+    text-wrap: balance;
+  }
+
+  @media (max-width: 968px) {
+    .declic { padding: 5rem 1.5rem; }
+    .declic::before {
+      font-size: 18rem;
+      top: -1rem;
+    }
+  }
+</style>

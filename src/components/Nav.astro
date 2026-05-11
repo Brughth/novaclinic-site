@@ -1,0 +1,517 @@
+---
+/**
+ * Nav — Navigation principale avec menu mobile hamburger
+ *
+ * CORRECTIONS :
+ * - Le drawer (.nav-links) est sorti du <nav> pour éviter le piège du stacking context
+ *   (un parent fixed crée un contexte qui empêche les enfants de passer au-dessus des
+ *   éléments à z-index supérieur situés hors du nav)
+ * - Backdrop = vrai élément HTML (pas pseudo-élément), avec son propre z-index
+ * - Plus de backdrop-filter qui floutait le drawer
+ * - Clic sur le backdrop ferme le menu
+ * - Scroll body bloqué quand menu ouvert (corrige iOS)
+ */
+
+import {
+  getLangFromUrl,
+  getAlternateLang,
+  getLocalizedUrl,
+  type Lang,
+} from "../i18n/config";
+import { t } from "../i18n/ui";
+
+const lang: Lang = getLangFromUrl(Astro.url);
+const i18n = t(lang);
+const altLang = getAlternateLang(lang);
+const altUrl = getLocalizedUrl("/", altLang);
+const homeUrl = getLocalizedUrl("/", lang);
+
+// Items de menu — partagés entre la version desktop (dans <nav>) et la version mobile (dans le drawer)
+const menuItems = [
+  { href: "#pourquoi", label: i18n.nav.pourquoi },
+  { href: "#piliers", label: i18n.nav.approche },
+  { href: "#parcours", label: i18n.nav.parcours },
+  { href: "#lieu", label: i18n.nav.centre },
+  { href: "#programmes", label: i18n.nav.programmes },
+];
+---
+
+<nav id="nav" aria-label="Navigation principale">
+  <a href={homeUrl} class="logo" aria-label={`${i18n.nav.logo} — accueil`}>
+    {i18n.nav.logo}
+  </a>
+
+  <!-- Liens visibles sur desktop seulement -->
+  <ul class="nav-links-desktop">
+    {
+      menuItems.map((item) => (
+        <li>
+          <a href={item.href}>{item.label}</a>
+        </li>
+      ))
+    }
+    <li>
+      <a
+        href={altUrl}
+        class="lang-switch"
+        aria-label={i18n.nav.langSwitchLabel}
+        hreflang={altLang}
+      >
+        {i18n.nav.langSwitch}
+      </a>
+    </li>
+    <li><a href="#contact" class="nav-cta">{i18n.nav.cta}</a></li>
+  </ul>
+
+  <button
+    class="nav-toggle"
+    id="navToggle"
+    aria-label={i18n.a11y.openMenu}
+    aria-expanded="false"
+    aria-controls="navDrawer"
+  >
+    <span class="hamburger" aria-hidden="true">
+      <span></span>
+      <span></span>
+      <span></span>
+    </span>
+  </button>
+</nav>
+
+<!-- ============================================================
+     Drawer mobile + backdrop — SORTIS du <nav> pour éviter
+     d'être piégés dans son stacking context (le nav est à z=1000)
+     ============================================================ -->
+<div class="nav-backdrop" id="navBackdrop" aria-hidden="true"></div>
+
+<aside class="nav-drawer" id="navDrawer" aria-hidden="true">
+  <button
+    class="nav-drawer-close"
+    id="navDrawerClose"
+    aria-label={i18n.a11y.closeMenu}
+    type="button"
+  >
+    <svg
+      width="22"
+      height="22"
+      viewBox="0 0 22 22"
+      fill="none"
+      aria-hidden="true"
+    >
+      <path
+        d="M3 3L19 19M19 3L3 19"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"></path>
+    </svg>
+  </button>
+  <ul class="nav-drawer-list">
+    {
+      menuItems.map((item) => (
+        <li>
+          <a href={item.href} data-drawer-link>
+            {item.label}
+          </a>
+        </li>
+      ))
+    }
+    <li>
+      <a
+        href={altUrl}
+        class="lang-switch"
+        aria-label={i18n.nav.langSwitchLabel}
+        hreflang={altLang}
+        data-drawer-link
+      >
+        {i18n.nav.langSwitch}
+      </a>
+    </li>
+    <li>
+      <a href="#contact" class="nav-cta" data-drawer-link>{i18n.nav.cta}</a>
+    </li>
+  </ul>
+</aside>
+
+<style>
+  /* ============ NAV ============ */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    padding: 1.5rem 3.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(251, 247, 238, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid transparent;
+    transition:
+      padding 0.4s ease,
+      border-color 0.4s ease,
+      background 0.4s ease;
+  }
+
+  nav.scrolled {
+    padding: 1rem 3.5rem;
+    border-bottom-color: rgba(109, 46, 70, 0.08);
+  }
+
+  .logo {
+    font-family: "Cormorant Infant", serif;
+    font-size: 1.8rem;
+    font-weight: 500;
+    color: var(--berry);
+    letter-spacing: 0.22em;
+    text-decoration: none;
+    line-height: 1;
+    transition: opacity var(--t-fast);
+  }
+  .logo:hover {
+    opacity: 0.85;
+  }
+
+  /* ============ NAV LINKS DESKTOP ============ */
+  .nav-links-desktop {
+    display: flex;
+    gap: 2.2rem;
+    list-style: none;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav-links-desktop :global(a) {
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 400;
+    transition:
+      color 0.3s ease,
+      font-style 0.3s ease;
+  }
+
+  .nav-links-desktop :global(a):not(.nav-cta):not(.lang-switch):hover {
+    color: var(--berry);
+    font-style: italic;
+  }
+
+  /* ============ LANG SWITCH + CTA (partagé) ============ */
+  :global(.lang-switch) {
+    border: 1px solid var(--berry);
+    color: var(--berry) !important;
+    padding: 0.4rem 0.75rem;
+    border-radius: 100px;
+    font-size: 0.78rem !important;
+    letter-spacing: 0.12em;
+    transition: all var(--t-fast);
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  :global(.lang-switch:hover) {
+    background: var(--berry);
+    color: var(--cream) !important;
+    font-style: normal !important;
+  }
+
+  :global(.nav-cta) {
+    background: var(--berry);
+    color: var(--cream) !important;
+    padding: 0.6rem 1.5rem;
+    border-radius: 100px;
+    font-size: 0.85rem !important;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  :global(.nav-cta:hover) {
+    background: var(--berry-deep);
+    color: var(--white) !important;
+    transform: translateY(-1px);
+    font-style: normal !important;
+  }
+
+  /* ============ HAMBURGER TOGGLE ============ */
+  .nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    width: 44px;
+    height: 44px;
+    align-items: center;
+    justify-content: center;
+    margin: -0.5rem;
+    position: relative;
+    z-index: 1; /* au-dessus des autres enfants du nav */
+  }
+
+  .hamburger {
+    width: 24px;
+    height: 18px;
+    position: relative;
+    display: block;
+  }
+
+  .hamburger span {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1.5px;
+    background: var(--berry);
+    border-radius: 2px;
+    transition:
+      transform 0.3s ease,
+      opacity 0.3s ease,
+      top 0.3s ease;
+  }
+
+  .hamburger span:nth-child(1) {
+    top: 0;
+  }
+  .hamburger span:nth-child(2) {
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .hamburger span:nth-child(3) {
+    top: 100%;
+    transform: translateY(-100%);
+  }
+
+  /* État "ouvert" — transforme en croix */
+  .nav-toggle[aria-expanded="true"] .hamburger span:nth-child(1) {
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg);
+  }
+  .nav-toggle[aria-expanded="true"] .hamburger span:nth-child(2) {
+    opacity: 0;
+  }
+  .nav-toggle[aria-expanded="true"] .hamburger span:nth-child(3) {
+    top: 50%;
+    transform: translateY(-50%) rotate(-45deg);
+  }
+
+  /* Quand le menu est ouvert, on cache le hamburger du nav
+     (la croix de fermeture est dans le drawer) */
+  :global(body.menu-open) .nav-toggle {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+  }
+
+  /* ============ BACKDROP ============ */
+  .nav-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(74, 31, 48, 0.45);
+    z-index: 1050;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 0.3s ease,
+      visibility 0.3s ease;
+    pointer-events: none;
+  }
+
+  .nav-backdrop.visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  /* ============ DRAWER MOBILE ============ */
+  .nav-drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: min(82vw, 360px);
+    height: 100vh;
+    height: 100dvh;
+    background: var(--cream-paper);
+    z-index: 1100; /* au-dessus du backdrop (1050) */
+    transform: translateX(100%);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: -20px 0 60px rgba(74, 31, 48, 0.18);
+    overflow-y: auto;
+    visibility: hidden;
+    display: none; /* caché en desktop */
+  }
+
+  .nav-drawer.open {
+    transform: translateX(0);
+    visibility: visible;
+  }
+
+  /* Bouton de fermeture dans le coin du drawer */
+  .nav-drawer-close {
+    position: absolute;
+    top: 1.3rem;
+    right: 1.3rem;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    color: var(--berry);
+    cursor: pointer;
+    padding: 0;
+    border-radius: 50%;
+    transition: background 0.2s ease;
+  }
+
+  .nav-drawer-close:hover {
+    background: rgba(109, 46, 70, 0.06);
+  }
+
+  .nav-drawer-close:focus-visible {
+    outline: 2px solid var(--berry);
+    outline-offset: 2px;
+  }
+
+  .nav-drawer-list {
+    list-style: none;
+    margin: 0;
+    padding: 5rem 2.5rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    align-items: flex-start;
+    justify-content: center;
+    min-height: 100%;
+  }
+
+  .nav-drawer-list :global(a) {
+    font-family: "Cormorant Infant", serif;
+    font-size: 1.5rem;
+    font-style: italic;
+    color: var(--ink);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .nav-drawer-list :global(a:hover) {
+    color: var(--berry);
+  }
+
+  .nav-drawer-list :global(.lang-switch),
+  .nav-drawer-list :global(.nav-cta) {
+    font-family: "Cardo", serif;
+    font-style: normal;
+    font-size: 0.9rem !important;
+  }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 968px) {
+    nav {
+      padding: 1rem 1.5rem;
+    }
+    nav.scrolled {
+      padding: 0.85rem 1.5rem;
+    }
+
+    .nav-links-desktop {
+      display: none;
+    }
+
+    .nav-toggle {
+      display: flex;
+    }
+
+    .nav-drawer {
+      display: block;
+    }
+  }
+
+  /* Bloquer le scroll du body quand le menu est ouvert */
+  :global(body.menu-open) {
+    overflow: hidden;
+  }
+</style>
+
+<script>
+  // ===== Nav scrolled state =====
+  const nav = document.getElementById("nav");
+  const handleScroll = () => {
+    if (!nav) return;
+    if (window.scrollY > 50) nav.classList.add("scrolled");
+    else nav.classList.remove("scrolled");
+  };
+
+  let ticking = false;
+  window.addEventListener(
+    "scroll",
+    () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          handleScroll();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    },
+    { passive: true },
+  );
+
+  handleScroll();
+
+  // ===== Menu mobile =====
+  const navToggle = document.getElementById(
+    "navToggle",
+  ) as HTMLButtonElement | null;
+  const navDrawer = document.getElementById("navDrawer");
+  const navBackdrop = document.getElementById("navBackdrop");
+  const body = document.body;
+
+  const closeMenu = () => {
+    if (!navToggle || !navDrawer) return;
+    navDrawer.classList.remove("open");
+    navDrawer.setAttribute("aria-hidden", "true");
+    navBackdrop?.classList.remove("visible");
+    navToggle.setAttribute("aria-expanded", "false");
+    body.classList.remove("menu-open");
+  };
+
+  const openMenu = () => {
+    if (!navToggle || !navDrawer) return;
+    navDrawer.classList.add("open");
+    navDrawer.setAttribute("aria-hidden", "false");
+    navBackdrop?.classList.add("visible");
+    navToggle.setAttribute("aria-expanded", "true");
+    body.classList.add("menu-open");
+  };
+
+  navToggle?.addEventListener("click", (e) => {
+    e.stopPropagation();
+    const isOpen = navDrawer?.classList.contains("open");
+    if (isOpen) closeMenu();
+    else openMenu();
+  });
+
+  // Fermer en cliquant sur le backdrop
+  navBackdrop?.addEventListener("click", closeMenu);
+
+  // Fermer en cliquant sur le bouton X dans le drawer
+  document
+    .getElementById("navDrawerClose")
+    ?.addEventListener("click", closeMenu);
+
+  // Fermer sur clic d'un lien dans le drawer
+  document.querySelectorAll("[data-drawer-link]").forEach((a) => {
+    a.addEventListener("click", closeMenu);
+  });
+
+  // Fermer sur Escape
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeMenu();
+  });
+
+  // Écouter événement global "nav:close" (depuis BaseLayout smooth scroll)
+  document.addEventListener("nav:close", closeMenu);
+</script>

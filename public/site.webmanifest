@@ -1,0 +1,22 @@
+{
+  "name": "Novacare",
+  "short_name": "Novacare",
+  "description": "Un lieu pour les femmes en transition — Centre de médecine fonctionnelle à Lausanne",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FBF7EE",
+  "theme_color": "#6D2E46",
+  "lang": "fr-CH",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "type": "image/png",
+      "sizes": "180x180"
+    }
+  ]
+}

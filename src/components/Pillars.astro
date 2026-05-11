@@ -1,0 +1,136 @@
+---
+/**
+ * Section Pillars — 3 piliers cliniques (Hormonal, Épuisement, Digestif)
+ */
+
+import { getLangFromUrl, type Lang } from '../i18n/config';
+import { t } from '../i18n/ui';
+
+const lang: Lang = getLangFromUrl(Astro.url);
+const i18n = t(lang);
+---
+
+<section class="pillars" id="piliers" aria-labelledby="pillars-title">
+  <div class="pillars-header reveal">
+    <div class="section-eyebrow"><span>{i18n.pillars.eyebrow}</span></div>
+    <h2 id="pillars-title" class="section-title">
+      {i18n.pillars.titleLine1}<br /><em>{i18n.pillars.titleLine2Em}</em>
+    </h2>
+    <p class="section-subtitle">{i18n.pillars.subtitle}</p>
+  </div>
+
+  <div class="pillars-grid">
+    {i18n.pillars.items.map((item, idx) => (
+      <article class="pillar reveal" style={`transition-delay: ${idx * 100}ms`}>
+        <div class="pillar-number">{item.number}</div>
+        <h3>{item.title}</h3>
+        <p>{item.text}</p>
+        <ul class="pillar-questions">
+          {item.questions.map((q) => <li>{q}</li>)}
+        </ul>
+      </article>
+    ))}
+  </div>
+
+  <div class="pillars-cta reveal">
+    <a href="#conditions" class="btn btn-link">{i18n.pillars.cta}</a>
+  </div>
+</section>
+
+<style>
+  .pillars {
+    padding: 9rem 3.5rem;
+    background: var(--cream);
+    position: relative;
+    z-index: 1;
+  }
+
+  .pillars :global(.section-eyebrow span) {
+    background: var(--cream);
+  }
+
+  .pillars-header {
+    max-width: 800px;
+    margin: 0 auto 6rem;
+    text-align: center;
+  }
+
+  .pillars-grid {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4rem 3rem;
+  }
+
+  .pillar {
+    text-align: left;
+    position: relative;
+  }
+
+  .pillar-number {
+    font-family: 'Cormorant Infant', serif;
+    font-style: italic;
+    font-size: 5rem;
+    line-height: 0.8;
+    color: var(--berry);
+    opacity: 0.25;
+    margin-bottom: 1rem;
+    transition: opacity var(--t-base);
+  }
+
+  .pillar:hover .pillar-number {
+    opacity: 0.5;
+  }
+
+  .pillar h3 {
+    font-family: 'Cormorant Infant', serif;
+    font-size: 2.2rem;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 1.2rem;
+    line-height: 1.1;
+    font-style: italic;
+  }
+
+  .pillar p {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--ink-soft);
+    margin-bottom: 1.5rem;
+  }
+
+  .pillar-questions {
+    list-style: none;
+    border-top: 1px solid var(--gray-line);
+    padding-top: 1.5rem;
+  }
+
+  .pillar-questions li {
+    font-style: italic;
+    font-size: 0.98rem;
+    color: var(--berry);
+    padding: 0.5rem 0;
+    line-height: 1.5;
+  }
+
+  .pillar-questions li::before {
+    content: '— ';
+    color: var(--gold);
+  }
+
+  .pillars-cta {
+    text-align: center;
+    margin-top: 5rem;
+  }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 968px) {
+    .pillars { padding: 5rem 1.5rem; }
+    .pillars-header { margin-bottom: 4rem; }
+    .pillars-grid {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+  }
+</style>

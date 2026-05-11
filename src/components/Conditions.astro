@@ -1,0 +1,162 @@
+---
+/**
+ * Section Conditions — grille de cartes des conditions traitées
+ *
+ * CORRECTIONS HTML ORIGINAL :
+ * - Grille 4 cols → 2 sur tablette → 1 sur mobile (l'original passait à 1 → manque transition tablette)
+ */
+
+import { getLangFromUrl, type Lang } from '../i18n/config';
+import { t } from '../i18n/ui';
+
+const lang: Lang = getLangFromUrl(Astro.url);
+const i18n = t(lang);
+---
+
+<section class="conditions" id="conditions" aria-labelledby="conditions-title">
+  <div class="conditions-header reveal">
+    <div class="section-eyebrow"><span>{i18n.conditions.eyebrow}</span></div>
+    <h2 id="conditions-title" class="section-title">
+      {i18n.conditions.titleLine1}<em>{i18n.conditions.titleEm}</em>
+    </h2>
+    <p class="section-subtitle">{i18n.conditions.subtitle}</p>
+  </div>
+
+  <div class="conditions-grid">
+    {i18n.conditions.items.map((item, idx) => (
+      <a
+        href="#contact"
+        class="condition-card reveal"
+        style={`transition-delay: ${(idx % 4) * 80}ms`}
+      >
+        <h4>{item.title}</h4>
+        <p class="symptoms">{item.symptoms}</p>
+        <span class="arrow">{i18n.conditions.cardLink}</span>
+      </a>
+    ))}
+  </div>
+
+  <div class="conditions-cta reveal">
+    <p class="bottom-note">{i18n.conditions.bottomNote}</p>
+    <a href="#contact" class="btn btn-link">{i18n.conditions.bottomCta}</a>
+  </div>
+</section>
+
+<style>
+  .conditions {
+    padding: 9rem 3.5rem;
+    background: var(--white);
+    position: relative;
+    z-index: 1;
+  }
+
+  .conditions :global(.section-eyebrow span) {
+    background: var(--white);
+  }
+
+  .conditions-header {
+    max-width: 800px;
+    margin: 0 auto 5rem;
+    text-align: center;
+  }
+
+  .conditions-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+  }
+
+  .condition-card {
+    padding: 2rem 1.5rem;
+    background: var(--cream-light);
+    border-radius: 2px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-left-color 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    border-left: 2px solid var(--gold);
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .condition-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 30px rgba(74, 31, 48, 0.1);
+    border-left-color: var(--berry);
+  }
+
+  .condition-card h4 {
+    font-family: 'Cormorant Infant', serif;
+    font-size: 1.35rem;
+    font-style: italic;
+    color: var(--ink);
+    margin-bottom: 0.8rem;
+    font-weight: 500;
+    line-height: 1.2;
+  }
+
+  .condition-card .symptoms {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: var(--ink-soft);
+    margin-bottom: 1rem;
+    flex: 1;
+  }
+
+  .condition-card .arrow {
+    color: var(--berry);
+    font-size: 0.8rem;
+    font-style: italic;
+    border-bottom: 1px solid var(--berry);
+    padding-bottom: 0.2rem;
+    transition: padding-right 0.3s ease;
+    display: inline-block;
+    align-self: flex-start;
+  }
+
+  .condition-card:hover .arrow {
+    padding-right: 0.8rem;
+  }
+
+  .conditions-cta {
+    text-align: center;
+    margin-top: 4rem;
+  }
+
+  .bottom-note {
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+    font-style: italic;
+    margin-bottom: 1.5rem;
+  }
+
+  /* ============ RESPONSIVE ============ */
+  /* Tablette : 3 colonnes */
+  @media (max-width: 1100px) {
+    .conditions-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  /* Mobile large : 2 colonnes */
+  @media (max-width: 768px) {
+    .conditions {
+      padding: 5rem 1.5rem;
+    }
+    .conditions-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+  }
+
+  /* Mobile : 1 colonne */
+  @media (max-width: 480px) {
+    .conditions-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,247 @@
+---
+/**
+ * Hero — Section d'accueil avec lettre ouverte rotative
+ *
+ * CORRECTIONS HTML ORIGINAL :
+ * - Empêche overflow de la note tournée sur écrans intermédiaires
+ * - Réorganisation responsive : le contenu d'abord, la note ensuite (mobile)
+ * - Trust badges retirés (étaient inexistants — design original respecté)
+ */
+
+import { getLangFromUrl, type Lang } from '../i18n/config';
+import { t } from '../i18n/ui';
+
+const lang: Lang = getLangFromUrl(Astro.url);
+const i18n = t(lang);
+---
+
+<section class="hero" aria-labelledby="hero-title">
+  <div class="hero-grid">
+    <div class="hero-content">
+      <div class="hero-eyebrow">
+        <span>{i18n.hero.eyebrow}</span>
+      </div>
+      <h1 id="hero-title">
+        {i18n.hero.titleLine1}<br />
+        {i18n.hero.titleLine2Part1}<em>{i18n.hero.titleLine2Em}</em><br />
+        {i18n.hero.titleLine3}
+      </h1>
+      <p class="hero-text">
+        {i18n.hero.text.part1}<em>{i18n.hero.text.em}</em>{i18n.hero.text.part2}
+      </p>
+      <div class="hero-cta-group">
+        <a href="#contact" class="btn btn-primary">{i18n.hero.ctaPrimary}</a>
+        <a href="#pourquoi" class="btn btn-link">{i18n.hero.ctaSecondary}</a>
+      </div>
+    </div>
+
+    <aside class="hero-note" aria-label={i18n.hero.note.from}>
+      <div class="from">{i18n.hero.note.from}</div>
+      <div class="message">
+        {i18n.hero.note.message.part1}
+        <em>{i18n.hero.note.message.em1}</em>
+        {i18n.hero.note.message.part2}
+        <em>{i18n.hero.note.message.em2}</em>
+        {i18n.hero.note.message.part3}
+      </div>
+      <div class="signature">{i18n.hero.note.signature}</div>
+      <div class="signature-role">{i18n.hero.note.role}</div>
+    </aside>
+  </div>
+</section>
+
+<style>
+  /* ============ HERO ============ */
+  .hero {
+    min-height: 100vh;
+    padding: 9rem 3.5rem 5rem;
+    position: relative;
+    display: flex;
+    align-items: center;
+    z-index: 1;
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 5rem;
+    align-items: center;
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  /* ===== Contenu gauche ===== */
+  .hero-content > * {
+    animation: fadeUp 0.9s ease-out forwards;
+    opacity: 0;
+  }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+    animation-delay: 0.1s;
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: var(--berry);
+  }
+
+  .hero-eyebrow span {
+    font-size: 0.78rem;
+    letter-spacing: 0.32em;
+    color: var(--berry);
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .hero h1 {
+    font-family: 'Cormorant Infant', serif;
+    font-size: clamp(2.6rem, 5.5vw, 4.5rem);
+    font-weight: 400;
+    line-height: 1.05;
+    margin-bottom: 2.5rem;
+    color: var(--ink);
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+    animation-delay: 0.25s;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--berry);
+    font-weight: 500;
+  }
+
+  .hero-text {
+    font-size: 1.2rem;
+    line-height: 1.75;
+    color: var(--ink-soft);
+    margin-bottom: 3rem;
+    max-width: 560px;
+    animation-delay: 0.4s;
+  }
+
+  .hero-text em {
+    font-style: italic;
+    color: var(--berry);
+  }
+
+  .hero-cta-group {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    flex-wrap: wrap;
+    animation-delay: 0.55s;
+  }
+
+  /* ===== Hero note (lettre rotative) ===== */
+  .hero-note {
+    position: relative;
+    background: var(--cream-light);
+    padding: 3rem 2.5rem;
+    box-shadow: 0 30px 80px rgba(74, 31, 48, 0.08);
+    transform: rotate(1deg);
+    border-radius: 2px;
+    animation: fadeUp 1.1s ease-out 0.5s forwards;
+    opacity: 0;
+  }
+
+  .hero-note::before {
+    content: '';
+    position: absolute;
+    top: -15px;
+    right: 25%;
+    width: 80px;
+    height: 28px;
+    background: rgba(201, 169, 97, 0.5);
+    transform: rotate(-3deg);
+    border-radius: 2px;
+  }
+
+  .hero-note .from {
+    font-size: 0.78rem;
+    color: var(--gray-mid);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  .hero-note .message {
+    font-family: 'Cormorant Infant', serif;
+    font-size: 1.5rem;
+    font-style: italic;
+    line-height: 1.4;
+    color: var(--ink);
+    margin-bottom: 2rem;
+  }
+
+  .hero-note .message em {
+    color: var(--berry);
+    font-style: italic;
+  }
+
+  .hero-note .signature {
+    font-family: 'Caveat', cursive;
+    font-size: 2.2rem;
+    color: var(--berry);
+    transform: rotate(-2deg);
+    display: inline-block;
+    margin-top: 0.5rem;
+    line-height: 1;
+  }
+
+  .hero-note .signature-role {
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    font-style: italic;
+    margin-top: 0.5rem;
+  }
+
+  /* ============ RESPONSIVE ============ */
+  /* Tablette : éviter overflow sur la note tournée */
+  @media (max-width: 1100px) {
+    .hero { padding: 8rem 2.5rem 4rem; }
+    .hero-grid { gap: 3rem; }
+    .hero-note { transform: rotate(0.5deg); }
+  }
+
+  @media (max-width: 968px) {
+    .hero {
+      padding: 7rem 1.5rem 4rem;
+      min-height: auto;
+    }
+    .hero-grid {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+    .hero-note {
+      transform: rotate(0deg);
+      padding: 2.5rem 2rem;
+    }
+    .hero-note .message {
+      font-size: 1.35rem;
+    }
+  }
+
+  @media (max-width: 540px) {
+    .hero-cta-group {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 1.2rem;
+      width: 100%;
+    }
+    .hero-cta-group .btn-primary {
+      text-align: center;
+    }
+    .hero-cta-group .btn-link {
+      text-align: center;
+    }
+  }
+</style>

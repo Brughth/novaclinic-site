@@ -1,0 +1,143 @@
+---
+/**
+ * Section Founding Members
+ */
+
+import { getLangFromUrl, type Lang } from '../i18n/config';
+import { t } from '../i18n/ui';
+
+const lang: Lang = getLangFromUrl(Astro.url);
+const i18n = t(lang);
+---
+
+<section class="founding" aria-labelledby="founding-title">
+  <div class="founding-content reveal">
+    <span class="founding-badge">{i18n.founding.badge}</span>
+    <h2 id="founding-title">
+      {i18n.founding.titleLine1}<em>{i18n.founding.titleEm}</em>
+    </h2>
+    <p class="founding-text" set:html={i18n.founding.text} />
+    <div class="founding-perks">
+      {i18n.founding.perks.map((perk) => (
+        <div class="founding-perk">
+          <div class="perk-num">{perk.num}</div>
+          <h4>{perk.title}</h4>
+          <p>{perk.text}</p>
+        </div>
+      ))}
+    </div>
+    <a href="#contact" class="btn btn-primary">{i18n.founding.cta}</a>
+  </div>
+</section>
+
+<style>
+  .founding {
+    padding: 9rem 3.5rem;
+    background: var(--cream);
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+  }
+
+  .founding-content {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+  }
+
+  .founding-badge {
+    display: inline-block;
+    font-size: 0.78rem;
+    letter-spacing: 0.32em;
+    color: var(--berry);
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    font-weight: 500;
+    padding: 0.5rem 1.5rem;
+    border: 1px solid var(--berry);
+    border-radius: 100px;
+  }
+
+  .founding h2 {
+    font-family: 'Cormorant Infant', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 400;
+    line-height: 1.15;
+    margin-bottom: 2rem;
+    color: var(--ink);
+    font-style: italic;
+    text-wrap: balance;
+  }
+
+  .founding h2 em {
+    color: var(--berry);
+  }
+
+  .founding-text {
+    font-size: 1.15rem;
+    line-height: 1.75;
+    color: var(--ink-soft);
+    margin: 0 auto 3rem;
+    max-width: 640px;
+  }
+
+  .founding-text :global(em) {
+    font-style: italic;
+    color: var(--berry);
+  }
+
+  .founding-perks {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin: 3rem 0;
+    text-align: left;
+  }
+
+  .founding-perk {
+    padding: 1.8rem;
+    background: var(--white);
+    border-radius: 2px;
+    transition: transform var(--t-base), box-shadow var(--t-base);
+  }
+
+  .founding-perk:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 28px rgba(74, 31, 48, 0.08);
+  }
+
+  .founding-perk .perk-num {
+    font-family: 'Cormorant Infant', serif;
+    font-style: italic;
+    font-size: 1.6rem;
+    color: var(--berry);
+    margin-bottom: 0.6rem;
+    line-height: 1;
+    font-weight: 500;
+  }
+
+  .founding-perk h4 {
+    font-family: 'Cormorant Infant', serif;
+    font-size: 1.15rem;
+    font-style: italic;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+  }
+
+  .founding-perk p {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--ink-soft);
+  }
+
+  @media (max-width: 968px) {
+    .founding { padding: 5rem 1.5rem; }
+    .founding-perks {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+  }
+</style>

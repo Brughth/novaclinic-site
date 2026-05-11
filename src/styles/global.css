@@ -1,0 +1,274 @@
+/* ==========================================================================
+   Novacare — Styles globaux
+   Variables, reset, typographie, animations utilitaires
+   ========================================================================== */
+
+:root {
+  /* Palette éditoriale chaleureuse */
+  --berry:        #6D2E46;
+  --berry-deep:   #4A1F30;
+  --rose:         #A26769;
+  --rose-pale:    #D4B5A8;
+  --cream:        #ECE2D0;
+  --cream-light:  #F8F3E7;
+  --cream-paper:  #FBF7EE;
+  --gold:         #C9A961;
+  --ink:          #2C1F26;
+  --ink-soft:     #4F3E47;
+  --gray-mid:     #9A8A91;
+  --gray-line:    #E5DDD3;
+  --white:        #FFFFFF;
+
+  /* Transitions */
+  --t-fast:       180ms cubic-bezier(0.4, 0, 0.2, 1);
+  --t-base:       300ms cubic-bezier(0.4, 0, 0.2, 1);
+  --t-slow:       500ms cubic-bezier(0.4, 0, 0.2, 1);
+  --t-reveal:     900ms cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Couches z-index */
+  --z-nav:        1000;
+  --z-menu:       1100;
+  --z-toast:      1200;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  font-size: 17px;
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+  scroll-padding-top: 100px; /* compensation pour la nav sticky */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+body {
+  font-family: 'Cardo', Georgia, serif;
+  font-weight: 400;
+  line-height: 1.7;
+  color: var(--ink);
+  background: var(--cream-paper);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+}
+
+/* Texture de fond globale (radial gradient subtil) */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(109, 46, 70, 0.015) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(162, 103, 105, 0.02) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+img, picture, svg, video { max-width: 100%; display: block; }
+
+/* Sélection texte */
+::selection {
+  background: var(--berry);
+  color: var(--cream);
+}
+
+/* Focus visible accessibilité */
+:focus-visible {
+  outline: 2px solid var(--berry);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Skip link */
+.skip-link {
+  position: absolute;
+  top: -50px;
+  left: 1rem;
+  background: var(--berry);
+  color: var(--cream);
+  padding: 0.7rem 1.2rem;
+  text-decoration: none;
+  font-weight: 500;
+  border-radius: 4px;
+  z-index: var(--z-toast);
+  transition: top var(--t-fast);
+}
+.skip-link:focus { top: 1rem; }
+
+/* ============ ANIMATIONS GLOBALES ============ */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Système .reveal pour les apparitions au scroll */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity var(--t-reveal), transform var(--t-reveal);
+  will-change: opacity, transform;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Fallback sans-JS : tout reste visible naturellement */
+html:not(.js-enabled) .reveal {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+/* ============ BOUTONS ============ */
+.btn {
+  padding: 1.1rem 2.4rem;
+  border: none;
+  cursor: pointer;
+  font-family: 'Cardo', serif;
+  font-size: 1rem;
+  transition: all 0.4s ease;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+  letter-spacing: 0.02em;
+}
+
+.btn-primary {
+  background: var(--berry);
+  color: var(--cream);
+  border-radius: 100px;
+  font-weight: 400;
+}
+
+.btn-primary:hover {
+  background: var(--berry-deep);
+  transform: translateY(-2px);
+  box-shadow: 0 16px 36px rgba(74, 31, 48, 0.22);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-link {
+  color: var(--ink);
+  border-bottom: 1px solid var(--berry);
+  padding: 0.4rem 0;
+  font-style: italic;
+  background: none;
+  position: relative;
+}
+
+.btn-link:hover {
+  color: var(--berry);
+  padding-right: 1.5rem;
+}
+
+/* ============ SECTION EYEBROW (réutilisé partout) ============ */
+.section-eyebrow {
+  text-align: center;
+  margin-bottom: 4rem;
+  position: relative;
+}
+
+.section-eyebrow::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 0; right: 0;
+  height: 1px;
+  background: var(--gray-line);
+  z-index: 1;
+}
+
+.section-eyebrow span {
+  font-size: 0.78rem;
+  letter-spacing: 0.32em;
+  color: var(--berry);
+  text-transform: uppercase;
+  font-weight: 500;
+  padding: 0 2rem;
+  position: relative;
+  z-index: 2;
+  /* La background-color est définie par le contexte (chaque section) */
+}
+
+/* ============ TITRES DE SECTION ============ */
+.section-title {
+  font-family: 'Cormorant Infant', serif;
+  font-size: clamp(2.2rem, 4.5vw, 3.5rem);
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+  margin-bottom: 1.5rem;
+  text-wrap: balance;
+}
+
+.section-title em {
+  font-style: italic;
+  color: var(--berry);
+}
+
+.section-subtitle {
+  font-size: 1.15rem;
+  color: var(--ink-soft);
+  line-height: 1.7;
+  font-style: italic;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* ============ CTAs CONTEXTUELS (section-cta génériques) ============ */
+.section-cta {
+  margin-top: 3rem;
+  text-align: center;
+  padding-top: 2.5rem;
+  border-top: 1px solid var(--gray-line);
+}
+
+.section-cta a {
+  color: var(--berry);
+  text-decoration: none;
+  font-size: 1.05rem;
+  font-style: italic;
+  border-bottom: 1px solid var(--berry);
+  padding: 0.4rem 0;
+  transition: padding-right 0.3s ease;
+}
+
+.section-cta a:hover { padding-right: 1.5rem; }
+
+/* ============ RESPONSIVE BASE PADDING ============ */
+/* Petite optimisation : tablette mid-range */
+@media (max-width: 1100px) {
+  html { font-size: 16px; }
+}
+
+@media (max-width: 600px) {
+  html { font-size: 15px; }
+}

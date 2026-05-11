@@ -1,0 +1,691 @@
+---
+/**
+ * Section Final CTA — Formulaire de liste d'attente
+ *
+ * Comportement :
+ * - Submit -> POST { email } vers l'endpoint configuré (constante ENDPOINT dans le <script>)
+ * - Si réponse OK -> remplace le formulaire par un widget de succès éditorial
+ *   (eyebrow, titre, email confirmé, 3 étapes "et maintenant ?", lien retour)
+ * - Sinon -> message d'erreur sous le formulaire, possibilité de réessayer
+ */
+
+import { getLangFromUrl, type Lang } from "../i18n/config";
+import { t } from "../i18n/ui";
+
+const lang: Lang = getLangFromUrl(Astro.url);
+const i18n = t(lang);
+---
+
+<section class="final-cta" id="contact" aria-labelledby="contact-title">
+  <div class="final-cta-content reveal">
+    <!-- ===== ÉTAT INITIAL : titre + texte + formulaire ===== -->
+    <div class="final-cta-initial" id="ctaInitial">
+      <h2 id="contact-title">
+        {i18n.contact.titleLine1}<em>{i18n.contact.titleEm}</em><br />
+        {i18n.contact.titleLine2}
+      </h2>
+      <p>{i18n.contact.text}</p>
+
+      <form class="final-cta-form" id="contactForm" novalidate>
+        <label for="email" class="visually-hidden"
+          >{i18n.contact.emailLabel}</label
+        >
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder={i18n.contact.emailPlaceholder}
+          required
+          autocomplete="email"
+          aria-describedby="formMessage"
+        />
+        <button type="submit" class="btn btn-primary" id="submitBtn">
+          <span class="btn-label">{i18n.contact.submit}</span>
+          <span class="btn-loading" aria-hidden="true">
+            <span class="spinner"></span>
+            {i18n.contact.submitting}
+          </span>
+        </button>
+      </form>
+
+      <div
+        id="formMessage"
+        class="form-message"
+        role="status"
+        aria-live="polite"
+        data-error={i18n.contact.error}
+        data-error-email={i18n.contact.errorEmail}
+      >
+      </div>
+
+      <p class="final-cta-note">{i18n.contact.note}</p>
+    </div>
+
+    <!-- ===== WIDGET DE SUCCÈS (affiché après soumission réussie) ===== -->
+    <div
+      class="success-card"
+      id="successCard"
+      role="status"
+      aria-live="polite"
+      hidden
+    >
+      <!-- Icône check animée -->
+      <div class="success-icon" aria-hidden="true">
+        <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
+          <circle
+            class="success-icon-circle"
+            cx="28"
+            cy="28"
+            r="26"
+            stroke="currentColor"
+            stroke-width="1.5"
+            fill="none"></circle>
+          <path
+            class="success-icon-check"
+            d="M17 28.5L24.5 36L39 21"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            fill="none"></path>
+        </svg>
+      </div>
+
+      <div class="success-eyebrow">{i18n.contact.success.eyebrow}</div>
+      <h3 class="success-title">
+        {i18n.contact.success.title}<em>{i18n.contact.success.titleEm}</em>
+      </h3>
+      <p class="success-intro">
+        {i18n.contact.success.intro}
+        <strong id="successEmail" class="success-email"></strong>
+      </p>
+
+      <div class="success-divider" aria-hidden="true">
+        <span></span>
+      </div>
+
+      <div class="success-steps">
+        <div class="success-steps-title">{i18n.contact.success.stepsTitle}</div>
+        <ol>
+          {
+            i18n.contact.success.steps.map((step, idx) => (
+              <li>
+                <span class="step-num">{String(idx + 1).padStart(2, "0")}</span>
+                <div class="step-body">
+                  <span class="step-label">{step.label}</span>
+                  <span class="step-text">{step.text}</span>
+                </div>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+
+      <a href="#top" class="success-back" id="successBack">
+        {i18n.contact.success.backLink} →
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .final-cta {
+    padding: 11rem 3.5rem 9rem;
+    background: var(--cream-paper);
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  .final-cta-content {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  /* ============ ÉTAT INITIAL ============ */
+  .final-cta-initial {
+    transition: opacity 0.4s ease;
+  }
+
+  .final-cta-initial.hidden {
+    display: none;
+  }
+
+  .final-cta h2 {
+    font-family: "Cormorant Infant", serif;
+    font-size: clamp(2.3rem, 5vw, 4rem);
+    font-weight: 400;
+    line-height: 1.1;
+    color: var(--ink);
+    font-style: italic;
+    margin-bottom: 2rem;
+    text-wrap: balance;
+  }
+
+  .final-cta h2 em {
+    color: var(--berry);
+  }
+
+  .final-cta p {
+    font-size: 1.15rem;
+    line-height: 1.75;
+    color: var(--ink-soft);
+    margin: 0 auto 3rem;
+    max-width: 560px;
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .final-cta-form {
+    max-width: 480px;
+    margin: 0 auto;
+    display: flex;
+    gap: 0.5rem;
+    flex-direction: column;
+  }
+
+  .final-cta input {
+    padding: 1.1rem 1.5rem;
+    border: 1px solid var(--gray-line);
+    background: var(--white);
+    font-family: "Cardo", serif;
+    font-size: 1rem;
+    border-radius: 100px;
+    color: var(--ink);
+    transition:
+      border-color 0.3s ease,
+      box-shadow 0.3s ease;
+    text-align: center;
+  }
+
+  .final-cta input:focus {
+    outline: none;
+    border-color: var(--berry);
+    box-shadow: 0 0 0 3px rgba(109, 46, 70, 0.1);
+  }
+
+  .final-cta input[aria-invalid="true"] {
+    border-color: #b91c1c;
+  }
+
+  .final-cta-form button {
+    margin-top: 0.8rem;
+    position: relative;
+    cursor: pointer;
+    min-height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .final-cta-form button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: none !important;
+  }
+
+  /* Loading state */
+  .btn-loading {
+    display: none;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .final-cta-form button.loading .btn-label {
+    display: none;
+  }
+
+  .final-cta-form button.loading .btn-loading {
+    display: inline-flex;
+  }
+
+  .spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(236, 226, 208, 0.3);
+    border-top-color: var(--cream);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* Messages d'erreur (sous le formulaire) */
+  .form-message {
+    margin-top: 1.5rem;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    min-height: 1.5em;
+    transition: color 0.3s ease;
+    max-width: 520px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .form-message.error {
+    color: #b91c1c;
+  }
+
+  .final-cta-note {
+    font-size: 0.85rem !important;
+    margin-top: 2rem !important;
+    color: var(--gray-mid) !important;
+    font-style: italic;
+  }
+
+  /* ============================================================
+     WIDGET DE SUCCÈS — carte éditoriale avec icône check animée
+     ============================================================ */
+  .success-card {
+    background: var(--white);
+    border-radius: 4px;
+    padding: 3.5rem 3rem;
+    box-shadow: 0 30px 80px rgba(74, 31, 48, 0.08);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    animation: success-card-enter 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .success-card[hidden] {
+    display: none;
+  }
+
+  /* Ligne d'accent en haut de la carte */
+  .success-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: var(--gold);
+  }
+
+  @keyframes success-card-enter {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* ----- Icône check animée ----- */
+  .success-icon {
+    color: var(--berry);
+    margin: 0 auto 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .success-icon-circle {
+    stroke-dasharray: 164;
+    stroke-dashoffset: 164;
+    animation: draw-circle 0.8s ease-out 0.2s forwards;
+    transform-origin: center;
+  }
+
+  .success-icon-check {
+    stroke-dasharray: 50;
+    stroke-dashoffset: 50;
+    animation: draw-check 0.5s ease-out 0.9s forwards;
+  }
+
+  @keyframes draw-circle {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @keyframes draw-check {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  /* ----- Texte du succès ----- */
+  .success-eyebrow {
+    font-size: 0.75rem;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--berry);
+    margin-bottom: 1rem;
+    font-weight: 500;
+    animation: fade-up 0.6s ease-out 1.2s both;
+  }
+
+  .success-title {
+    font-family: "Cormorant Infant", serif;
+    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+    font-weight: 400;
+    line-height: 1.15;
+    color: var(--ink);
+    margin: 0 0 1.5rem;
+    text-wrap: balance;
+    animation: fade-up 0.6s ease-out 1.3s both;
+  }
+
+  .success-title em {
+    font-style: italic;
+    color: var(--berry);
+  }
+
+  .success-intro {
+    font-size: 1.05rem !important;
+    line-height: 1.6 !important;
+    color: var(--ink-soft) !important;
+    margin: 0 auto 0 !important;
+    max-width: 500px !important;
+    animation: fade-up 0.6s ease-out 1.4s both;
+  }
+
+  .success-email {
+    color: var(--berry);
+    font-weight: 500;
+    word-break: break-word;
+    display: inline-block;
+    margin-top: 0.3rem;
+  }
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* ----- Divider décoratif ----- */
+  .success-divider {
+    margin: 2.5rem auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fade-up 0.6s ease-out 1.5s both;
+  }
+
+  .success-divider span {
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: var(--gold);
+    position: relative;
+  }
+
+  .success-divider span::before,
+  .success-divider span::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 4px;
+    height: 4px;
+    background: var(--gold);
+    border-radius: 50%;
+    transform: translateY(-50%);
+  }
+
+  .success-divider span::before {
+    left: -10px;
+  }
+  .success-divider span::after {
+    right: -10px;
+  }
+
+  /* ----- Étapes "Et maintenant ?" ----- */
+  .success-steps {
+    text-align: left;
+    max-width: 480px;
+    margin: 0 auto;
+    animation: fade-up 0.6s ease-out 1.6s both;
+  }
+
+  .success-steps-title {
+    font-size: 0.75rem;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 500;
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .success-steps ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+
+  .success-steps li {
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    gap: 1.1rem;
+    align-items: baseline;
+    padding: 1.1rem 0;
+    border-top: 1px solid var(--gray-line);
+  }
+
+  .success-steps li:last-child {
+    border-bottom: 1px solid var(--gray-line);
+  }
+
+  .step-num {
+    font-family: "Cormorant Infant", serif;
+    font-size: 1.2rem;
+    font-style: italic;
+    color: var(--berry);
+    line-height: 1;
+    font-weight: 500;
+  }
+
+  .step-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .step-label {
+    font-family: "Cormorant Infant", serif;
+    font-size: 1.05rem;
+    font-style: italic;
+    color: var(--ink);
+    font-weight: 500;
+    line-height: 1.3;
+  }
+
+  .step-text {
+    font-size: 0.92rem;
+    line-height: 1.55;
+    color: var(--ink-soft);
+  }
+
+  /* ----- Lien retour ----- */
+  .success-back {
+    display: inline-block;
+    margin-top: 2.5rem;
+    color: var(--berry);
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-style: italic;
+    border-bottom: 1px solid var(--berry);
+    padding: 0.3rem 0;
+    transition: padding-right 0.3s ease;
+    animation: fade-up 0.6s ease-out 1.7s both;
+  }
+
+  .success-back:hover {
+    padding-right: 0.8rem;
+  }
+
+  /* Respect des préférences utilisateur */
+  @media (prefers-reduced-motion: reduce) {
+    .success-card,
+    .success-eyebrow,
+    .success-title,
+    .success-intro,
+    .success-divider,
+    .success-steps,
+    .success-back {
+      animation: none !important;
+    }
+    .success-icon-circle,
+    .success-icon-check {
+      stroke-dashoffset: 0 !important;
+      animation: none !important;
+    }
+  }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 968px) {
+    .final-cta {
+      padding: 6rem 1.5rem 5rem;
+    }
+    .success-card {
+      padding: 2.5rem 1.5rem;
+    }
+    .success-steps li {
+      grid-template-columns: 28px 1fr;
+      gap: 0.9rem;
+      padding: 0.9rem 0;
+    }
+  }
+</style>
+
+<script>
+  /**
+   * ───────────────────────────────────────────────────────────────
+   *  URL du backend qui reçoit la soumission.
+   *  Le backend reçoit { email: "..." } en JSON et doit :
+   *   - retourner un statut 2xx en cas de succès
+   *   - envoyer un email de confirmation à l'utilisateur
+   *
+   *  ➜ Modifiez cette constante pour pointer vers votre vrai backend.
+   * ───────────────────────────────────────────────────────────────
+   */
+  const ENDPOINT = "https://api.novacare.ch/waitlist";
+
+  const initial = document.getElementById("ctaInitial");
+  const form = document.getElementById("contactForm") as HTMLFormElement | null;
+  const submitBtn = document.getElementById(
+    "submitBtn",
+  ) as HTMLButtonElement | null;
+  const emailInput = document.getElementById(
+    "email",
+  ) as HTMLInputElement | null;
+  const messageEl = document.getElementById(
+    "formMessage",
+  ) as HTMLElement | null;
+  const successCard = document.getElementById("successCard");
+  const successEmail = document.getElementById("successEmail");
+
+  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  if (
+    form &&
+    submitBtn &&
+    emailInput &&
+    messageEl &&
+    initial &&
+    successCard &&
+    successEmail
+  ) {
+    const errorMsg = messageEl.dataset.error || "Erreur.";
+    const errorEmailMsg = messageEl.dataset.errorEmail || "Email invalide.";
+
+    const setMessage = (text: string, type: "error" | "" = "") => {
+      messageEl.textContent = text;
+      messageEl.className = "form-message" + (type ? ` ${type}` : "");
+    };
+
+    const setLoading = (loading: boolean) => {
+      if (loading) {
+        submitBtn.classList.add("loading");
+        submitBtn.disabled = true;
+      } else {
+        submitBtn.classList.remove("loading");
+        submitBtn.disabled = false;
+      }
+    };
+
+    const showSuccess = (email: string) => {
+      // Injecter l'email dans le widget
+      successEmail.textContent = email;
+      // Masquer le formulaire, afficher la carte
+      initial.classList.add("hidden");
+      successCard.hidden = false;
+      // Scroller doucement vers le widget pour bien le faire voir
+      setTimeout(() => {
+        successCard.scrollIntoView({ behavior: "smooth", block: "center" });
+      }, 100);
+    };
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const email = emailInput.value.trim();
+
+      // Validation côté client
+      if (!email || !EMAIL_RE.test(email)) {
+        emailInput.setAttribute("aria-invalid", "true");
+        setMessage(errorEmailMsg, "error");
+        emailInput.focus();
+        return;
+      }
+
+      emailInput.removeAttribute("aria-invalid");
+      setMessage("", "");
+      setLoading(true);
+
+      try {
+        const response = await fetch(ENDPOINT, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email }),
+        });
+
+        if (response.ok) {
+          showSuccess(email);
+        } else {
+          throw new Error(`HTTP ${response.status}`);
+        }
+      } catch (err) {
+        console.error("Contact form error:", err);
+        setMessage(errorMsg, "error");
+        setLoading(false);
+      }
+    });
+
+    // Réinitialiser l'état d'erreur quand l'utilisateur retape
+    emailInput.addEventListener("input", () => {
+      if (emailInput.getAttribute("aria-invalid") === "true") {
+        emailInput.removeAttribute("aria-invalid");
+        setMessage("", "");
+      }
+    });
+  }
+</script>

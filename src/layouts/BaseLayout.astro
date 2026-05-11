@@ -1,0 +1,248 @@
+---
+/**
+ * Layout principal — Novacare
+ *
+ * Inclut :
+ * - Métadonnées SEO complètes (title, description, keywords)
+ * - Open Graph & Twitter Cards
+ * - Schema.org JSON-LD (MedicalBusiness)
+ * - Hreflang FR/EN/x-default
+ * - Préchargement des fonts Google
+ * - Favicon + manifest PWA
+ * - Skip-link accessibilité
+ * - Indicateur js-enabled (fallback gracieux)
+ */
+
+import "../styles/global.css";
+import { getLangFromUrl, getLocalizedUrl, type Lang } from "../i18n/config";
+import { t } from "../i18n/ui";
+
+interface Props {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+  canonicalPath?: string;
+}
+
+const {
+  title,
+  description,
+  ogImage = "/og-image.png",
+  canonicalPath = "/",
+} = Astro.props;
+
+const lang: Lang = getLangFromUrl(Astro.url);
+const i18n = t(lang);
+
+const pageTitle = title ?? i18n.meta.title;
+const pageDescription = description ?? i18n.meta.description;
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, "") ?? "";
+const canonicalUrl = `${siteUrl}${getLocalizedUrl(canonicalPath, lang)}`;
+const ogImageUrl = ogImage.startsWith("http")
+  ? ogImage
+  : `${siteUrl}${ogImage}`;
+
+const frUrl = `${siteUrl}${getLocalizedUrl(canonicalPath, "fr")}`;
+const enUrl = `${siteUrl}${getLocalizedUrl(canonicalPath, "en")}`;
+
+// Schema.org JSON-LD — Centre médical
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "MedicalBusiness",
+  "@id": `${siteUrl}/#novacare`,
+  name: "Novacare",
+  alternateName: "Centre Novacare Malley",
+  description: pageDescription,
+  url: siteUrl,
+  image: ogImageUrl,
+  logo: `${siteUrl}/og-image.png`,
+  email: "adner.neyret@gmail.com",
+  medicalSpecialty: ["FunctionalMedicine", "WomensHealth", "Endocrinology"],
+  priceRange: "$$$",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "Complexe Malley",
+    addressLocality: "Lausanne",
+    postalCode: "1007",
+    addressRegion: "VD",
+    addressCountry: "CH",
+  },
+  areaServed: {
+    "@type": "Place",
+    name: "Lausanne, Vaud, Suisse",
+  },
+  audience: {
+    "@type": "PeopleAudience",
+    audienceType: "Women's health 35–60",
+  },
+  foundingDate: "2026-09",
+  sameAs: [],
+  hasOfferCatalog: {
+    "@type": "OfferCatalog",
+    name: "Programmes Novacare",
+    itemListElement: i18n.programmes.cards.map((card) => ({
+      "@type": "Offer",
+      name: card.name,
+      price: card.price,
+      priceCurrency: "CHF",
+      description: card.engagement,
+    })),
+  },
+};
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDescription} />
+    <meta name="keywords" content={i18n.meta.keywords} />
+    <meta name="author" content="Novacare" />
+
+    <!-- Robots -->
+    <meta
+      name="robots"
+      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    />
+    <meta name="googlebot" content="index, follow" />
+
+    <!-- Canonical -->
+    <link rel="canonical" href={canonicalUrl} />
+
+    <!-- Hreflang FR/EN/x-default -->
+    <link rel="alternate" hreflang="fr" href={frUrl} />
+    <link rel="alternate" hreflang="en" href={enUrl} />
+    <link rel="alternate" hreflang="x-default" href={frUrl} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content={lang === "fr" ? "fr_CH" : "en_US"} />
+    <meta
+      property="og:locale:alternate"
+      content={lang === "fr" ? "en_US" : "fr_CH"}
+    />
+    <meta property="og:title" content={i18n.meta.ogTitle} />
+    <meta property="og:description" content={i18n.meta.ogDescription} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:site_name" content="Novacare" />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={i18n.meta.ogTitle} />
+
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={i18n.meta.ogTitle} />
+    <meta name="twitter:description" content={i18n.meta.ogDescription} />
+    <meta name="twitter:image" content={ogImageUrl} />
+    <meta name="twitter:image:alt" content={i18n.meta.ogTitle} />
+
+    <!-- Theme color -->
+    <meta name="theme-color" content="#6D2E46" />
+    <meta name="msapplication-TileColor" content="#6D2E46" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Novacare" />
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Préchargement Google Fonts (DNS prefetch + preconnect + stylesheet) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Infant:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Cardo:ital,wght@0,400;1,400&family=Caveat:wght@400;500&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Infant:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Cardo:ital,wght@0,400;1,400&family=Caveat:wght@400;500&display=swap"
+    />
+
+    <!-- JSON-LD MedicalBusiness -->
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+    <meta name="generator" content={Astro.generator} />
+
+    <slot name="head" />
+
+    <!-- Indicateur "JS actif" — active les animations reveal -->
+    <script is:inline>
+      document.documentElement.classList.add("js-enabled");
+    </script>
+  </head>
+
+  <body>
+    <a href="#main-content" class="skip-link">{i18n.a11y.skipToContent}</a>
+
+    <slot />
+
+    <!-- Script global : reveal au scroll + nav scrolled state + smooth anchor scroll -->
+    <script>
+      // ===== Reveal animations (IntersectionObserver) =====
+      const initReveal = () => {
+        const elements = document.querySelectorAll<HTMLElement>(".reveal");
+
+        if (!("IntersectionObserver" in window)) {
+          elements.forEach((el) => el.classList.add("visible"));
+          return;
+        }
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("visible");
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.15, rootMargin: "0px 0px -80px 0px" },
+        );
+
+        elements.forEach((el) => observer.observe(el));
+      };
+
+      // ===== Smooth scroll pour les ancres (correction du scroll-padding) =====
+      const initSmoothScroll = () => {
+        document
+          .querySelectorAll<HTMLAnchorElement>('a[href^="#"]')
+          .forEach((anchor) => {
+            anchor.addEventListener("click", function (e) {
+              const href = this.getAttribute("href");
+              if (!href || href === "#") return;
+              const target = document.querySelector(href);
+              if (target) {
+                e.preventDefault();
+                target.scrollIntoView({ behavior: "smooth", block: "start" });
+                // Fermer un éventuel menu mobile ouvert
+                document.dispatchEvent(new CustomEvent("nav:close"));
+              }
+            });
+          });
+      };
+
+      const init = () => {
+        initReveal();
+        initSmoothScroll();
+      };
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", init);
+      } else {
+        init();
+      }
+    </script>
+  </body>
+</html>

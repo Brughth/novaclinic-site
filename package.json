@@ -1,0 +1,27 @@
+{
+  "name": "novacare-site",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Site vitrine de Novacare — Centre de médecine fonctionnelle pour les femmes à Lausanne",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "check": "astro check"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.2",
+    "astro": "^6.3.1",
+    "sharp": "^0.34.5"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.4",
+    "typescript": "^5.7.2"
+  },
+  "engines": {
+    "node": ">=20.10.0"
+  }
+}

@@ -1,0 +1,167 @@
+---
+/**
+ * Section Parcours — timeline 5 étapes
+ *
+ * CORRECTIONS HTML ORIGINAL :
+ * - Sur tablette, la timeline s'écrasait : passage à 2 cols puis 1 col plus progressif
+ * - Sur mobile, la ligne de timeline est masquée ; mais le numéro reste central et propre
+ */
+
+import { getLangFromUrl, type Lang } from '../i18n/config';
+import { t } from '../i18n/ui';
+
+const lang: Lang = getLangFromUrl(Astro.url);
+const i18n = t(lang);
+---
+
+<section class="parcours" id="parcours" aria-labelledby="parcours-title">
+  <div class="parcours-header reveal">
+    <div class="section-eyebrow"><span>{i18n.parcours.eyebrow}</span></div>
+    <h2 id="parcours-title" class="section-title">
+      {i18n.parcours.titleLine1}<em>{i18n.parcours.titleEm}</em>
+    </h2>
+    <p class="section-subtitle">{i18n.parcours.subtitle}</p>
+  </div>
+
+  <ol class="parcours-timeline">
+    {i18n.parcours.steps.map((step, idx) => (
+      <li class="parcours-step reveal" style={`transition-delay: ${idx * 80}ms`}>
+        <div class="step-number">{step.num}</div>
+        <h4>{step.title}</h4>
+        <p>{step.text}</p>
+        <div class="duration">{step.duration}</div>
+      </li>
+    ))}
+  </ol>
+
+  <div class="parcours-cta reveal">
+    <a href="#contact" class="btn btn-primary">{i18n.parcours.cta}</a>
+  </div>
+</section>
+
+<style>
+  .parcours {
+    padding: 9rem 3.5rem;
+    background: var(--white);
+    position: relative;
+    z-index: 1;
+  }
+
+  .parcours :global(.section-eyebrow span) {
+    background: var(--white);
+  }
+
+  .parcours-header {
+    max-width: 800px;
+    margin: 0 auto 5rem;
+    text-align: center;
+  }
+
+  .parcours-timeline {
+    max-width: 1100px;
+    margin: 0 auto;
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
+    list-style: none;
+    padding: 0;
+  }
+
+  /* Ligne horizontale de timeline */
+  .parcours-timeline::before {
+    content: '';
+    position: absolute;
+    top: 35px;
+    left: 8%; right: 8%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--rose-pale), var(--rose-pale), transparent);
+    z-index: 1;
+  }
+
+  .parcours-step {
+    position: relative;
+    text-align: center;
+    z-index: 2;
+  }
+
+  .step-number {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 2rem;
+    border-radius: 50%;
+    background: var(--cream-light);
+    border: 2px solid var(--berry);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cormorant Infant', serif;
+    font-size: 1.7rem;
+    font-style: italic;
+    color: var(--berry);
+    font-weight: 500;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 3;
+  }
+
+  .parcours-step:hover .step-number {
+    background: var(--berry);
+    color: var(--cream);
+    transform: scale(1.05);
+  }
+
+  .parcours-step h4 {
+    font-family: 'Cormorant Infant', serif;
+    font-size: 1.3rem;
+    font-style: italic;
+    color: var(--ink);
+    margin-bottom: 0.7rem;
+    font-weight: 500;
+    line-height: 1.2;
+  }
+
+  .parcours-step p {
+    font-size: 0.9rem;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    padding: 0 0.5rem;
+  }
+
+  .parcours-step .duration {
+    margin-top: 0.8rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--berry);
+    font-weight: 500;
+  }
+
+  .parcours-cta {
+    text-align: center;
+    margin-top: 5rem;
+  }
+
+  /* ============ RESPONSIVE ============ */
+  /* Tablette : passe en 2 colonnes plutôt qu'en 5 écrasées */
+  @media (max-width: 1100px) {
+    .parcours-timeline {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 3rem 2rem;
+    }
+    .parcours-timeline::before {
+      display: none;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .parcours { padding: 5rem 1.5rem; }
+    .parcours-timeline {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+    .parcours-step p {
+      padding: 0;
+    }
+  }
+</style>

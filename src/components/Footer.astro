@@ -1,0 +1,153 @@
+---
+/**
+ * Footer Novacare
+ */
+
+import { getLangFromUrl, type Lang } from '../i18n/config';
+import { t } from '../i18n/ui';
+
+const lang: Lang = getLangFromUrl(Astro.url);
+const i18n = t(lang);
+const year = new Date().getFullYear();
+---
+
+<footer>
+  <div class="footer-container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">{i18n.footer.logo}</div>
+        <p class="footer-tagline">
+          {i18n.footer.taglineLine1}<br />{i18n.footer.taglineLine2}
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h5>{i18n.footer.centerTitle}</h5>
+        <ul>
+          {i18n.footer.centerLinks.map((link) => (
+            <li><a href={link.href}>{link.label}</a></li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>{i18n.footer.contactTitle}</h5>
+        <ul>
+          {i18n.footer.contactLinks.map((link) => (
+            <li><a href={link.href}>{link.label}</a></li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div>{i18n.footer.copyright.replace('2026', String(year))}</div>
+      <div>{i18n.footer.legal}</div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  footer {
+    background: var(--berry-deep);
+    color: var(--rose-pale);
+    padding: 5rem 3.5rem 2.5rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 4rem;
+    margin-bottom: 4rem;
+  }
+
+  .footer-logo {
+    font-family: 'Cormorant Infant', serif;
+    font-size: 2rem;
+    font-weight: 500;
+    color: var(--cream);
+    letter-spacing: 0.22em;
+    margin-bottom: 1.5rem;
+  }
+
+  .footer-tagline {
+    font-family: 'Cormorant Infant', serif;
+    font-size: 1.15rem;
+    font-style: italic;
+    line-height: 1.5;
+    color: var(--rose-pale);
+    max-width: 380px;
+  }
+
+  .footer-col h5 {
+    font-size: 0.78rem;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+  }
+
+  .footer-col ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .footer-col ul li {
+    margin-bottom: 0.7rem;
+  }
+
+  .footer-col ul a {
+    color: var(--rose-pale);
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: color 0.2s ease, font-style 0.2s ease;
+  }
+
+  .footer-col ul a:hover {
+    color: var(--cream);
+    font-style: italic;
+  }
+
+  .footer-bottom {
+    border-top: 1px solid rgba(236, 226, 208, 0.1);
+    padding-top: 2rem;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    font-size: 0.78rem;
+    color: var(--rose-pale);
+    letter-spacing: 0.05em;
+  }
+
+  @media (max-width: 968px) {
+    footer {
+      padding: 4rem 1.5rem 2rem;
+    }
+    .footer-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+    }
+    .footer-brand {
+      grid-column: 1 / -1;
+    }
+    .footer-bottom {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+  }
+
+  @media (max-width: 540px) {
+    .footer-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
