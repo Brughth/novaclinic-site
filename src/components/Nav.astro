@@ -336,7 +336,8 @@ const menuItems = [
     z-index: 1100; /* au-dessus du backdrop (1050) */
     transform: translateX(100%);
     transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: -20px 0 60px rgba(74, 31, 48, 0.18);
+    box-shadow: none;
+    overflow-x: hidden;
     overflow-y: auto;
     visibility: hidden;
     display: none; /* caché en desktop */
@@ -345,6 +346,7 @@ const menuItems = [
   .nav-drawer.open {
     transform: translateX(0);
     visibility: visible;
+    box-shadow: -20px 0 60px rgba(74, 31, 48, 0.18);
   }
 
   /* Bouton de fermeture dans le coin du drawer */

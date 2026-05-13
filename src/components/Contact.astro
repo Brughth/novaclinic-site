@@ -1,12 +1,19 @@
 ---
 /**
- * Section Final CTA — Formulaire de liste d'attente
+ * Section Final CTA — Formulaire de liste d'attente Founding Members
+ *
+ * Champs :
+ *  - firstname (texte, requis)
+ *  - lastname (texte, requis)
+ *  - email (email, requis)
+ *  - canton (select, facultatif)
+ *  - symptoms (checkboxes multi-select, facultatif)
  *
  * Comportement :
- * - Submit -> POST { email } vers l'endpoint configuré (constante ENDPOINT dans le <script>)
- * - Si réponse OK -> remplace le formulaire par un widget de succès éditorial
- *   (eyebrow, titre, email confirmé, 3 étapes "et maintenant ?", lien retour)
- * - Sinon -> message d'erreur sous le formulaire, possibilité de réessayer
+ *  - Validation au submit (champs requis + email valide)
+ *  - POST { firstname, lastname, email, canton, symptoms[], lang } vers l'endpoint
+ *  - Si OK -> widget de succès éditorial avec prénom personnalisé + signature Adner
+ *  - Sinon -> message d'erreur sous le formulaire
  */
 
 import { getLangFromUrl, type Lang } from "../i18n/config";
@@ -14,6 +21,7 @@ import { t } from "../i18n/ui";
 
 const lang: Lang = getLangFromUrl(Astro.url);
 const i18n = t(lang);
+const c = i18n.contact;
 ---
 
 <section class="final-cta" id="contact" aria-labelledby="contact-title">
@@ -21,47 +29,140 @@ const i18n = t(lang);
     <!-- ===== ÉTAT INITIAL : titre + texte + formulaire ===== -->
     <div class="final-cta-initial" id="ctaInitial">
       <h2 id="contact-title">
-        {i18n.contact.titleLine1}<em>{i18n.contact.titleEm}</em><br />
-        {i18n.contact.titleLine2}
+        {c.titleLine1}<em>{c.titleEm}</em><br />
+        {c.titleLine2}
       </h2>
-      <p>{i18n.contact.text}</p>
+      <p class="final-cta-text">{c.text}</p>
 
-      <form class="final-cta-form" id="contactForm" novalidate>
-        <label for="email" class="visually-hidden"
-          >{i18n.contact.emailLabel}</label
-        >
-        <input
-          type="email"
-          id="email"
-          name="email"
-          placeholder={i18n.contact.emailPlaceholder}
-          required
-          autocomplete="email"
-          aria-describedby="formMessage"
-        />
-        <button type="submit" class="btn btn-primary" id="submitBtn">
-          <span class="btn-label">{i18n.contact.submit}</span>
+      <form
+        class="inscription-form"
+        id="contactForm"
+        data-lang={lang}
+        novalidate
+      >
+        <!-- Prénom + Nom sur la même ligne -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="firstname" class="form-label"
+              >{c.fields.firstname.label}</label
+            >
+            <input
+              type="text"
+              id="firstname"
+              name="firstname"
+              class="form-input"
+              placeholder={c.fields.firstname.placeholder}
+              required
+              autocomplete="given-name"
+              aria-describedby="firstnameError"
+            />
+            <div class="input-error" id="firstnameError" role="alert">
+              {c.fields.firstname.error}
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="lastname" class="form-label"
+              >{c.fields.lastname.label}</label
+            >
+            <input
+              type="text"
+              id="lastname"
+              name="lastname"
+              class="form-input"
+              placeholder={c.fields.lastname.placeholder}
+              required
+              autocomplete="family-name"
+              aria-describedby="lastnameError"
+            />
+            <div class="input-error" id="lastnameError" role="alert">
+              {c.fields.lastname.error}
+            </div>
+          </div>
+        </div>
+
+        <!-- Email pleine largeur -->
+        <div class="form-group">
+          <label for="email" class="form-label">{c.fields.email.label}</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            class="form-input"
+            placeholder={c.fields.email.placeholder}
+            required
+            autocomplete="email"
+            aria-describedby="emailError"
+          />
+          <div class="input-error" id="emailError" role="alert">
+            {c.fields.email.error}
+          </div>
+        </div>
+
+        <!-- Canton (facultatif) -->
+        <div class="form-group">
+          <label for="canton" class="form-label">
+            {c.fields.canton.label}
+            <span class="optional">{c.fields.canton.optional}</span>
+          </label>
+          <select id="canton" name="canton" class="form-select">
+            <option value="">{c.fields.canton.placeholder}</option>
+            {
+              c.fields.canton.options.map((opt) => (
+                <option value={opt.value}>{opt.label}</option>
+              ))
+            }
+          </select>
+        </div>
+
+        <!-- Symptômes (facultatif, multi-select) -->
+        <fieldset class="form-group symptoms-group">
+          <legend class="form-label">
+            {c.fields.symptoms.label}
+            <span class="optional">{c.fields.symptoms.optional}</span>
+          </legend>
+          <p class="checkbox-help">{c.fields.symptoms.help}</p>
+          <div class="checkbox-grid">
+            {
+              c.fields.symptoms.options.map((opt) => (
+                <div class="checkbox-item">
+                  <input
+                    type="checkbox"
+                    id={`sym-${opt.value}`}
+                    name="symptoms"
+                    value={opt.value}
+                  />
+                  <label for={`sym-${opt.value}`}>{opt.label}</label>
+                </div>
+              ))
+            }
+          </div>
+        </fieldset>
+
+        <button type="submit" class="submit-btn" id="submitBtn">
+          <span class="btn-label">{c.submit}</span>
           <span class="btn-loading" aria-hidden="true">
             <span class="spinner"></span>
-            {i18n.contact.submitting}
+            {c.submitting}
           </span>
         </button>
+
+        <!-- Message d'erreur global (réseau, serveur) -->
+        <div
+          id="formMessage"
+          class="form-message"
+          role="status"
+          aria-live="polite"
+          aria-atomic="true"
+          data-error={c.error}
+        >
+        </div>
+
+        <p class="form-note">{c.note}</p>
       </form>
-
-      <div
-        id="formMessage"
-        class="form-message"
-        role="status"
-        aria-live="polite"
-        data-error={i18n.contact.error}
-        data-error-email={i18n.contact.errorEmail}
-      >
-      </div>
-
-      <p class="final-cta-note">{i18n.contact.note}</p>
     </div>
 
-    <!-- ===== WIDGET DE SUCCÈS (affiché après soumission réussie) ===== -->
+    <!-- ===== WIDGET DE SUCCÈS ===== -->
     <div
       class="success-card"
       id="successCard"
@@ -69,7 +170,6 @@ const i18n = t(lang);
       aria-live="polite"
       hidden
     >
-      <!-- Icône check animée -->
       <div class="success-icon" aria-hidden="true">
         <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
           <circle
@@ -91,12 +191,12 @@ const i18n = t(lang);
         </svg>
       </div>
 
-      <div class="success-eyebrow">{i18n.contact.success.eyebrow}</div>
-      <h3 class="success-title">
-        {i18n.contact.success.title}<em>{i18n.contact.success.titleEm}</em>
+      <div class="success-eyebrow">{c.success.eyebrow}</div>
+      <h3 class="success-title" id="successTitle">
+        <span id="successTitlePrefix"></span><em>{c.success.titleEm}</em>
       </h3>
       <p class="success-intro">
-        {i18n.contact.success.intro}
+        {c.success.intro}
         <strong id="successEmail" class="success-email"></strong>
       </p>
 
@@ -105,10 +205,10 @@ const i18n = t(lang);
       </div>
 
       <div class="success-steps">
-        <div class="success-steps-title">{i18n.contact.success.stepsTitle}</div>
+        <div class="success-steps-title">{c.success.stepsTitle}</div>
         <ol>
           {
-            i18n.contact.success.steps.map((step, idx) => (
+            c.success.steps.map((step, idx) => (
               <li>
                 <span class="step-num">{String(idx + 1).padStart(2, "0")}</span>
                 <div class="step-body">
@@ -121,14 +221,23 @@ const i18n = t(lang);
         </ol>
       </div>
 
+      <!-- Signature personnelle Adner -->
+      <div class="success-signature">
+        <div class="sig-name">{c.success.signatureName}</div>
+        <div class="sig-role">{c.success.signatureRole}</div>
+      </div>
+
       <a href="#top" class="success-back" id="successBack">
-        {i18n.contact.success.backLink} →
+        {c.success.backLink} →
       </a>
     </div>
   </div>
 </section>
 
 <style>
+  /* ============================================================
+     SECTION FINAL CTA
+     ============================================================ */
   .final-cta {
     padding: 11rem 3.5rem 9rem;
     background: var(--cream-paper);
@@ -138,13 +247,8 @@ const i18n = t(lang);
   }
 
   .final-cta-content {
-    max-width: 720px;
+    max-width: 640px;
     margin: 0 auto;
-  }
-
-  /* ============ ÉTAT INITIAL ============ */
-  .final-cta-initial {
-    transition: opacity 0.4s ease;
   }
 
   .final-cta-initial.hidden {
@@ -166,11 +270,11 @@ const i18n = t(lang);
     color: var(--berry);
   }
 
-  .final-cta p {
+  .final-cta-text {
     font-size: 1.15rem;
     line-height: 1.75;
     color: var(--ink-soft);
-    margin: 0 auto 3rem;
+    margin: 0 auto 3.5rem;
     max-width: 560px;
   }
 
@@ -186,16 +290,51 @@ const i18n = t(lang);
     border: 0;
   }
 
-  .final-cta-form {
-    max-width: 480px;
-    margin: 0 auto;
-    display: flex;
-    gap: 0.5rem;
-    flex-direction: column;
+  /* ============================================================
+     FORMULAIRE
+     ============================================================ */
+  .inscription-form {
+    text-align: left;
   }
 
-  .final-cta input {
-    padding: 1.1rem 1.5rem;
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .form-group {
+    margin-bottom: 1.2rem;
+    /* Reset pour les fieldset */
+    border: none;
+    padding: 0;
+    min-width: 0;
+  }
+
+  .form-label {
+    display: block;
+    font-size: 0.75rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--berry);
+    font-weight: 500;
+    margin-bottom: 0.6rem;
+  }
+
+  .form-label .optional {
+    font-size: 0.7rem;
+    color: var(--gray-mid);
+    letter-spacing: 0.05em;
+    text-transform: lowercase;
+    font-style: italic;
+    margin-left: 0.5rem;
+  }
+
+  .form-input,
+  .form-select {
+    width: 100%;
+    padding: 0.95rem 1.3rem;
     border: 1px solid var(--gray-line);
     background: var(--white);
     font-family: "Cardo", serif;
@@ -205,31 +344,147 @@ const i18n = t(lang);
     transition:
       border-color 0.3s ease,
       box-shadow 0.3s ease;
-    text-align: center;
   }
 
-  .final-cta input:focus {
+  .form-input:focus,
+  .form-select:focus {
     outline: none;
     border-color: var(--berry);
-    box-shadow: 0 0 0 3px rgba(109, 46, 70, 0.1);
+    box-shadow: 0 4px 20px rgba(109, 46, 70, 0.1);
   }
 
-  .final-cta input[aria-invalid="true"] {
+  .form-input::placeholder {
+    color: var(--gray-mid);
+    font-style: italic;
+  }
+
+  .form-select {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236D2E46' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 1.3rem center;
+    background-size: 16px;
+    padding-right: 3rem;
+    cursor: pointer;
+  }
+
+  /* Erreur sur input/select */
+  .form-input[aria-invalid="true"],
+  .form-select[aria-invalid="true"] {
     border-color: #b91c1c;
   }
 
-  .final-cta-form button {
-    margin-top: 0.8rem;
+  /* Message d'erreur sous chaque champ */
+  .input-error {
+    display: none;
+    font-size: 0.82rem;
+    color: #b91c1c;
+    margin-top: 0.5rem;
+    font-style: italic;
+    padding-left: 1.3rem;
+  }
+
+  .input-error.visible {
+    display: block;
+  }
+
+  /* Aide texte sous le label symptômes */
+  .checkbox-help {
+    font-size: 0.82rem;
+    color: var(--gray-mid);
+    font-style: italic;
+    margin: 0 0 1rem;
+    padding-left: 1.3rem;
+  }
+
+  /* ============================================================
+     CHECKBOXES "PILLS" (symptômes)
+     ============================================================ */
+  .symptoms-group {
+    margin-top: 2rem;
+  }
+
+  .checkbox-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0.6rem;
+  }
+
+  .checkbox-item {
     position: relative;
     cursor: pointer;
+  }
+
+  .checkbox-item input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+    /* Pour que :focus-visible sur l'input éclaire le label */
+  }
+
+  .checkbox-item label {
+    display: block;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--gray-line);
+    border-radius: 100px;
+    background: var(--white);
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    user-select: none;
+  }
+
+  .checkbox-item label:hover {
+    border-color: var(--rose-pale);
+  }
+
+  .checkbox-item input[type="checkbox"]:checked + label {
+    background: var(--berry);
+    color: var(--cream);
+    border-color: var(--berry);
+    font-style: italic;
+  }
+
+  /* Focus visible accessibilité (clavier) */
+  .checkbox-item input[type="checkbox"]:focus-visible + label {
+    outline: 2px solid var(--berry);
+    outline-offset: 3px;
+  }
+
+  /* ============================================================
+     BOUTON SUBMIT
+     ============================================================ */
+  .submit-btn {
+    width: 100%;
+    padding: 1.2rem 2rem;
+    border: none;
+    background: var(--berry);
+    color: var(--cream);
+    font-family: "Cardo", serif;
+    font-size: 1rem;
+    border-radius: 100px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    letter-spacing: 0.02em;
+    margin-top: 2rem;
     min-height: 52px;
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
-  .final-cta-form button:disabled {
-    opacity: 0.7;
+  .submit-btn:hover:not(:disabled) {
+    background: var(--berry-deep);
+    transform: translateY(-2px);
+    box-shadow: 0 16px 36px rgba(74, 31, 48, 0.22);
+  }
+
+  .submit-btn:disabled {
+    opacity: 0.6;
     cursor: not-allowed;
     transform: none !important;
     box-shadow: none !important;
@@ -242,11 +497,11 @@ const i18n = t(lang);
     gap: 0.6rem;
   }
 
-  .final-cta-form button.loading .btn-label {
+  .submit-btn.loading .btn-label {
     display: none;
   }
 
-  .final-cta-form button.loading .btn-loading {
+  .submit-btn.loading .btn-loading {
     display: inline-flex;
   }
 
@@ -265,31 +520,30 @@ const i18n = t(lang);
     }
   }
 
-  /* Messages d'erreur (sous le formulaire) */
+  /* Message global (erreur réseau / serveur) */
   .form-message {
-    margin-top: 1.5rem;
+    margin-top: 1.2rem;
     font-size: 0.95rem;
     line-height: 1.5;
-    min-height: 1.5em;
+    min-height: 0;
+    text-align: center;
     transition: color 0.3s ease;
-    max-width: 520px;
-    margin-left: auto;
-    margin-right: auto;
   }
 
   .form-message.error {
     color: #b91c1c;
   }
 
-  .final-cta-note {
-    font-size: 0.85rem !important;
-    margin-top: 2rem !important;
-    color: var(--gray-mid) !important;
+  .form-note {
+    font-size: 0.82rem;
+    margin-top: 1.5rem;
+    color: var(--gray-mid);
     font-style: italic;
+    text-align: center;
   }
 
   /* ============================================================
-     WIDGET DE SUCCÈS — carte éditoriale avec icône check animée
+     WIDGET DE SUCCÈS
      ============================================================ */
   .success-card {
     background: var(--white);
@@ -306,7 +560,6 @@ const i18n = t(lang);
     display: none;
   }
 
-  /* Ligne d'accent en haut de la carte */
   .success-card::before {
     content: "";
     position: absolute;
@@ -329,7 +582,6 @@ const i18n = t(lang);
     }
   }
 
-  /* ----- Icône check animée ----- */
   .success-icon {
     color: var(--berry);
     margin: 0 auto 2rem;
@@ -363,7 +615,6 @@ const i18n = t(lang);
     }
   }
 
-  /* ----- Texte du succès ----- */
   .success-eyebrow {
     font-size: 0.75rem;
     letter-spacing: 0.32em;
@@ -391,11 +642,11 @@ const i18n = t(lang);
   }
 
   .success-intro {
-    font-size: 1.05rem !important;
-    line-height: 1.6 !important;
-    color: var(--ink-soft) !important;
-    margin: 0 auto 0 !important;
-    max-width: 500px !important;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    margin: 0 auto;
+    max-width: 500px;
     animation: fade-up 0.6s ease-out 1.4s both;
   }
 
@@ -418,7 +669,6 @@ const i18n = t(lang);
     }
   }
 
-  /* ----- Divider décoratif ----- */
   .success-divider {
     margin: 2.5rem auto;
     display: flex;
@@ -454,7 +704,6 @@ const i18n = t(lang);
     right: -10px;
   }
 
-  /* ----- Étapes "Et maintenant ?" ----- */
   .success-steps {
     text-align: left;
     max-width: 480px;
@@ -524,7 +773,28 @@ const i18n = t(lang);
     color: var(--ink-soft);
   }
 
-  /* ----- Lien retour ----- */
+  /* ----- Signature Adner ----- */
+  .success-signature {
+    margin-top: 2.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--gray-line);
+    animation: fade-up 0.6s ease-out 1.65s both;
+  }
+
+  .success-signature .sig-name {
+    font-family: "Caveat", cursive;
+    font-size: 2.2rem;
+    color: var(--berry);
+    line-height: 1;
+    margin-bottom: 0.4rem;
+  }
+
+  .success-signature .sig-role {
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    font-style: italic;
+  }
+
   .success-back {
     display: inline-block;
     margin-top: 2.5rem;
@@ -542,7 +812,7 @@ const i18n = t(lang);
     padding-right: 0.8rem;
   }
 
-  /* Respect des préférences utilisateur */
+  /* Respect prefers-reduced-motion */
   @media (prefers-reduced-motion: reduce) {
     .success-card,
     .success-eyebrow,
@@ -550,6 +820,7 @@ const i18n = t(lang);
     .success-intro,
     .success-divider,
     .success-steps,
+    .success-signature,
     .success-back {
       animation: none !important;
     }
@@ -560,18 +831,44 @@ const i18n = t(lang);
     }
   }
 
-  /* ============ RESPONSIVE ============ */
+  /* ============================================================
+     RESPONSIVE
+     ============================================================ */
   @media (max-width: 968px) {
     .final-cta {
       padding: 6rem 1.5rem 5rem;
     }
+  }
+
+  @media (max-width: 768px) {
+    .form-row {
+      grid-template-columns: 1fr;
+      gap: 0;
+      margin-bottom: 0;
+    }
+
+    .form-row .form-group:first-child {
+      margin-bottom: 1.2rem;
+    }
+
+    .checkbox-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
     .success-card {
       padding: 2.5rem 1.5rem;
     }
+
     .success-steps li {
       grid-template-columns: 28px 1fr;
       gap: 0.9rem;
       padding: 0.9rem 0;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .checkbox-grid {
+      grid-template-columns: 1fr;
     }
   }
 </style>
@@ -580,46 +877,127 @@ const i18n = t(lang);
   /**
    * ───────────────────────────────────────────────────────────────
    *  URL du backend qui reçoit la soumission.
-   *  Le backend reçoit { email: "..." } en JSON et doit :
-   *   - retourner un statut 2xx en cas de succès
-   *   - envoyer un email de confirmation à l'utilisateur
-   *
-   *  ➜ Modifiez cette constante pour pointer vers votre vrai backend.
+   *  Payload envoyé en JSON :
+   *  {
+   *    firstname: string,
+   *    lastname:  string,
+   *    email:     string,
+   *    canton:    string | "",
+   *    symptoms:  string[],
+   *    lang:      "fr" | "en"
+   *  }
    * ───────────────────────────────────────────────────────────────
    */
-  const ENDPOINT = "https://api.novacare.ch/waitlist";
+  const ENDPOINT = "https://api.sylvanacare.ch/api/novaclinic-waitlist";
 
   const initial = document.getElementById("ctaInitial");
   const form = document.getElementById("contactForm") as HTMLFormElement | null;
   const submitBtn = document.getElementById(
     "submitBtn",
   ) as HTMLButtonElement | null;
+
+  const firstnameInput = document.getElementById(
+    "firstname",
+  ) as HTMLInputElement | null;
+  const lastnameInput = document.getElementById(
+    "lastname",
+  ) as HTMLInputElement | null;
   const emailInput = document.getElementById(
     "email",
   ) as HTMLInputElement | null;
-  const messageEl = document.getElementById(
+  const cantonSelect = document.getElementById(
+    "canton",
+  ) as HTMLSelectElement | null;
+
+  const formMessage = document.getElementById(
     "formMessage",
   ) as HTMLElement | null;
   const successCard = document.getElementById("successCard");
   const successEmail = document.getElementById("successEmail");
+  const successTitlePrefix = document.getElementById("successTitlePrefix");
 
   const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   if (
     form &&
     submitBtn &&
+    firstnameInput &&
+    lastnameInput &&
     emailInput &&
-    messageEl &&
-    initial &&
+    cantonSelect &&
+    formMessage &&
     successCard &&
-    successEmail
+    successEmail &&
+    successTitlePrefix
   ) {
-    const errorMsg = messageEl.dataset.error || "Erreur.";
-    const errorEmailMsg = messageEl.dataset.errorEmail || "Email invalide.";
+    const lang = (form.dataset.lang || "fr") as "fr" | "en";
+    const errorMsg = formMessage.dataset.error || "Erreur.";
+
+    // Récupère le template du titre de succès depuis l'i18n via une astuce :
+    // on lit le pattern dans un attribut data ajouté au render-time côté Astro.
+    // Plus simple : on hardcode les deux versions ici puisque c'est juste du remplacement de prénom.
+    const titlePrefixTemplate =
+      lang === "fr"
+        ? "Merci {firstname}, votre place est "
+        : "Thank you {firstname}, your place is ";
+
+    // ───── Helpers de validation ─────
+    const setFieldError = (
+      input: HTMLElement,
+      errorId: string,
+      hasError: boolean,
+    ) => {
+      input.setAttribute("aria-invalid", hasError ? "true" : "false");
+      const errEl = document.getElementById(errorId);
+      if (errEl) {
+        if (hasError) errEl.classList.add("visible");
+        else errEl.classList.remove("visible");
+      }
+    };
+
+    const validateField = (
+      input: HTMLInputElement,
+      errorId: string,
+      validator: (val: string) => boolean,
+    ): boolean => {
+      const isValid = validator(input.value.trim());
+      setFieldError(input, errorId, !isValid);
+      return isValid;
+    };
+
+    // Validation à la perte de focus (UX : feedback immédiat sans être agressif)
+    firstnameInput.addEventListener("blur", () => {
+      if (firstnameInput.value.trim()) {
+        validateField(firstnameInput, "firstnameError", (v) => v.length > 0);
+      }
+    });
+    lastnameInput.addEventListener("blur", () => {
+      if (lastnameInput.value.trim()) {
+        validateField(lastnameInput, "lastnameError", (v) => v.length > 0);
+      }
+    });
+    emailInput.addEventListener("blur", () => {
+      if (emailInput.value.trim()) {
+        validateField(emailInput, "emailError", (v) => EMAIL_RE.test(v));
+      }
+    });
+
+    // Effacer l'erreur quand l'utilisateur retape
+    [
+      { input: firstnameInput, id: "firstnameError" },
+      { input: lastnameInput, id: "lastnameError" },
+      { input: emailInput, id: "emailError" },
+    ].forEach(({ input, id }) => {
+      input.addEventListener("input", () => {
+        if (input.getAttribute("aria-invalid") === "true") {
+          setFieldError(input, id, false);
+        }
+      });
+    });
 
     const setMessage = (text: string, type: "error" | "" = "") => {
-      messageEl.textContent = text;
-      messageEl.className = "form-message" + (type ? ` ${type}` : "");
+      formMessage.textContent = text;
+      formMessage.className = "form-message" + (type ? ` ${type}` : "");
     };
 
     const setLoading = (loading: boolean) => {
@@ -632,13 +1010,17 @@ const i18n = t(lang);
       }
     };
 
-    const showSuccess = (email: string) => {
-      // Injecter l'email dans le widget
+    const showSuccess = (firstname: string, email: string) => {
+      // Personnaliser le titre avec le prénom
+      const prefix = titlePrefixTemplate.replace("{firstname}", firstname);
+      successTitlePrefix.textContent = prefix;
       successEmail.textContent = email;
+
       // Masquer le formulaire, afficher la carte
-      initial.classList.add("hidden");
+      initial?.classList.add("hidden");
       successCard.hidden = false;
-      // Scroller doucement vers le widget pour bien le faire voir
+
+      // Scroller doucement vers le widget
       setTimeout(() => {
         successCard.scrollIntoView({ behavior: "smooth", block: "center" });
       }, 100);
@@ -647,17 +1029,40 @@ const i18n = t(lang);
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
 
+      const firstname = firstnameInput.value.trim();
+      const lastname = lastnameInput.value.trim();
       const email = emailInput.value.trim();
+      const canton = cantonSelect.value;
+      const symptoms = Array.from(
+        form.querySelectorAll<HTMLInputElement>(
+          'input[name="symptoms"]:checked',
+        ),
+      ).map((cb) => cb.value);
 
-      // Validation côté client
-      if (!email || !EMAIL_RE.test(email)) {
-        emailInput.setAttribute("aria-invalid", "true");
-        setMessage(errorEmailMsg, "error");
-        emailInput.focus();
+      // Validation des champs requis
+      const okFirstname = validateField(
+        firstnameInput,
+        "firstnameError",
+        (v) => v.length > 0,
+      );
+      const okLastname = validateField(
+        lastnameInput,
+        "lastnameError",
+        (v) => v.length > 0,
+      );
+      const okEmail = validateField(emailInput, "emailError", (v) =>
+        EMAIL_RE.test(v),
+      );
+
+      if (!okFirstname || !okLastname || !okEmail) {
+        // Focus sur le premier champ en erreur (accessibilité)
+        const firstError = form.querySelector<HTMLInputElement>(
+          '[aria-invalid="true"]',
+        );
+        firstError?.focus();
         return;
       }
 
-      emailInput.removeAttribute("aria-invalid");
       setMessage("", "");
       setLoading(true);
 
@@ -665,11 +1070,18 @@ const i18n = t(lang);
         const response = await fetch(ENDPOINT, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email }),
+          body: JSON.stringify({
+            firstname,
+            lastname,
+            email,
+            canton,
+            symptoms,
+            lang,
+          }),
         });
 
         if (response.ok) {
-          showSuccess(email);
+          showSuccess(firstname, email);
         } else {
           throw new Error(`HTTP ${response.status}`);
         }
@@ -677,14 +1089,6 @@ const i18n = t(lang);
         console.error("Contact form error:", err);
         setMessage(errorMsg, "error");
         setLoading(false);
-      }
-    });
-
-    // Réinitialiser l'état d'erreur quand l'utilisateur retape
-    emailInput.addEventListener("input", () => {
-      if (emailInput.getAttribute("aria-invalid") === "true") {
-        emailInput.removeAttribute("aria-invalid");
-        setMessage("", "");
       }
     });
   }
