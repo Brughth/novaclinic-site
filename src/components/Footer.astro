@@ -1,6 +1,6 @@
 ---
 /**
- * Footer Novacare
+ * Footer Novaclinic
  */
 
 import { getLangFromUrl, type Lang } from '../i18n/config';
@@ -31,6 +31,15 @@ const year = new Date().getFullYear();
       </div>
 
       <div class="footer-col">
+        <h5>{i18n.nav.specialties}</h5>
+        <ul>
+          {i18n.nav.specialtiesMenu.items.map((item) => (
+            <li><a href={item.href}>{item.title}</a></li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="footer-col">
         <h5>{i18n.footer.contactTitle}</h5>
         <ul>
           {i18n.footer.contactLinks.map((link) => (
@@ -42,7 +51,13 @@ const year = new Date().getFullYear();
 
     <div class="footer-bottom">
       <div>{i18n.footer.copyright.replace('2026', String(year))}</div>
-      <div>{i18n.footer.legal}</div>
+      <div class="footer-legal-links">
+        <a href={lang === 'fr' ? '/mentions-legales' : '/en/legal-notice'}>{i18n.footer.legalNotice}</a>
+        <span aria-hidden="true">·</span>
+        <a href={lang === 'fr' ? '/confidentialite' : '/en/privacy'}>{i18n.footer.privacy}</a>
+        <span aria-hidden="true">·</span>
+        <span>{i18n.footer.compliance}</span>
+      </div>
     </div>
   </div>
 </footer>
@@ -63,8 +78,9 @@ const year = new Date().getFullYear();
 
   .footer-grid {
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
-    gap: 4rem;
+    /* brand large + 3 colonnes de liens */
+    grid-template-columns: 1.6fr 1fr 1.1fr 1fr;
+    gap: 3rem;
     margin-bottom: 4rem;
   }
 
@@ -126,6 +142,27 @@ const year = new Date().getFullYear();
     font-size: 0.78rem;
     color: var(--rose-pale);
     letter-spacing: 0.05em;
+  }
+
+  .footer-legal-links {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+  }
+
+  .footer-legal-links a {
+    color: var(--rose-pale);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .footer-legal-links a:hover {
+    color: var(--cream);
+  }
+
+  .footer-legal-links span[aria-hidden] {
+    opacity: 0.4;
   }
 
   @media (max-width: 968px) {

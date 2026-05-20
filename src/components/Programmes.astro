@@ -31,7 +31,7 @@ const i18n = t(lang);
     </h4>
     <p>{i18n.programmes.discovery.text}</p>
     <div class="discovery-options">
-      {i18n.programmes.discovery.options.map((opt) => (
+      {i18n.programmes.discovery.options.map((opt, idx) => (
         <div class="discovery-option">
           <div class="opt-label">{opt.label}</div>
           <h5>{opt.title}</h5>
@@ -39,7 +39,12 @@ const i18n = t(lang);
             {opt.priceLinePart1}<strong>{opt.priceLineStrong}</strong>{opt.priceLinePart2}
           </div>
           <p class="opt-text">{opt.text}</p>
-          <a href="#contact">{opt.cta}</a>
+          {/* idx 0 = Bilan en ligne gratuit ; idx 1 = Consultation découverte 250 CHF */}
+          <a
+            href="#contact"
+            data-track-event={idx === 1 ? "consultation_decouverte_clic" : "bilan_en_ligne_clic"}
+            data-track-source="programmes_discovery"
+          >{opt.cta}</a>
         </div>
       ))}
     </div>
@@ -63,7 +68,12 @@ const i18n = t(lang);
         <ul class="prog-features">
           {card.features.map((f) => <li>{f}</li>)}
         </ul>
-        <a href="#contact" class="prog-cta">{card.cta}</a>
+        <a
+          href="#contact"
+          class="prog-cta"
+          data-track-event="cta_waitlist_clic"
+          data-track-source={`programmes_card_${card.tier.toLowerCase().split(' ')[0]}`}
+        >{card.cta}</a>
       </article>
     ))}
   </div>

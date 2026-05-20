@@ -1,0 +1,81 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../../components/Nav.astro';
+import LandingHero from '../../components/LandingHero.astro';
+import LandingSymptomes from '../../components/LandingSymptomes.astro';
+import Pillars from '../../components/Pillars.astro';
+import Parcours from '../../components/Parcours.astro';
+import Comparatif from '../../components/Comparatif.astro';
+import Lieu from '../../components/Lieu.astro';
+import Programmes from '../../components/Programmes.astro';
+import Founding from '../../components/Founding.astro';
+import Contact from '../../components/Contact.astro';
+import Footer from '../../components/Footer.astro';
+
+const pageTitle = "IBS & Digestive Disorders Lausanne — Novaclinic Malley Center";
+const pageDescription = "Functional medicine center in Lausanne specialized in Irritable Bowel Syndrome, gut dysbiosis and gut-brain axis. Advanced microbiome assessment, personalized nutrition plan. Opening September 2026.";
+
+const symptoms = [
+  { title: 'Irritable Bowel Syndrome', description: 'IBS · alternating constipation-diarrhea · chronic abdominal pain.' },
+  { title: 'Chronic bloating', description: 'Bloated stomach after meals · heaviness · gas · permanent discomfort.' },
+  { title: 'Gut dysbiosis', description: 'Imbalanced microbiome · candidiasis · bacterial overgrowth · suspected SIBO.' },
+  { title: 'Intestinal permeability', description: 'Leaky gut · mucosal inflammation · passage of undesirable molecules.' },
+  { title: 'Visceral hypersensitivity', description: 'Lowered pain threshold · spasms · disrupted gut-brain communication.' },
+  { title: 'Food sensitivities', description: 'Reactions to gluten, lactose, FODMAPs · multiple sensitivities · targeted diagnosis.' },
+  { title: 'Gut-brain axis', description: 'Digestion-mood-anxiety link · gut neurotransmitters · holistic approach.' },
+  { title: 'Chronic inflammation', description: 'Elevated inflammatory markers · diffuse pain · digestive-origin fatigue.' },
+  { title: 'Personalized nutrition plan', description: 'Beyond standard elimination diets: progressive reconstruction of diversity.' },
+];
+
+const medicalConditions = [
+  'Irritable Bowel Syndrome',
+  'IBS',
+  'Gut dysbiosis',
+  'Intestinal permeability',
+  'Gut-brain axis',
+  'Visceral hypersensitivity',
+  'Microbiome imbalance',
+];
+---
+
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+  canonicalPath="/ibs"
+  medicalConditions={medicalConditions}
+>
+  <Nav />
+  <main id="main-content">
+    <LandingHero
+      eyebrow="IBS · Digestive disorders · Dysbiosis"
+      titleLine1="The gut is never "
+      titleEm="alone"
+      titleLine2="."
+      intro="Chronic bloating, painful belly, alternating constipation-diarrhea. At Novaclinic, we approach digestion through"
+      introEm="the gut-brain axis"
+      introSuffix=" and the microbiome, over time."
+      ctaPrimary="Join the waitlist"
+      ctaSecondary="Understand our approach →"
+      source="lp_ibs_en"
+    />
+
+    <LandingSymptomes
+      eyebrow="Conditions supported"
+      titleLine1="The "
+      titleEm="systemic"
+      titleLine2=" approach to digestion."
+      subtitle="The digestive system is a gateway to overall health. Hormones, mood, immunity, inflammation: everything transits through the gut. Here is what we address."
+      symptoms={symptoms}
+      ctaText="Talk to our team →"
+    />
+
+    <Pillars />
+    <Parcours />
+    <Comparatif />
+    <Lieu />
+    <Programmes />
+    <Founding />
+    <Contact />
+  </main>
+  <Footer />
+</BaseLayout>

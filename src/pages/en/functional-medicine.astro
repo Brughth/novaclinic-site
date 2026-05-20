@@ -1,0 +1,79 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../../components/Nav.astro';
+import LandingHero from '../../components/LandingHero.astro';
+import LandingSymptomes from '../../components/LandingSymptomes.astro';
+import Pillars from '../../components/Pillars.astro';
+import Parcours from '../../components/Parcours.astro';
+import Comparatif from '../../components/Comparatif.astro';
+import Lieu from '../../components/Lieu.astro';
+import Programmes from '../../components/Programmes.astro';
+import Founding from '../../components/Founding.astro';
+import Contact from '../../components/Contact.astro';
+import Footer from '../../components/Footer.astro';
+
+const pageTitle = "Functional Medicine Lausanne — Novaclinic Malley Center";
+const pageDescription = "Functional medicine center in Lausanne dedicated to women 35-60. Integrative approach, systemic view, multidisciplinary team coordinated by a care manager. 90-min consultations, advanced biomarkers. Opening September 2026.";
+
+const symptoms = [
+  { title: 'Systemic view', description: 'We look at hormones, digestion, exhaustion and sleep together — because they function together.' },
+  { title: 'Advanced biological assessment', description: 'Beyond standard thresholds: specific biomarkers, complete hormonal panel, micronutrition.' },
+  { title: 'Dedicated care manager', description: 'A nurse who orchestrates your journey and connects all practitioners.' },
+  { title: 'Multidisciplinary team', description: 'Physicians, physiotherapists, naturopaths, psychologists, nutritionists coordinated.' },
+  { title: 'Long consultations', description: '90 minutes initial, 45 minutes follow-up — time to truly listen.' },
+  { title: 'Personalized plan', description: 'No standardized protocol: each support is designed for you.' },
+  { title: 'Continuous follow-up', description: 'Between consultations, digital follow-up and direct access to your care manager.' },
+  { title: 'Integrative approach', description: 'We combine conventional medicine, functional medicine and validated complementary approaches.' },
+  { title: 'Beyond symptoms', description: 'We look for root causes, not just visible manifestations.' },
+];
+
+const medicalConditions = [
+  'Functional medicine',
+  'Integrative medicine',
+  'Hormonal health',
+  'Digestive health',
+  'Personalized medicine',
+];
+---
+
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+  canonicalPath="/functional-medicine"
+  medicalConditions={medicalConditions}
+>
+  <Nav />
+  <main id="main-content">
+    <LandingHero
+      eyebrow="Functional · Integrative medicine"
+      titleLine1="Functional medicine "
+      titleEm="that takes time"
+      titleLine2=", in Lausanne."
+      intro="You have seen five specialists without receiving a clear answer. Each looked at one organ; no one looked at"
+      introEm="the whole"
+      introSuffix=". Our systemic approach connects what others examine in silos."
+      ctaPrimary="Join the waitlist"
+      ctaSecondary="Understand our approach →"
+      source="lp_functional_medicine_en"
+    />
+
+    <LandingSymptomes
+      eyebrow="Our method"
+      titleLine1="What "
+      titleEm="truly"
+      titleLine2=" changes."
+      subtitle="Functional medicine does not replace your GP: it offers what a city practice cannot, due to lack of time and tools."
+      symptoms={symptoms}
+      ctaText="Talk to our team →"
+    />
+
+    <Pillars />
+    <Parcours />
+    <Comparatif />
+    <Lieu />
+    <Programmes />
+    <Founding />
+    <Contact />
+  </main>
+  <Footer />
+</BaseLayout>

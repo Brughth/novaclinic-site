@@ -1,0 +1,124 @@
+---
+/**
+ * LandingSymptomes — Liste des symptômes ciblés par une thématique
+ *
+ * Affiche en grille les symptômes spécifiques traités, dans l'esthétique éditoriale
+ * (carrés cream-light avec liseré gold à gauche).
+ */
+
+interface Props {
+  eyebrow: string;
+  titleLine1: string;
+  titleEm: string;
+  titleLine2?: string;
+  subtitle: string;
+  symptoms: { title: string; description: string }[];
+  ctaText: string;
+}
+
+const { eyebrow, titleLine1, titleEm, titleLine2 = '', subtitle, symptoms, ctaText } = Astro.props;
+---
+
+<section class="lp-symptomes" aria-labelledby="lp-symptomes-title">
+  <div class="lp-symptomes-header reveal">
+    <div class="section-eyebrow"><span>{eyebrow}</span></div>
+    <h2 id="lp-symptomes-title" class="section-title">
+      {titleLine1}<em>{titleEm}</em>{titleLine2}
+    </h2>
+    <p class="section-subtitle">{subtitle}</p>
+  </div>
+
+  <div class="lp-symptomes-grid">
+    {symptoms.map((s, idx) => (
+      <div class="lp-symptome-card reveal" style={`transition-delay: ${idx * 70}ms`}>
+        <h3>{s.title}</h3>
+        <p>{s.description}</p>
+      </div>
+    ))}
+  </div>
+
+  <div class="lp-symptomes-cta reveal">
+    <a
+      href="#contact"
+      class="btn btn-link"
+      data-track-event="cta_waitlist_clic"
+      data-track-source="lp_symptomes"
+    >{ctaText}</a>
+  </div>
+</section>
+
+<style>
+  .lp-symptomes {
+    padding: 9rem 3.5rem;
+    background: var(--white);
+    position: relative;
+    z-index: 1;
+  }
+
+  .lp-symptomes :global(.section-eyebrow span) {
+    background: var(--white);
+  }
+
+  .lp-symptomes-header {
+    max-width: 800px;
+    margin: 0 auto 5rem;
+    text-align: center;
+  }
+
+  .lp-symptomes-grid {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .lp-symptome-card {
+    padding: 2.2rem 1.8rem;
+    background: var(--cream-light);
+    border-radius: 2px;
+    border-left: 2px solid var(--gold);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-left-color 0.3s ease;
+  }
+
+  .lp-symptome-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 30px rgba(74, 31, 48, 0.08);
+    border-left-color: var(--berry);
+  }
+
+  .lp-symptome-card h3 {
+    font-family: 'Cormorant Infant', serif;
+    font-size: 1.4rem;
+    font-style: italic;
+    color: var(--ink);
+    margin-bottom: 0.8rem;
+    font-weight: 500;
+    line-height: 1.2;
+  }
+
+  .lp-symptome-card p {
+    font-size: 0.92rem;
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+
+  .lp-symptomes-cta {
+    text-align: center;
+    margin-top: 4rem;
+  }
+
+  @media (max-width: 968px) {
+    .lp-symptomes { padding: 5rem 1.5rem; }
+    .lp-symptomes-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+  }
+
+  @media (max-width: 540px) {
+    .lp-symptomes-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1066,6 +1066,11 @@ const c = i18n.contact;
       setMessage("", "");
       setLoading(true);
 
+      // Récupère les UTM stockés (capturés au chargement par BaseLayout)
+      // pour les passer au backend → permet de tracer la source des conversions.
+      const utm =
+        typeof window.getStoredUTM === "function" ? window.getStoredUTM() : {};
+
       try {
         const response = await fetch(ENDPOINT, {
           method: "POST",
@@ -1077,11 +1082,26 @@ const c = i18n.contact;
             canton,
             symptoms,
             lang,
+            utm, // { utm_source, utm_medium, utm_campaign, utm_term, utm_content, gclid, fbclid }
           }),
         });
 
         if (response.ok) {
           showSuccess(firstname, email);
+
+          // ▸ Événement de conversion GA4 + Meta Pixel
+          //   (Lead côté Meta, événement custom côté GA4)
+          if (typeof window.trackEvent === "function") {
+            window.trackEvent("liste_attente_inscrite", {
+              canton: canton || "non_renseigne",
+              symptoms_count: symptoms.length,
+              lang,
+              utm_source: utm.utm_source || "(direct)",
+              utm_medium: utm.utm_medium || "(none)",
+              utm_campaign: utm.utm_campaign || "(none)",
+              value: 1,
+            });
+          }
         } else {
           throw new Error(`HTTP ${response.status}`);
         }

@@ -1,4 +1,4 @@
-# Novacare — Crawl directives agressives
+# Novaclinic — Crawl directives agressives
 # Autoriser tous les robots à tout indexer
 
 User-agent: *

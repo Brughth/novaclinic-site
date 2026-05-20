@@ -26,14 +26,26 @@ const altLang = getAlternateLang(lang);
 const altUrl = getLocalizedUrl("/", altLang);
 const homeUrl = getLocalizedUrl("/", lang);
 
-// Items de menu — partagés entre la version desktop (dans <nav>) et la version mobile (dans le drawer)
-const menuItems = [
+// Items de menu simples (ancres internes vers la home)
+// On les structure en 2 groupes :
+//   - "before" : avant le dropdown Spécialités
+//   - "after"  : après le dropdown Spécialités
+//
+// Sur les landing pages, les ancres "#xxx" pointent vers la section locale
+// si elle existe sur la page courante ; sinon, on préfixe par homeUrl pour
+// renvoyer à la home + section.
+const itemsBeforeDropdown = [
   { href: "#pourquoi", label: i18n.nav.pourquoi },
   { href: "#piliers", label: i18n.nav.approche },
+];
+const itemsAfterDropdown = [
   { href: "#parcours", label: i18n.nav.parcours },
   { href: "#lieu", label: i18n.nav.centre },
   { href: "#programmes", label: i18n.nav.programmes },
 ];
+
+// Mega-menu Spécialités (4 landings)
+const specialtiesMenu = i18n.nav.specialtiesMenu;
 ---
 
 <nav id="nav" aria-label="Navigation principale">
@@ -44,12 +56,78 @@ const menuItems = [
   <!-- Liens visibles sur desktop seulement -->
   <ul class="nav-links-desktop">
     {
-      menuItems.map((item) => (
+      itemsBeforeDropdown.map((item) => (
         <li>
           <a href={item.href}>{item.label}</a>
         </li>
       ))
     }
+
+    {/* ===== Dropdown Spécialités (desktop) ===== */}
+    <li class="nav-dropdown" id="specialtiesDropdown">
+      <button
+        type="button"
+        class="nav-dropdown-trigger"
+        id="specialtiesTrigger"
+        aria-expanded="false"
+        aria-haspopup="true"
+        aria-controls="specialtiesPanel"
+      >
+        {i18n.nav.specialties}
+        <svg
+          class="nav-dropdown-chevron"
+          width="10"
+          height="10"
+          viewBox="0 0 10 10"
+          fill="none"
+          aria-hidden="true"
+        >
+          <path
+            d="M2 3.5L5 6.5L8 3.5"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </button>
+
+      <div
+        class="nav-dropdown-panel"
+        id="specialtiesPanel"
+        role="menu"
+        aria-labelledby="specialtiesTrigger"
+      >
+        <div class="nav-dropdown-header">
+          <div class="nav-dropdown-eyebrow">{specialtiesMenu.label}</div>
+          <p class="nav-dropdown-desc">{specialtiesMenu.description}</p>
+        </div>
+        <ul class="nav-dropdown-grid">
+          {specialtiesMenu.items.map((item) => (
+            <li>
+              <a href={item.href} role="menuitem" class="nav-dropdown-card">
+                <span class="nav-dropdown-card-title">
+                  {item.title}
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                    <path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+                <span class="nav-dropdown-card-desc">{item.description}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </li>
+
+    {
+      itemsAfterDropdown.map((item) => (
+        <li>
+          <a href={item.href}>{item.label}</a>
+        </li>
+      ))
+    }
+
     <li>
       <a
         href={altUrl}
@@ -107,7 +185,7 @@ const menuItems = [
   </button>
   <ul class="nav-drawer-list">
     {
-      menuItems.map((item) => (
+      itemsBeforeDropdown.map((item) => (
         <li>
           <a href={item.href} data-drawer-link>
             {item.label}
@@ -115,6 +193,60 @@ const menuItems = [
         </li>
       ))
     }
+
+    {/* ===== Section accordéon Spécialités (mobile) ===== */}
+    <li class="nav-drawer-accordion">
+      <button
+        type="button"
+        class="nav-drawer-accordion-trigger"
+        id="drawerSpecialtiesTrigger"
+        aria-expanded="false"
+        aria-controls="drawerSpecialtiesPanel"
+      >
+        <span>{i18n.nav.specialties}</span>
+        <svg
+          class="nav-drawer-accordion-chevron"
+          width="14"
+          height="14"
+          viewBox="0 0 14 14"
+          fill="none"
+          aria-hidden="true"
+        >
+          <path
+            d="M3 5L7 9L11 5"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </button>
+      <ul
+        class="nav-drawer-accordion-panel"
+        id="drawerSpecialtiesPanel"
+        hidden
+      >
+        {specialtiesMenu.items.map((item) => (
+          <li>
+            <a href={item.href} data-drawer-link class="nav-drawer-sublink">
+              <span class="nav-drawer-sublink-title">{item.title}</span>
+              <span class="nav-drawer-sublink-desc">{item.description}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </li>
+
+    {
+      itemsAfterDropdown.map((item) => (
+        <li>
+          <a href={item.href} data-drawer-link>
+            {item.label}
+          </a>
+        </li>
+      ))
+    }
+
     <li>
       <a
         href={altUrl}
@@ -196,6 +328,187 @@ const menuItems = [
   .nav-links-desktop :global(a):not(.nav-cta):not(.lang-switch):hover {
     color: var(--berry);
     font-style: italic;
+  }
+
+  /* ============ DROPDOWN SPÉCIALITÉS (DESKTOP) ============ */
+  .nav-dropdown {
+    position: relative;
+  }
+
+  .nav-dropdown-trigger {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--ink);
+    font-family: 'Cardo', serif;
+    font-size: 0.95rem;
+    font-weight: 400;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: color 0.3s ease, font-style 0.3s ease;
+    /* compense le padding du parent <li> pour un alignement parfait */
+    line-height: 1;
+  }
+
+  .nav-dropdown-trigger:hover,
+  .nav-dropdown.is-open .nav-dropdown-trigger {
+    color: var(--berry);
+    font-style: italic;
+  }
+
+  .nav-dropdown-chevron {
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+  }
+
+  .nav-dropdown.is-open .nav-dropdown-chevron {
+    transform: rotate(180deg);
+  }
+
+  /* Panneau dropdown — grand carré flottant */
+  .nav-dropdown-panel {
+    position: absolute;
+    top: calc(100% + 1.5rem);
+    /* Centré sur le trigger : on translate -50% horizontalement */
+    left: 50%;
+    transform: translateX(-50%) translateY(-10px);
+    width: 640px;
+    max-width: calc(100vw - 3rem);
+    background: var(--white);
+    border-radius: 4px;
+    box-shadow: 0 30px 80px rgba(74, 31, 48, 0.15), 0 0 0 1px rgba(74, 31, 48, 0.04);
+    padding: 1.8rem;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
+    z-index: 1010;
+  }
+
+  /* Triangle pointant vers le trigger */
+  .nav-dropdown-panel::before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%) rotate(45deg);
+    width: 14px;
+    height: 14px;
+    background: var(--white);
+    box-shadow: -2px -2px 4px rgba(74, 31, 48, 0.04);
+  }
+
+  /* Zone invisible pour ne pas perdre le hover entre trigger et panneau */
+  .nav-dropdown-panel::after {
+    content: '';
+    position: absolute;
+    top: -1.5rem;
+    left: 0;
+    right: 0;
+    height: 1.5rem;
+  }
+
+  .nav-dropdown.is-open .nav-dropdown-panel,
+  .nav-dropdown:hover .nav-dropdown-panel {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  .nav-dropdown-header {
+    padding-bottom: 1.2rem;
+    margin-bottom: 1.2rem;
+    border-bottom: 1px solid var(--gray-line);
+    text-align: center;
+  }
+
+  .nav-dropdown-eyebrow {
+    font-size: 0.72rem;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--berry);
+    font-weight: 500;
+    margin-bottom: 0.4rem;
+  }
+
+  .nav-dropdown-desc {
+    font-family: 'Cormorant Infant', serif;
+    font-size: 1rem;
+    font-style: italic;
+    color: var(--ink-soft);
+    margin: 0;
+  }
+
+  .nav-dropdown-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.6rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav-dropdown-card {
+    display: flex !important;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding: 1rem 1.1rem;
+    border-radius: 3px;
+    text-decoration: none;
+    border-left: 2px solid var(--gold);
+    background: var(--cream-light);
+    transition: background 0.2s ease, border-left-color 0.2s ease, transform 0.2s ease;
+    font-style: normal !important;
+  }
+
+  .nav-dropdown-card:hover {
+    background: var(--cream);
+    border-left-color: var(--berry);
+    transform: translateX(2px);
+  }
+
+  .nav-dropdown-card-title {
+    font-family: 'Cormorant Infant', serif;
+    font-size: 1.05rem;
+    font-style: italic;
+    color: var(--ink) !important;
+    font-weight: 500;
+    line-height: 1.2;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .nav-dropdown-card-title svg {
+    color: var(--berry);
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+  }
+
+  .nav-dropdown-card:hover .nav-dropdown-card-title svg {
+    transform: translateX(3px);
+  }
+
+  .nav-dropdown-card-desc {
+    font-size: 0.82rem;
+    line-height: 1.45;
+    color: var(--ink-soft);
+    font-family: 'Cardo', serif;
+  }
+
+  /* Accessibilité — focus visible sur le trigger */
+  .nav-dropdown-trigger:focus-visible {
+    outline: 2px solid var(--berry);
+    outline-offset: 4px;
+    border-radius: 2px;
+  }
+
+  .nav-dropdown-card:focus-visible {
+    outline: 2px solid var(--berry);
+    outline-offset: 2px;
   }
 
   /* ============ LANG SWITCH + CTA (partagé) ============ */
@@ -409,6 +722,95 @@ const menuItems = [
     font-size: 0.9rem !important;
   }
 
+  /* ============ ACCORDÉON SPÉCIALITÉS (MOBILE) ============ */
+  .nav-drawer-accordion {
+    width: 100%;
+  }
+
+  .nav-drawer-accordion-trigger {
+    background: none;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    padding: 0;
+    font-family: 'Cormorant Infant', serif;
+    font-size: 1.5rem;
+    font-style: italic;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.8rem;
+    transition: color 0.2s ease;
+  }
+
+  .nav-drawer-accordion-trigger:hover,
+  .nav-drawer-accordion-trigger[aria-expanded="true"] {
+    color: var(--berry);
+  }
+
+  .nav-drawer-accordion-chevron {
+    transition: transform 0.3s ease;
+    color: var(--berry);
+    flex-shrink: 0;
+  }
+
+  .nav-drawer-accordion-trigger[aria-expanded="true"] .nav-drawer-accordion-chevron {
+    transform: rotate(180deg);
+  }
+
+  .nav-drawer-accordion-panel {
+    list-style: none;
+    padding: 1rem 0 0;
+    margin: 0.8rem 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    border-top: 1px solid var(--gray-line);
+  }
+
+  .nav-drawer-accordion-panel[hidden] {
+    display: none;
+  }
+
+  .nav-drawer-sublink {
+    display: flex !important;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 0.8rem 1rem !important;
+    background: var(--cream-light);
+    border-left: 2px solid var(--gold);
+    border-radius: 2px;
+    text-decoration: none;
+    transition: background 0.2s ease, border-left-color 0.2s ease;
+    /* override le style "italic + 1.5rem" du sélecteur parent */
+    font-style: normal !important;
+    font-size: 1rem !important;
+  }
+
+  .nav-drawer-sublink:hover {
+    background: var(--cream);
+    border-left-color: var(--berry);
+  }
+
+  .nav-drawer-sublink-title {
+    font-family: 'Cormorant Infant', serif;
+    font-size: 1.1rem;
+    font-style: italic;
+    color: var(--ink);
+    font-weight: 500;
+    line-height: 1.2;
+  }
+
+  .nav-drawer-sublink-desc {
+    font-family: 'Cardo', serif;
+    font-size: 0.82rem;
+    line-height: 1.4;
+    color: var(--ink-soft);
+    font-style: normal;
+  }
+
   /* ============ RESPONSIVE ============ */
   @media (max-width: 968px) {
     nav {
@@ -516,4 +918,74 @@ const menuItems = [
 
   // Écouter événement global "nav:close" (depuis BaseLayout smooth scroll)
   document.addEventListener("nav:close", closeMenu);
+
+  // ============================================================
+  // DROPDOWN SPÉCIALITÉS — DESKTOP
+  // ============================================================
+  // Comportement hybride :
+  //  - Hover sur desktop (géré en CSS) : ouverture immédiate
+  //  - Click sur le trigger : toggle (utile pour clavier + tablette tactile)
+  //  - Click en dehors ou Escape : fermeture
+  //  - Une fois cliqué, l'état "is-open" reste jusqu'à fermeture explicite
+  //    (sinon le hover risquerait de "reprendre la main" et créer du bruit)
+  const specialtiesDropdown = document.getElementById("specialtiesDropdown");
+  const specialtiesTrigger = document.getElementById(
+    "specialtiesTrigger",
+  ) as HTMLButtonElement | null;
+
+  const openDropdown = () => {
+    specialtiesDropdown?.classList.add("is-open");
+    specialtiesTrigger?.setAttribute("aria-expanded", "true");
+  };
+
+  const closeDropdown = () => {
+    specialtiesDropdown?.classList.remove("is-open");
+    specialtiesTrigger?.setAttribute("aria-expanded", "false");
+  };
+
+  specialtiesTrigger?.addEventListener("click", (e) => {
+    e.stopPropagation();
+    const isOpen = specialtiesDropdown?.classList.contains("is-open");
+    if (isOpen) closeDropdown();
+    else openDropdown();
+  });
+
+  // Click en dehors du dropdown → fermer
+  document.addEventListener("click", (e) => {
+    if (
+      specialtiesDropdown &&
+      !specialtiesDropdown.contains(e.target as Node)
+    ) {
+      closeDropdown();
+    }
+  });
+
+  // Escape ferme aussi le dropdown (en plus du drawer)
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeDropdown();
+  });
+
+  // Quand on clique sur un lien du dropdown, on le ferme avant navigation
+  document.querySelectorAll(".nav-dropdown-card").forEach((card) => {
+    card.addEventListener("click", closeDropdown);
+  });
+
+  // ============================================================
+  // ACCORDÉON SPÉCIALITÉS — MOBILE (dans le drawer)
+  // ============================================================
+  const drawerSpecTrigger = document.getElementById(
+    "drawerSpecialtiesTrigger",
+  ) as HTMLButtonElement | null;
+  const drawerSpecPanel = document.getElementById("drawerSpecialtiesPanel");
+
+  drawerSpecTrigger?.addEventListener("click", () => {
+    const isOpen = drawerSpecTrigger.getAttribute("aria-expanded") === "true";
+    if (isOpen) {
+      drawerSpecTrigger.setAttribute("aria-expanded", "false");
+      drawerSpecPanel?.setAttribute("hidden", "");
+    } else {
+      drawerSpecTrigger.setAttribute("aria-expanded", "true");
+      drawerSpecPanel?.removeAttribute("hidden");
+    }
+  });
 </script>

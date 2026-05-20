@@ -1,0 +1,79 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import LandingHero from '../components/LandingHero.astro';
+import LandingSymptomes from '../components/LandingSymptomes.astro';
+import Pillars from '../components/Pillars.astro';
+import Parcours from '../components/Parcours.astro';
+import Comparatif from '../components/Comparatif.astro';
+import Lieu from '../components/Lieu.astro';
+import Programmes from '../components/Programmes.astro';
+import Founding from '../components/Founding.astro';
+import Contact from '../components/Contact.astro';
+import Footer from '../components/Footer.astro';
+
+const pageTitle = "Médecine fonctionnelle Lausanne — Centre Novaclinic Malley";
+const pageDescription = "Centre de médecine fonctionnelle à Lausanne dédié aux femmes 35-60 ans. Approche intégrative, vision systémique, équipe pluridisciplinaire coordonnée par une care manager. Consultations 90 min, biomarqueurs avancés. Ouverture sept. 2026.";
+
+const symptoms = [
+  { title: 'Vision systémique', description: 'On regarde hormones, digestion, épuisement et sommeil ensemble — parce qu\'ils fonctionnent ensemble.' },
+  { title: 'Bilan biologique avancé', description: 'Au-delà des seuils standards : biomarqueurs spécifiques, panel hormonal complet, micronutrition.' },
+  { title: 'Care manager dédiée', description: 'Une infirmière qui orchestre votre parcours et fait le lien entre tous les praticiens.' },
+  { title: 'Équipe pluridisciplinaire', description: 'Médecins, physiothérapeutes, naturopathes, psychologues, nutritionnistes coordonnés.' },
+  { title: 'Consultations longues', description: '90 minutes à l\'initiale, 45 minutes en suivi — le temps d\'écouter vraiment.' },
+  { title: 'Plan personnalisé', description: 'Pas de protocole standardisé : chaque accompagnement est conçu pour vous.' },
+  { title: 'Suivi continu', description: 'Entre les consultations, un suivi numérique et un accès direct à votre care manager.' },
+  { title: 'Approche intégrative', description: 'On combine médecine conventionnelle, médecine fonctionnelle et approches complémentaires validées.' },
+  { title: 'Au-delà du symptôme', description: 'On cherche les causes profondes, pas seulement les manifestations visibles.' },
+];
+
+const medicalConditions = [
+  'Functional medicine',
+  'Integrative medicine',
+  'Hormonal health',
+  'Digestive health',
+  'Personalized medicine',
+];
+---
+
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+  canonicalPath="/medecine-fonctionnelle"
+  medicalConditions={medicalConditions}
+>
+  <Nav />
+  <main id="main-content">
+    <LandingHero
+      eyebrow="Médecine fonctionnelle · Intégrative"
+      titleLine1="La médecine fonctionnelle "
+      titleEm="qui prend le temps"
+      titleLine2=", à Lausanne."
+      intro="Vous avez vu cinq spécialistes sans recevoir de réponse claire. Chacun a regardé un organe, personne n'a regardé"
+      introEm="l'ensemble"
+      introSuffix=". Notre approche systémique relie ce que d'autres examinent en silos."
+      ctaPrimary="Rejoindre la liste d'attente"
+      ctaSecondary="Comprendre notre approche →"
+      source="lp_medecine_fonctionnelle"
+    />
+
+    <LandingSymptomes
+      eyebrow="Notre méthode"
+      titleLine1="Ce qui change "
+      titleEm="vraiment"
+      titleLine2="."
+      subtitle="La médecine fonctionnelle ne se substitue pas à votre médecin traitant : elle offre ce que le cabinet de ville ne peut pas, faute de temps et d'outils."
+      symptoms={symptoms}
+      ctaText="Échanger avec notre équipe →"
+    />
+
+    <Pillars />
+    <Parcours />
+    <Comparatif />
+    <Lieu />
+    <Programmes />
+    <Founding />
+    <Contact />
+  </main>
+  <Footer />
+</BaseLayout>

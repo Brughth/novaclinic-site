@@ -1,6 +1,6 @@
 ---
 /**
- * Layout principal — Novacare
+ * Layout principal — Novaclinic
  *
  * Inclut :
  * - Métadonnées SEO complètes (title, description, keywords)
@@ -16,12 +16,15 @@
 import "../styles/global.css";
 import { getLangFromUrl, getLocalizedUrl, type Lang } from "../i18n/config";
 import { t } from "../i18n/ui";
+import { tracking } from "../config/tracking";
 
 interface Props {
   title?: string;
   description?: string;
   ogImage?: string;
   canonicalPath?: string;
+  /** Conditions médicales spécifiques pour les landing pages SEO (ex: ["Menopause", "Perimenopause"]) */
+  medicalConditions?: string[];
 }
 
 const {
@@ -29,6 +32,7 @@ const {
   description,
   ogImage = "/og-image.png",
   canonicalPath = "/",
+  medicalConditions,
 } = Astro.props;
 
 const lang: Lang = getLangFromUrl(Astro.url);
@@ -47,25 +51,32 @@ const frUrl = `${siteUrl}${getLocalizedUrl(canonicalPath, "fr")}`;
 const enUrl = `${siteUrl}${getLocalizedUrl(canonicalPath, "en")}`;
 
 // Schema.org JSON-LD — Centre médical (MedicalBusiness enrichi)
+// Le nom principal est Novaclinic ; les alternateName couvrent toutes les variantes
+// pour que les recherches "Novacare" remontent aussi notre site (rebranding).
 const jsonLdMedical = {
   "@context": "https://schema.org",
   "@type": ["MedicalBusiness", "MedicalClinic", "HealthCare"],
-  "@id": `${siteUrl}/#novacare`,
-  name: "Novacare",
+  "@id": `${siteUrl}/#novaclinic`,
+  name: "Novaclinic",
   alternateName: [
-    "Centre Novacare Malley",
+    "Novaclinic Lausanne",
+    "Novaclinic Malley",
+    "Centre Novaclinic Malley",
+    "Novacare",
     "Novacare Lausanne",
     "Novacare Malley",
+    "Centre Novacare Malley",
     "SylvanaCare",
     "SylvanaCare Lausanne",
     "SylvanaCare Malley",
-    "Novacare technology",
+    "Novacare Technology",
+    "NovaCare Technology SA",
   ],
   description: pageDescription,
   url: siteUrl,
   image: ogImageUrl,
   logo: `${siteUrl}/og-image.png`,
-  email: "adner.neyret@gmail.com",
+  email: " dr.aneyret@hin.ch",
   telephone: "+33784683417",
   medicalSpecialty: [
     "FunctionalMedicine",
@@ -158,7 +169,7 @@ const jsonLdMedical = {
   ],
   hasOfferCatalog: {
     "@type": "OfferCatalog",
-    name: "Programmes Novacare",
+    name: "Programmes Novaclinic",
     itemListElement: i18n.programmes.cards.map((card) => ({
       "@type": "Offer",
       name: card.name,
@@ -167,6 +178,57 @@ const jsonLdMedical = {
       description: card.engagement,
     })),
   },
+  // Si la page courante cible des conditions médicales spécifiques (landing pages),
+  // on les ajoute comme availableService pour enrichir les rich results.
+  ...(medicalConditions && medicalConditions.length > 0
+    ? {
+        availableService: medicalConditions.map((condition) => ({
+          "@type": "MedicalProcedure",
+          name: condition,
+          procedureType: "TherapeuticProcedure",
+        })),
+      }
+    : {}),
+};
+
+// Schema.org — Physician (Dr Adner Neyret en tant qu'entité médicale propre)
+// Permet à Google de générer des rich results pour les recherches "Dr Adner Neyret"
+const jsonLdPhysician = {
+  "@context": "https://schema.org",
+  "@type": "Physician",
+  "@id": `${siteUrl}/#dr-adner-neyret`,
+  name: "Dr Adner Neyret",
+  jobTitle: lang === "fr" ? "Médecin · Fondateur de Novaclinic" : "Physician · Founder of Novaclinic",
+  worksFor: { "@id": `${siteUrl}/#novaclinic` },
+  url: siteUrl,
+  image: `${siteUrl}/og-image.png`,
+  medicalSpecialty: [
+    "FunctionalMedicine",
+    "WomensHealth",
+    "Endocrinology",
+    "IntegrativeMedicine",
+  ],
+  alumniOf: {
+    "@type": "EducationalOrganization",
+    name: "INSERM Bordeaux",
+    sameAs: "https://www.inserm.fr/",
+  },
+  knowsLanguage: ["fr", "en"],
+  knowsAbout: [
+    "Médecine fonctionnelle",
+    "Ménopause",
+    "Périménopause",
+    "Fatigue chronique",
+    "Burn-out",
+    "Troubles hormonaux",
+    "SII",
+    "Santé féminine",
+  ],
+  availableService: i18n.programmes.cards.map((card) => ({
+    "@type": "MedicalProcedure",
+    name: card.name,
+    description: card.engagement,
+  })),
 };
 
 // Schema.org — WebSite (active le sitelinks search box Google)
@@ -174,14 +236,14 @@ const jsonLdWebsite = {
   "@context": "https://schema.org",
   "@type": "WebSite",
   "@id": `${siteUrl}/#website`,
-  name: "Novacare",
-  alternateName: "Centre Novacare Malley",
+  name: "Novaclinic",
+  alternateName: ["Novaclinic Lausanne", "Centre Novaclinic Malley", "Novacare"],
   url: siteUrl,
   inLanguage: [
     { "@type": "Language", name: "French", alternateName: "fr" },
     { "@type": "Language", name: "English", alternateName: "en" },
   ],
-  publisher: { "@id": `${siteUrl}/#novacare` },
+  publisher: { "@id": `${siteUrl}/#novaclinic` },
 };
 
 // Schema.org — Organization
@@ -193,7 +255,7 @@ const jsonLdOrg = {
   legalName: "NovaCare Technology SA",
   url: siteUrl,
   logo: `${siteUrl}/og-image.png`,
-  email: "adner.neyret@gmail.com",
+  email: " dr.aneyret@hin.ch",
   address: {
     "@type": "PostalAddress",
     addressLocality: "Prilly",
@@ -239,8 +301,8 @@ const faqItems = i18n.pillars.items.flatMap((pillar) =>
       "@type": "Answer",
       text:
         lang === "fr"
-          ? `Chez Novacare, nous abordons cette question dans notre pilier ${pillar.title}. ${pillar.text} Prenez rendez-vous pour une consultation découverte de 90 minutes à Lausanne.`
-          : `At Novacare, we address this through our ${pillar.title} pillar. ${pillar.text} Book a 90-minute discovery consultation in Lausanne.`,
+          ? `Chez Novaclinic, nous abordons cette question dans notre pilier ${pillar.title}. ${pillar.text} Prenez rendez-vous pour une consultation découverte de 90 minutes à Lausanne.`
+          : `At Novaclinic, we address this through our ${pillar.title} pillar. ${pillar.text} Book a 90-minute discovery consultation in Lausanne.`,
     },
   })),
 );
@@ -265,7 +327,7 @@ const jsonLdFaq = {
     <title>{pageTitle}</title>
     <meta name="description" content={pageDescription} />
     <meta name="keywords" content={i18n.meta.keywords} />
-    <meta name="author" content="Novacare" />
+    <meta name="author" content="Novaclinic" />
 
     <!-- Robots — indexation agressive -->
     <meta
@@ -316,7 +378,7 @@ const jsonLdFaq = {
     <meta property="og:title" content={i18n.meta.ogTitle} />
     <meta property="og:description" content={i18n.meta.ogDescription} />
     <meta property="og:url" content={canonicalUrl} />
-    <meta property="og:site_name" content="Novacare" />
+    <meta property="og:site_name" content="Novaclinic" />
     <meta property="og:image" content={ogImageUrl} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -333,7 +395,7 @@ const jsonLdFaq = {
     <meta name="theme-color" content="#6D2E46" />
     <meta name="msapplication-TileColor" content="#6D2E46" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-    <meta name="apple-mobile-web-app-title" content="Novacare" />
+    <meta name="apple-mobile-web-app-title" content="Novaclinic" />
 
     <!-- Favicons -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -354,10 +416,105 @@ const jsonLdFaq = {
       href="https://fonts.googleapis.com/css2?family=Cormorant+Infant:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Cardo:ital,wght@0,400;1,400&family=Caveat:wght@400;500&display=swap"
     />
 
-    <!-- JSON-LD Structured Data (5 schemas pour rich snippets agressifs) -->
+    <!-- ════════════════════════════════════════════════════════════
+         TRACKING — Google Analytics 4 + Meta Pixel
+         ────────────────────────────────────────────────────────────
+         Chargés conditionnellement selon src/config/tracking.ts.
+         Une fonction globale window.trackEvent(name, params) est
+         exposée pour envoyer des événements de manière uniforme.
+         ════════════════════════════════════════════════════════════ -->
+    {tracking.ga4Id && (
+      <>
+        <script async src={`https://www.googletagmanager.com/gtag/js?id=${tracking.ga4Id}`}></script>
+        <script set:html={`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', '${tracking.ga4Id}', {
+            'anonymize_ip': true,
+            'allow_google_signals': false
+          });
+        `}></script>
+      </>
+    )}
+
+    {tracking.metaPixelId && (
+      <>
+        <script set:html={`
+          !function(f,b,e,v,n,t,s)
+          {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+          n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+          if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+          n.queue=[];t=b.createElement(e);t.async=!0;
+          t.src=v;s=b.getElementsByTagName(e)[0];
+          s.parentNode.insertBefore(t,s)}(window, document,'script',
+          'https://connect.facebook.net/en_US/fbevents.js');
+          fbq('init', '${tracking.metaPixelId}');
+          fbq('track', 'PageView');
+        `}></script>
+        <noscript>
+          <img height="1" width="1" style="display:none" alt=""
+               src={`https://www.facebook.com/tr?id=${tracking.metaPixelId}&ev=PageView&noscript=1`} />
+        </noscript>
+      </>
+    )}
+
+    <!-- Helper trackEvent : envoie un événement sur GA4 + Meta Pixel d'un coup.
+         Disponible globalement sur window.trackEvent(name, params).
+         Si un canal n'est pas configuré, son envoi est silencieusement ignoré. -->
+    <script set:html={`
+      (function() {
+        // Capture UTM dès le chargement (pour les soumissions ultérieures)
+        try {
+          var params = new URLSearchParams(window.location.search);
+          var utmKeys = ['utm_source','utm_medium','utm_campaign','utm_term','utm_content','gclid','fbclid'];
+          var existing = {};
+          try { existing = JSON.parse(sessionStorage.getItem('utm') || '{}'); } catch(e) {}
+          var hasNew = false;
+          utmKeys.forEach(function(k){
+            var v = params.get(k);
+            if (v) { existing[k] = v; hasNew = true; }
+          });
+          if (hasNew) sessionStorage.setItem('utm', JSON.stringify(existing));
+        } catch(e) {}
+
+        // Fonction unifiée d'envoi d'événement
+        window.trackEvent = function(name, params) {
+          params = params || {};
+          // GA4 via gtag
+          if (typeof window.gtag === 'function') {
+            try { window.gtag('event', name, params); } catch(e) {}
+          }
+          // Meta Pixel : on mappe vers les events standards Meta quand pertinent
+          if (typeof window.fbq === 'function') {
+            try {
+              if (name === 'liste_attente_inscrite') {
+                window.fbq('track', 'Lead', params);
+              } else if (name === 'consultation_decouverte_clic') {
+                window.fbq('track', 'InitiateCheckout', params);
+              } else {
+                window.fbq('trackCustom', name, params);
+              }
+            } catch(e) {}
+          }
+        };
+
+        // Helper : lit les UTM stockés (utile pour le formulaire)
+        window.getStoredUTM = function() {
+          try { return JSON.parse(sessionStorage.getItem('utm') || '{}'); }
+          catch(e) { return {}; }
+        };
+      })();
+    `}></script>
+
+    <!-- JSON-LD Structured Data (6 schemas pour rich snippets agressifs) -->
     <script
       type="application/ld+json"
       set:html={JSON.stringify(jsonLdMedical)}
+    />
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(jsonLdPhysician)}
     />
     <script
       type="application/ld+json"
@@ -430,9 +587,43 @@ const jsonLdFaq = {
           });
       };
 
+      // ===== Tracking automatique sur tous les [data-track-event] =====
+      // Permet d'ajouter du tracking à n'importe quel élément du site
+      // simplement avec des attributs HTML : <a data-track-event="..." data-track-source="...">
+      const initEventTracking = () => {
+        const pageLang = document.documentElement.lang || "fr";
+        document
+          .querySelectorAll<HTMLElement>("[data-track-event]")
+          .forEach((el) => {
+            el.addEventListener("click", () => {
+              const eventName = el.dataset.trackEvent;
+              if (!eventName || typeof window.trackEvent !== "function") return;
+              const params: Record<string, string> = { lang: pageLang };
+              if (el.dataset.trackSource)
+                params.source_section = el.dataset.trackSource;
+              // Tout autre attribut data-track-<x> est ajouté en param
+              for (const [key, value] of Object.entries(el.dataset)) {
+                if (
+                  key.startsWith("track") &&
+                  key !== "trackEvent" &&
+                  key !== "trackSource" &&
+                  value
+                ) {
+                  const paramKey = key
+                    .replace(/^track/, "")
+                    .replace(/^[A-Z]/, (c) => c.toLowerCase());
+                  params[paramKey] = value;
+                }
+              }
+              window.trackEvent(eventName, params);
+            });
+          });
+      };
+
       const init = () => {
         initReveal();
         initSmoothScroll();
+        initEventTracking();
       };
 
       if (document.readyState === "loading") {
