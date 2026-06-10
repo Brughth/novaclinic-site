@@ -31,6 +31,13 @@ export const tracking = {
   ga4Id: 'G-RKWRLN87S0',
 
   /**
+   * Google Ads — ID de suivi des conversions (format "AW-XXXXXXXXX")
+   * Récupéré depuis https://ads.google.com → Outils → Conversions
+   * Partage le même gtag.js que GA4. Mettre "" pour désactiver.
+   */
+  googleAdsId: 'AW-18189763524',
+
+  /**
    * Meta Pixel (Facebook + Instagram) — ID numérique (format "123456789012345")
    * Récupéré depuis https://business.facebook.com → Gestionnaire d'événements
    * Mettre "" pour désactiver tant que pas configuré.

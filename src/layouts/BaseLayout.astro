@@ -438,6 +438,23 @@ const jsonLdFaq = {
       </>
     )}
 
+    {tracking.googleAdsId && (
+      <>
+        {/* gtag.js déjà chargé par GA4 ci-dessus ; on ne le recharge que si GA4 est absent */}
+        {!tracking.ga4Id && (
+          <>
+            <script async src={`https://www.googletagmanager.com/gtag/js?id=${tracking.googleAdsId}`}></script>
+            <script set:html={`
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+            `}></script>
+          </>
+        )}
+        <script set:html={`gtag('config', '${tracking.googleAdsId}');`}></script>
+      </>
+    )}
+
     {tracking.metaPixelId && (
       <>
         <script set:html={`
