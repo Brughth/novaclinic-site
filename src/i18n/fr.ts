@@ -1,28 +1,29 @@
 /**
  * Traductions françaises (langue par défaut)
- * Tous les textes du site Novaclinic
+ * Tous les textes du site Selinoa
  */
 
 export const fr = {
   // Métadonnées SEO
   meta: {
-    title: 'Novaclinic Lausanne — Centre de médecine fonctionnelle pour femmes | Ménopause, fatigue, hormones',
+    title: 'Selinoa Lausanne — Centre de médecine fonctionnelle pour femmes | Ménopause, fatigue, hormones',
     description:
-      "Novaclinic (anciennement Novacare) — Centre de médecine fonctionnelle à Lausanne dédié aux femmes 35-60 ans. Spécialistes ménopause, périménopause, fatigue chronique, burn-out, troubles hormonaux et digestifs. Consultations longues (90 min), équipe pluridisciplinaire coordonnée, care manager dédié. Centre Malley, Vaud, Suisse.",
+      "Selinoa — Centre de médecine fonctionnelle à Lausanne dédié aux femmes 35-60 ans. Spécialistes ménopause, périménopause, fatigue chronique, burn-out, troubles hormonaux et digestifs. Consultations longues (90 min), équipe pluridisciplinaire coordonnée, care manager dédié. Centre Malley, Vaud, Suisse.",
     keywords:
-      'Novaclinic, Novaclinic Lausanne, Novaclinic Malley, Novacare, Novacare Lausanne, Novacare Malley, centre Novacare Malley, Dr Adner Neyret, médecine fonctionnelle Lausanne, santé femme Lausanne, ménopause Lausanne, périménopause traitement, fatigue chronique Lausanne, burn-out femme, troubles hormonaux Suisse, médecine intégrative Vaud, centre médical Malley, care manager santé, SII traitement, dysbiose intestinale, médecin fonctionnel Suisse romande, accompagnement femmes ménopause',
-    ogTitle: 'Novaclinic Lausanne — Médecine fonctionnelle pour femmes 35-60 ans',
+      'Selinoa, Selinoa Lausanne, Selinoa Malley, centre Selinoa Malley, Dr Adner Neyret, médecine fonctionnelle Lausanne, santé femme Lausanne, ménopause Lausanne, périménopause traitement, fatigue chronique Lausanne, burn-out femme, troubles hormonaux Suisse, médecine intégrative Vaud, centre médical Malley, care manager santé, SII traitement, dysbiose intestinale, médecin fonctionnel Suisse romande, accompagnement femmes ménopause',
+    ogTitle: 'Selinoa Lausanne — Médecine fonctionnelle pour femmes 35-60 ans',
     ogDescription:
-      'Novaclinic (anciennement Novacare) — Centre de médecine fonctionnelle dédié aux femmes à Lausanne. Ménopause, fatigue chronique, troubles hormonaux et digestifs. Équipe coordonnée, consultations longues, accompagnement continu. Ouverture sept. 2026.',
+      'Selinoa — Centre de médecine fonctionnelle dédié aux femmes à Lausanne. Ménopause, fatigue chronique, troubles hormonaux et digestifs. Équipe coordonnée, consultations longues, accompagnement continu. Ouverture sept. 2026.',
   },
 
   // Navigation
   nav: {
-    logo: 'NOVACLINIC',
+    logo: 'SELINOA',
     pourquoi: 'Pourquoi',
     approche: 'Approche',
     specialties: 'Spécialités',
     parcours: 'Parcours',
+    programmePage: 'Le Programme',
     centre: 'Le Centre',
     programmes: 'Programmes',
     cta: "Liste d'attente",
@@ -66,7 +67,7 @@ export const fr = {
     titleLine2Em: 'ensemble,',
     titleLine3: "parce qu'elles fonctionnent ensemble.",
     text: {
-      part1: 'Novaclinic est un centre de médecine fonctionnelle dédié aux femmes qui traversent la décennie des transitions. Une équipe de soins coordonnée, des consultations longues, et un accompagnement continu — pour enfin ',
+      part1: 'Selinoa est un centre de médecine fonctionnelle dédié aux femmes qui traversent la décennie des transitions. Une équipe de soins coordonnée, des consultations longues, et un accompagnement continu — pour enfin ',
       em: 'relier',
       part2: " ce que d'autres regardent en silos.",
     },
@@ -134,18 +135,18 @@ export const fr = {
     finalParagraph: "Et j'ai décidé d'ouvrir un lieu pour elles.",
   },
 
-  // Pourquoi Novaclinic
+  // Pourquoi Selinoa
   pourquoi: {
-    eyebrow: 'Pourquoi Novaclinic',
+    eyebrow: 'Pourquoi Selinoa',
     paragraphs: [
       "J'ai <strong>deux filles</strong>, et une <strong>femme</strong>.",
       "Je voulais bâtir un endroit où je sois certain qu'elles trouvent les meilleurs soins possibles, le jour où elles en auraient besoin. Un lieu où on prend le temps. Où on coordonne. Où on écoute vraiment.",
-      "Ce lieu, c'est Novaclinic. Maintenant, il vous est ouvert.",
+      "Ce lieu, c'est Selinoa. Maintenant, il vous est ouvert.",
     ],
     final: 'Il m\'a fallu plus de six ans pour le construire.',
     signature: {
       name: 'Adner',
-      role: 'Dr Adner Neyret · Fondateur de Novaclinic',
+      role: 'Dr Adner Neyret · Fondateur de Selinoa',
     },
     cta: 'Voir notre approche clinique →',
   },
@@ -198,7 +199,7 @@ export const fr = {
     titleLine1: 'Ce que nous ',
     titleEm: 'accompagnons.',
     subtitle:
-      'Vos symptômes vous parlent. Encore faut-il les écouter ensemble. Voici les conditions principales que nous prenons en charge à Novaclinic.',
+      'Vos symptômes vous parlent. Encore faut-il les écouter ensemble. Voici les conditions principales que nous prenons en charge à Selinoa.',
     items: [
       { title: 'Périménopause', symptoms: "Bouffées de chaleur · troubles du sommeil · variations d'humeur · cycle irrégulier · prise de poids" },
       { title: 'Ménopause', symptoms: 'Symptômes vasomoteurs · sécheresse · ostéoporose · brouillard mental · libido' },
@@ -220,7 +221,7 @@ export const fr = {
     titleLine1: 'Cinq étapes. ',
     titleEm: 'Sans surprise.',
     subtitle:
-      'Chez Novaclinic, vous savez à chaque moment où vous en êtes. Voici comment se déroule votre accompagnement, de votre première question à votre suivi continu.',
+      'Chez Selinoa, vous savez à chaque moment où vous en êtes. Voici comment se déroule votre accompagnement, de votre première question à votre suivi continu.',
     steps: [
       { num: '1', title: 'Premier contact', text: 'Vous remplissez un bilan en ligne. Nous comprenons votre histoire, vos symptômes, vos attentes.', duration: '5 minutes' },
       { num: '2', title: 'Rencontre découverte', text: 'Première consultation avec un membre de notre équipe de soins. Sans engagement.', duration: '1 heure · 250 CHF' },
@@ -235,27 +236,27 @@ export const fr = {
   comparatif: {
     eyebrow: 'La différence',
     titleLine1: 'Pourquoi ',
-    titleEm: 'Novaclinic',
+    titleEm: 'Selinoa',
     titleLine2: ", plutôt qu'un cabinet classique ?",
     subtitle:
       "Pas pour remplacer votre médecin traitant. Pour vous offrir ce que la médecine de ville ne peut pas, faute de temps et d'outils.",
     headers: {
       criteria: '',
       classic: 'Cabinet médical classique',
-      novacare: 'Novaclinic',
+      selinoa: 'Selinoa',
     },
     rows: [
-      { label: 'Durée de consultation', classic: '15 minutes', novacare: '90 minutes initiale · 45 minutes en suivi' },
-      { label: 'Coordination entre spécialistes', classic: 'À votre charge', novacare: 'Care manager dédiée' },
-      { label: 'Vision systémique', classic: 'Spécialiste par spécialiste', novacare: 'Hormones · épuisement · digestion ensemble' },
-      { label: 'Suivi entre les consultations', classic: 'Aucun', novacare: 'Continu, via plateforme et care manager' },
-      { label: 'Approche fonctionnelle', classic: 'Rare', novacare: 'Au cœur du modèle' },
-      { label: 'Équipe pluridisciplinaire', classic: 'Vous trouvez chacun', novacare: 'Médecins · physio · naturopathie · nutrition' },
-      { label: 'Bilan biologique approfondi', classic: 'Standard', novacare: 'Avancé · biomarqueurs spécifiques' },
-      { label: 'Investissement', classic: 'Remboursé LAMal', novacare: 'Premium · forfait mensuel transparent' },
+      { label: 'Durée de consultation', classic: '15 minutes', selinoa: '90 minutes initiale · 45 minutes en suivi' },
+      { label: 'Coordination entre spécialistes', classic: 'À votre charge', selinoa: 'Care manager dédiée' },
+      { label: 'Vision systémique', classic: 'Spécialiste par spécialiste', selinoa: 'Hormones · épuisement · digestion ensemble' },
+      { label: 'Suivi entre les consultations', classic: 'Aucun', selinoa: 'Continu, via plateforme et care manager' },
+      { label: 'Approche fonctionnelle', classic: 'Rare', selinoa: 'Au cœur du modèle' },
+      { label: 'Équipe pluridisciplinaire', classic: 'Vous trouvez chacun', selinoa: 'Médecins · physio · naturopathie · nutrition' },
+      { label: 'Bilan biologique approfondi', classic: 'Standard', selinoa: 'Avancé · biomarqueurs spécifiques' },
+      { label: 'Investissement', classic: 'Remboursé LAMal', selinoa: 'Premium · forfait mensuel transparent' },
     ],
     bottomNote:
-      'Novaclinic ne remplace pas votre médecin traitant. Nous travaillons en coordination avec lui ou elle, dans votre intérêt.',
+      'Selinoa ne remplace pas votre médecin traitant. Nous travaillons en coordination avec lui ou elle, dans votre intérêt.',
     bottomCta: 'Découvrir le centre →',
     swipeHint: 'Faites défiler horizontalement →',
   },
@@ -263,13 +264,13 @@ export const fr = {
   // Le Lieu
   lieu: {
     label: 'Ouverture · Septembre 2026',
-    centerName: ['Centre', 'Novaclinic', 'Malley'],
+    centerName: ['Centre', 'Selinoa', 'Malley'],
     address1: 'Lausanne — 550m² au 7ème étage du complexe Malley.',
     address2: 'Co-localisé avec un écosystème santé premium.',
     titleLine1: 'Un lieu pensé pour ',
     titleEm1: 'elle.',
     titleLine2: 'Pour son temps. Son corps. Sa vie.',
-    text: "Le Centre Novaclinic Malley n'est pas un cabinet médical de plus. C'est un espace clinique où le soin prend le temps de comprendre avant de prescrire. Co-localisé avec un écosystème complet de soins (esthétique, pilates, physiothérapie), pour une approche véritablement systémique.",
+    text: "Le Centre Selinoa Malley n'est pas un cabinet médical de plus. C'est un espace clinique où le soin prend le temps de comprendre avant de prescrire. Co-localisé avec un écosystème complet de soins (esthétique, pilates, physiothérapie), pour une approche véritablement systémique.",
     experiences: [
       { num: '01', text: "Consultations longues — <em>90 minutes</em> à l'initiale, 45 minutes en suivi" },
       { num: '02', text: 'Une équipe pluridisciplinaire <em>coordonnée</em> autour de chaque patiente' },
@@ -380,7 +381,7 @@ export const fr = {
     badge: 'Founding Members · 50 places',
     titleLine1: 'Les 50 premières patientes auront ',
     titleEm: 'une place particulière.',
-    text: "Le Centre Novaclinic Malley ouvre ses portes en septembre 2026. Pour celles qui nous rejoindront avant, nous avons réservé un statut <em>Founding Member</em> : un programme d'accompagnement privilégié, des conditions tarifaires fixées à vie, et une voix dans la construction de ce lieu.",
+    text: "Le Centre Selinoa Malley ouvre ses portes en septembre 2026. Pour celles qui nous rejoindront avant, nous avons réservé un statut <em>Founding Member</em> : un programme d'accompagnement privilégié, des conditions tarifaires fixées à vie, et une voix dans la construction de ce lieu.",
     perks: [
       {
         num: '01',
@@ -406,7 +407,7 @@ export const fr = {
     titleLine1: 'Un soin qui prend ',
     titleEm: 'le temps',
     titleLine2: 'de vous écouter.',
-    text: "Le Centre Novaclinic Malley ouvre en septembre 2026. Les Founding Members seront contactées dès juillet. Laissez-nous vos coordonnées, nous reviendrons vers vous personnellement.",
+    text: "Le Centre Selinoa Malley ouvre en septembre 2026. Les Founding Members seront contactées dès juillet. Laissez-nous vos coordonnées, nous reviendrons vers vous personnellement.",
     submit: "Rejoindre la liste d'attente",
     submitting: 'Envoi en cours…',
     note: 'Vos coordonnées restent confidentielles. Nous ne les partageons avec personne.',
@@ -475,7 +476,7 @@ export const fr = {
         },
         {
           label: 'Prise de contact personnelle',
-          text: "L'équipe Novaclinic reviendra vers vous prochainement, avec les prochaines étapes pour rejoindre les Founding Members.",
+          text: "L'équipe Selinoa reviendra vers vous prochainement, avec les prochaines étapes pour rejoindre les Founding Members.",
         },
         {
           label: 'Ouverture du centre',
@@ -490,12 +491,12 @@ export const fr = {
 
   // Footer
   footer: {
-    logo: 'NOVACLINIC',
+    logo: 'SELINOA',
     taglineLine1: 'Un lieu pour les femmes',
     taglineLine2: 'en Suisse.',
     centerTitle: 'Le centre',
     centerLinks: [
-      { label: 'Pourquoi Novaclinic', href: '#pourquoi' },
+      { label: 'Pourquoi Selinoa', href: '#pourquoi' },
       { label: 'Notre approche', href: '#piliers' },
       { label: 'Conditions traitées', href: '#conditions' },
       { label: 'Votre parcours', href: '#parcours' },
@@ -508,7 +509,7 @@ export const fr = {
       { label: "Liste d'attente", href: '#contact' },
       { label: '+33 7 84 68 34 17', href: 'tel:+33784683417' },
     ],
-    copyright: '© 2026 NovaCare Technology SA · Prilly, Suisse',
+    copyright: '© 2026 Médecin Neyret Adner, entreprise individuelle · Prilly, Suisse',
     legalNotice: 'Mentions légales',
     privacy: 'Confidentialité',
     compliance: 'Conformité nLPD',

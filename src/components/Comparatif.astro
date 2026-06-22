@@ -1,6 +1,6 @@
 ---
 /**
- * Section Comparatif — tableau cabinet classique vs Novaclinic
+ * Section Comparatif — tableau cabinet classique vs Selinoa
  *
  * CORRECTIONS HTML ORIGINAL :
  * - Ajout d'un indice visuel "Faites défiler →" sur mobile pour signaler le scroll horizontal
@@ -37,8 +37,8 @@ const i18n = t(lang);
             ><span class="visually-hidden">{i18n.comparatif.eyebrow}</span></th
           >
           <th scope="col">{i18n.comparatif.headers.classic}</th>
-          <th scope="col" class="novacare-col"
-            >{i18n.comparatif.headers.novacare}</th
+          <th scope="col" class="selinoa-col"
+            >{i18n.comparatif.headers.selinoa}</th
           >
         </tr>
       </thead>
@@ -48,8 +48,8 @@ const i18n = t(lang);
             <tr>
               <th scope="row">{row.label}</th>
               <td class="center">{row.classic}</td>
-              <td class="novacare-cell">
-                <em>{row.novacare}</em>
+              <td class="selinoa-cell">
+                <em>{row.selinoa}</em>
               </td>
             </tr>
           ))
@@ -141,7 +141,7 @@ const i18n = t(lang);
     border-bottom: 1px solid var(--gray-line);
   }
 
-  .comparatif-table th.novacare-col {
+  .comparatif-table th.selinoa-col {
     background: var(--berry);
     color: var(--gold);
     font-weight: 500;
@@ -185,14 +185,14 @@ const i18n = t(lang);
     border-bottom: none;
   }
 
-  .comparatif-table td.novacare-cell {
+  .comparatif-table td.selinoa-cell {
     background: var(--cream-paper);
     color: var(--berry);
     font-weight: 500;
     text-align: center;
   }
 
-  .comparatif-table td.novacare-cell em {
+  .comparatif-table td.selinoa-cell em {
     font-style: italic;
     color: var(--berry);
   }

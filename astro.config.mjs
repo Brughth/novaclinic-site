@@ -3,7 +3,7 @@ import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
 // Site URL — à remplacer par le vrai domaine en production
-const SITE_URL = 'https://novaclinic.ch';
+const SITE_URL = 'https://selinoa.ch';
 
 // https://astro.build/config
 export default defineConfig({
@@ -17,6 +17,9 @@ export default defineConfig({
 
   integrations: [
     sitemap({
+      // Exclure les landing pages publicitaires (/lp/...) : elles sont en
+      // noindex et ne doivent pas concurrencer le site vitrine en SEO.
+      filter: (page) => !page.includes('/lp/'),
       // Fréquence agressive — signale à Google de revenir souvent
       changefreq: 'daily',
       priority: 0.7,

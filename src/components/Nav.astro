@@ -16,6 +16,7 @@ import {
   getLangFromUrl,
   getAlternateLang,
   getLocalizedUrl,
+  getAlternatePageUrl,
   type Lang,
 } from "../i18n/config";
 import { t } from "../i18n/ui";
@@ -23,8 +24,17 @@ import { t } from "../i18n/ui";
 const lang: Lang = getLangFromUrl(Astro.url);
 const i18n = t(lang);
 const altLang = getAlternateLang(lang);
-const altUrl = getLocalizedUrl("/", altLang);
+// Le switch renvoie vers la page équivalente dans l'autre langue (et non plus
+// toujours vers la home) quand un équivalent existe.
+const altUrl = getAlternatePageUrl(Astro.url.pathname, altLang);
 const homeUrl = getLocalizedUrl("/", lang);
+
+// Les ancres (#pourquoi, #piliers, …) ne pointent vers des sections réelles
+// QUE sur la home. Sur les autres pages (landings, /programme), on préfixe par
+// l'URL de la home pour que le clic renvoie bien vers la home + section.
+const pathname = Astro.url.pathname;
+const isHome = pathname === "/" || pathname === "/en" || pathname === "/en/";
+const anchor = (hash: string): string => (isHome ? hash : `${homeUrl}${hash}`);
 
 // Items de menu simples (ancres internes vers la home)
 // On les structure en 2 groupes :
@@ -35,13 +45,16 @@ const homeUrl = getLocalizedUrl("/", lang);
 // si elle existe sur la page courante ; sinon, on préfixe par homeUrl pour
 // renvoyer à la home + section.
 const itemsBeforeDropdown = [
-  { href: "#pourquoi", label: i18n.nav.pourquoi },
-  { href: "#piliers", label: i18n.nav.approche },
+  { href: anchor("#pourquoi"), label: i18n.nav.pourquoi },
+  { href: anchor("#piliers"), label: i18n.nav.approche },
 ];
 const itemsAfterDropdown = [
-  { href: "#parcours", label: i18n.nav.parcours },
-  { href: "#lieu", label: i18n.nav.centre },
-  { href: "#programmes", label: i18n.nav.programmes },
+  { href: anchor("#parcours"), label: i18n.nav.parcours },
+  // Lien vers la page dédiée /programme (pas une ancre, version localisée
+  // FR /programme ou EN /en/programme) — placé entre « Approche » et « Le Centre ».
+  // Remplace l'ancienne ancre « Programmes » (#programmes) pour éviter le doublon.
+  { href: getLocalizedUrl("/programme", lang), label: i18n.nav.programmePage },
+  { href: anchor("#lieu"), label: i18n.nav.centre },
 ];
 
 // Mega-menu Spécialités (4 landings)
@@ -138,7 +151,7 @@ const specialtiesMenu = i18n.nav.specialtiesMenu;
         {i18n.nav.langSwitch}
       </a>
     </li>
-    <li><a href="#contact" class="nav-cta">{i18n.nav.cta}</a></li>
+    <li><a href={anchor("#contact")} class="nav-cta">{i18n.nav.cta}</a></li>
   </ul>
 
   <button
@@ -259,7 +272,7 @@ const specialtiesMenu = i18n.nav.specialtiesMenu;
       </a>
     </li>
     <li>
-      <a href="#contact" class="nav-cta" data-drawer-link>{i18n.nav.cta}</a>
+      <a href={anchor("#contact")} class="nav-cta" data-drawer-link>{i18n.nav.cta}</a>
     </li>
   </ul>
 </aside>

@@ -1,6 +1,6 @@
-# Novacare — Site vitrine
+# Selinoa — Site vitrine
 
-Site vitrine bilingue (FR/EN) de **Novacare**, centre de médecine fonctionnelle pour les femmes 35–60 à Lausanne, développé avec **Astro 6.3**.
+Site vitrine bilingue (FR/EN) de **Selinoa**, centre de médecine fonctionnelle pour les femmes 35–60 à Lausanne, développé avec **Astro 6.3**.
 
 ---
 
@@ -153,7 +153,7 @@ npm run check
 ## 📁 Structure du projet
 
 ```
-novacare-site/
+selinoa-site/
 ├── public/                       # Fichiers statiques servis tels quels
 │   ├── favicon.svg               # Favicon vectoriel (N berry)
 │   ├── favicon.ico
@@ -172,7 +172,7 @@ novacare-site/
 │   │   ├── Pillars.astro         # 3 piliers cliniques
 │   │   ├── Conditions.astro      # Grille 8 conditions traitées
 │   │   ├── Parcours.astro        # Timeline 5 étapes
-│   │   ├── Comparatif.astro      # Tableau classique vs Novacare
+│   │   ├── Comparatif.astro      # Tableau classique vs Selinoa
 │   │   ├── Lieu.astro            # Centre Malley + care manager
 │   │   ├── Programmes.astro      # Discovery card + 3 tarifs
 │   │   ├── Founding.astro        # Founding members
@@ -211,7 +211,7 @@ novacare-site/
 Le formulaire envoie une simple requête `fetch` POST vers un backend externe :
 
 ```
-POST https://api.novacare.ch/waitlist
+POST https://api.selinoa.ch/waitlist
 Content-Type: application/json
 
 { "email": "user@example.com" }
@@ -226,7 +226,7 @@ Le backend :
 Une seule constante à modifier dans `src/components/Contact.astro` :
 
 ```ts
-const ENDPOINT = 'https://api.novacare.ch/waitlist';
+const ENDPOINT = 'https://api.selinoa.ch/waitlist';
 ```
 
 ### États gérés côté client
@@ -300,7 +300,7 @@ npm run build
 
 | Donnée | Fichier |
 |---|---|
-| `https://novaclinic.ch` | `astro.config.mjs`, `public/robots.txt` |
+| `https://selinoa.ch` | `astro.config.mjs`, `public/robots.txt` |
 | `+33 7 84 68 34 17` | `src/i18n/fr.ts`, `src/i18n/en.ts` (footer) |
 | URL du backend `ENDPOINT` | `src/components/Contact.astro` |
 | Coordonnées GPS du centre | `src/layouts/BaseLayout.astro` (JSON-LD) |
@@ -309,10 +309,10 @@ npm run build
 
 ## 📈 Recommandations SEO post-déploiement
 
-1. **Soumettre le sitemap** à Google Search Console : `https://novaclinic.ch/sitemap-index.xml`
+1. **Soumettre le sitemap** à Google Search Console : `https://selinoa.ch/sitemap-index.xml`
 2. **Valider les Rich Snippets** sur [Google Rich Results Test](https://search.google.com/test/rich-results)
 3. **Valider OpenGraph** avec [opengraph.xyz](https://www.opengraph.xyz/)
-4. **Inscrire Novacare** sur Google Business Profile et annuaires médicaux suisses
+4. **Inscrire Selinoa** sur Google Business Profile et annuaires médicaux suisses
 5. **Configurer l'analytique** RGPD/nLPD friendly : Plausible ou Fathom
 6. **Test Lighthouse** : visez 100/100 sur les 4 catégories
 
@@ -357,4 +357,4 @@ npm run build
 
 ## 📜 Licence
 
-© 2026 NovaCare Technology SA · Prilly, Suisse · Tous droits réservés.
+© 2026 MÃ©decin Neyret Adner, entreprise individuelle · Prilly, Suisse · Tous droits réservés.

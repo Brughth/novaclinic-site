@@ -1,6 +1,6 @@
 ---
 /**
- * Layout principal — Novaclinic
+ * Layout principal — Selinoa
  *
  * Inclut :
  * - Métadonnées SEO complètes (title, description, keywords)
@@ -51,26 +51,18 @@ const frUrl = `${siteUrl}${getLocalizedUrl(canonicalPath, "fr")}`;
 const enUrl = `${siteUrl}${getLocalizedUrl(canonicalPath, "en")}`;
 
 // Schema.org JSON-LD — Centre médical (MedicalBusiness enrichi)
-// Le nom principal est Novaclinic ; les alternateName couvrent toutes les variantes
-// pour que les recherches "Novacare" remontent aussi notre site (rebranding).
+// Nom principal : Selinoa. Les alternateName couvrent les variantes géographiques
+// du nom de marque pour le référencement local.
 const jsonLdMedical = {
   "@context": "https://schema.org",
   "@type": ["MedicalBusiness", "MedicalClinic", "HealthCare"],
-  "@id": `${siteUrl}/#novaclinic`,
-  name: "Novaclinic",
+  "@id": `${siteUrl}/#selinoa`,
+  name: "Selinoa",
   alternateName: [
-    "Novaclinic Lausanne",
-    "Novaclinic Malley",
-    "Centre Novaclinic Malley",
-    "Novacare",
-    "Novacare Lausanne",
-    "Novacare Malley",
-    "Centre Novacare Malley",
-    "SylvanaCare",
-    "SylvanaCare Lausanne",
-    "SylvanaCare Malley",
-    "Novacare Technology",
-    "NovaCare Technology SA",
+    "Selinoa Lausanne",
+    "Selinoa Malley",
+    "Centre Selinoa Malley",
+    "Médecin Neyret Adner",
   ],
   description: pageDescription,
   url: siteUrl,
@@ -169,7 +161,7 @@ const jsonLdMedical = {
   ],
   hasOfferCatalog: {
     "@type": "OfferCatalog",
-    name: "Programmes Novaclinic",
+    name: "Programmes Selinoa",
     itemListElement: i18n.programmes.cards.map((card) => ({
       "@type": "Offer",
       name: card.name,
@@ -198,8 +190,8 @@ const jsonLdPhysician = {
   "@type": "Physician",
   "@id": `${siteUrl}/#dr-adner-neyret`,
   name: "Dr Adner Neyret",
-  jobTitle: lang === "fr" ? "Médecin · Fondateur de Novaclinic" : "Physician · Founder of Novaclinic",
-  worksFor: { "@id": `${siteUrl}/#novaclinic` },
+  jobTitle: lang === "fr" ? "Médecin · Fondateur de Selinoa" : "Physician · Founder of Selinoa",
+  worksFor: { "@id": `${siteUrl}/#selinoa` },
   url: siteUrl,
   image: `${siteUrl}/og-image.png`,
   medicalSpecialty: [
@@ -236,14 +228,14 @@ const jsonLdWebsite = {
   "@context": "https://schema.org",
   "@type": "WebSite",
   "@id": `${siteUrl}/#website`,
-  name: "Novaclinic",
-  alternateName: ["Novaclinic Lausanne", "Centre Novaclinic Malley", "Novacare"],
+  name: "Selinoa",
+  alternateName: ["Selinoa Lausanne", "Centre Selinoa Malley"],
   url: siteUrl,
   inLanguage: [
     { "@type": "Language", name: "French", alternateName: "fr" },
     { "@type": "Language", name: "English", alternateName: "en" },
   ],
-  publisher: { "@id": `${siteUrl}/#novaclinic` },
+  publisher: { "@id": `${siteUrl}/#selinoa` },
 };
 
 // Schema.org — Organization
@@ -251,8 +243,8 @@ const jsonLdOrg = {
   "@context": "https://schema.org",
   "@type": "Organization",
   "@id": `${siteUrl}/#organization`,
-  name: "NovaCare Technology SA",
-  legalName: "NovaCare Technology SA",
+  name: "Médecin Neyret Adner, entreprise individuelle",
+  legalName: "Médecin Neyret Adner, entreprise individuelle",
   url: siteUrl,
   logo: `${siteUrl}/og-image.png`,
   email: " dr.aneyret@hin.ch",
@@ -301,8 +293,8 @@ const faqItems = i18n.pillars.items.flatMap((pillar) =>
       "@type": "Answer",
       text:
         lang === "fr"
-          ? `Chez Novaclinic, nous abordons cette question dans notre pilier ${pillar.title}. ${pillar.text} Prenez rendez-vous pour une consultation découverte de 90 minutes à Lausanne.`
-          : `At Novaclinic, we address this through our ${pillar.title} pillar. ${pillar.text} Book a 90-minute discovery consultation in Lausanne.`,
+          ? `Chez Selinoa, nous abordons cette question dans notre pilier ${pillar.title}. ${pillar.text} Prenez rendez-vous pour une consultation découverte de 90 minutes à Lausanne.`
+          : `At Selinoa, we address this through our ${pillar.title} pillar. ${pillar.text} Book a 90-minute discovery consultation in Lausanne.`,
     },
   })),
 );
@@ -327,7 +319,7 @@ const jsonLdFaq = {
     <title>{pageTitle}</title>
     <meta name="description" content={pageDescription} />
     <meta name="keywords" content={i18n.meta.keywords} />
-    <meta name="author" content="Novaclinic" />
+    <meta name="author" content="Selinoa" />
 
     <!-- Robots — indexation agressive -->
     <meta
@@ -378,7 +370,7 @@ const jsonLdFaq = {
     <meta property="og:title" content={i18n.meta.ogTitle} />
     <meta property="og:description" content={i18n.meta.ogDescription} />
     <meta property="og:url" content={canonicalUrl} />
-    <meta property="og:site_name" content="Novaclinic" />
+    <meta property="og:site_name" content="Selinoa" />
     <meta property="og:image" content={ogImageUrl} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -395,7 +387,7 @@ const jsonLdFaq = {
     <meta name="theme-color" content="#6D2E46" />
     <meta name="msapplication-TileColor" content="#6D2E46" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-    <meta name="apple-mobile-web-app-title" content="Novaclinic" />
+    <meta name="apple-mobile-web-app-title" content="Selinoa" />
 
     <!-- Favicons -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
