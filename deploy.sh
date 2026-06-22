@@ -13,12 +13,12 @@ YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
-# Configuration ytCEoyKJE5gO7NOm3gPb
-SSH_USER="novaclinic" 
+# Configuration FsfIRkW9HgU9gnXK75WZ
+SSH_USER="selinoa" 
 SSH_HOST="83.228.225.79"
-REMOTE_PATH="/home/novaclinic/htdocs/novaclinic.ch"
+REMOTE_PATH="/home/selinoa/htdocs/selinoa.ch"
 BUILD_DIR="dist"
-APP_URL="https://novaclinic.ch"
+APP_URL="https://selinoa.ch"
 
 # Fonction pour afficher les messages
 log_info() {
