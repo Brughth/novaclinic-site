@@ -10,7 +10,7 @@ export const fr = {
     description:
       "Selinoa — Centre de médecine fonctionnelle à Lausanne dédié aux femmes 35-60 ans. Spécialistes ménopause, périménopause, fatigue chronique, burn-out, troubles hormonaux et digestifs. Consultations longues (90 min), équipe pluridisciplinaire coordonnée, care manager dédié. Centre Malley, Vaud, Suisse.",
     keywords:
-      'Selinoa, Selinoa Lausanne, Selinoa Malley, centre Selinoa Malley, Dr Adner Neyret, médecine fonctionnelle Lausanne, santé femme Lausanne, ménopause Lausanne, périménopause traitement, fatigue chronique Lausanne, burn-out femme, troubles hormonaux Suisse, médecine intégrative Vaud, centre médical Malley, care manager santé, SII traitement, dysbiose intestinale, médecin fonctionnel Suisse romande, accompagnement femmes ménopause',
+      'Selinoa, Selinoa Lausanne, Selinoa Malley, centre Selinoa Malley, Dr Adner Neyret, médecine fonctionnelle Lausanne, santé femme Lausanne, ménopause Lausanne, périménopause traitement, fatigue chronique Lausanne, burn-out femme, troubles hormonaux Suisse, médecine intégrative Vaud, centre médical Malley, care manager santé, SII traitement, dysbiose intestinale, médecin fonctionnel Suisse romande, accompagnement femmes ménopause, burn-out ',
     ogTitle: 'Selinoa Lausanne — Médecine fonctionnelle pour femmes 35-60 ans',
     ogDescription:
       'Selinoa — Centre de médecine fonctionnelle dédié aux femmes à Lausanne. Ménopause, fatigue chronique, troubles hormonaux et digestifs. Équipe coordonnée, consultations longues, accompagnement continu. Ouverture sept. 2026.',
