@@ -52,7 +52,7 @@ const T = {
       "Médecin FMH",
       "Care manager dédiée",
       "Tout coordonné, sous un seul toit",
-      "Suivi gardé à vie",
+      "On garde le lien après le programme",
     ],
     probEyebrow: "Le vrai problème",
     probH2: "Ce n'est pas vous. C'est que personne ne coordonne.",
@@ -73,7 +73,7 @@ const T = {
     uniqueEyebrow: "Ce que personne d'autre ne fait",
     uniqueH2: "Un chef d'orchestre pour votre santé.",
     uniqueP:
-      "Notre différence tient en un mot : la coordination. Une care manager dédiée, comme un majordome de votre santé, reliée à votre application de suivi. C'est le cœur des trois formules ; seule son intensité change.",
+      "Notre différence tient en un mot : la coordination. Une care manager dédiée, comme un majordome de votre santé, reliée à votre application de suivi. C'est le cœur des deux formules ; seule son intensité change.",
     maj: [
       { ic: "Elle orchestre", h3: "Tout est relié", p: "Médecin, mouvement, soin du corps : elle fait le lien entre chaque intervenant, pour que tout aille dans le même sens." },
       { ic: "Elle gère", h3: "Vos rendez-vous, vos suivis", p: "Plus de logistique à porter : elle planifie, rappelle, ajuste. Vous n'avez qu'à vous présenter." },
@@ -116,7 +116,7 @@ const T = {
     assetNoteRest: " Les séances ont lieu dans des espaces dédiés à Lausanne. Dès septembre 2026, votre parcours s'installera au Centre Selinoa Malley.",
     tarifsEyebrow: "Les formules",
     tarifsH2: "La coordination, à votre intensité.",
-    tarifsP: "La même colonne vertébrale dans les trois : une care manager qui orchestre. Seule change l'intensité de l'accompagnement.",
+    tarifsP: "La même colonne vertébrale dans les deux : une care manager qui orchestre. Seule change l'intensité de l'accompagnement.",
     reframeA: "Vous payez ",
     reframeB: "déjà",
     reframeC: " : un cours par-ci, une séance par-là, des compléments, une consultation, sans que rien ne soit relié. Ici, tout est ",
@@ -124,24 +124,47 @@ const T = {
     reframeE: " dans un seul abonnement.",
     plans: [
       {
-        tierLead: "La coordination, pour commencer", name: "Découvrir", who: "Faire le point, poser un plan coordonné.",
-        amt: "390", per: "CHF / mois", eng: "Abonnement · engagement 2 mois",
-        items: [{ t: "Un bilan médical complet, pour comprendre la cause" }, { t: "Un entretien avec votre care manager dédiée" }, { t: "Votre plan de santé personnalisé" }, { t: "Suivi via l'app, entre les rendez-vous" }],
-        btn: "Choisir cette formule →", featured: false, tag: "",
-      },
-      {
-        tierLead: "La coordination, au quotidien", name: "Accompagner", who: "Un suivi coordonné en profondeur, sur 6 mois.",
+        name: "Le Parcours",
+        promise: "Tout coordonné, un seul interlocuteur. Vous n'avez plus rien à porter.",
         amt: "590", per: "CHF / mois", eng: "Abonnement · engagement 6 mois",
-        items: [{ t: "2 consultations médicales approfondies (pas 15 minutes)" }, { t: "Une care manager dédiée qui coordonne tout pour vous" }, { t: "5 séances de Do-In pour relâcher les tensions" }, { t: "1 atelier nutrition" }, { t: "2 bilans biologiques approfondis" }, { t: "Suivi app & plateforme, gratuit à vie", life: true }],
-        btn: "Choisir cette formule →", featured: true, tag: "Le plus choisi",
+        benefits: [
+          "Une care manager dédiée qui orchestre tout votre parcours",
+          "Un suivi médical approfondi et des bilans biologiques",
+          "Mouvement et soin du corps, en petit groupe",
+          "Un suivi continu via l'application, entre les rendez-vous",
+        ],
+        detail: [
+          "1 consultation médicale longue (bilan approfondi, pas 15 minutes)",
+          "2 bilans biologiques approfondis",
+          "Un accompagnement mouvement régulier (APA), en petit groupe",
+          "Des séances de Do-In pour apaiser le système nerveux",
+          "1 atelier nutrition",
+          "Un plan personnalisé + le suivi via l'application",
+        ],
+        btn: "Choisir cette formule →", featured: true, tag: "Le plus choisi", sageTag: false,
       },
       {
-        tierLead: "La coordination, sans limite", name: "Concierge", who: "Le programme complet, en petit groupe.",
-        amt: "890", per: "CHF / mois", eng: "Abonnement · engagement 6 mois",
-        items: [{ t: "2 consultations médicales approfondies" }, { t: "Une care manager joignable sans limite, rien que pour vous" }, { t: "10 séances de mouvement adapté, en petit groupe de 8" }, { t: "5 séances de Do-In pour relâcher les tensions" }, { t: "1 atelier nutrition" }, { t: "2 bilans biologiques approfondis" }, { t: "Suivi app & plateforme, gratuit à vie", life: true }],
-        btn: "Choisir cette formule →", featured: false, tag: "Places limitées", sageTag: true,
+        name: "Le Sérénité",
+        promise: "Le même parcours, avec une care manager sans limite et un suivi médical renforcé.",
+        amt: "900", per: "CHF / mois", eng: "Abonnement · engagement 6 mois",
+        benefits: [
+          "Votre care manager joignable sans limite, priorité absolue",
+          "Un suivi médical renforcé : consultations et bilans supplémentaires",
+          "Mouvement et soin du corps, en petit groupe",
+          "Un suivi continu et prioritaire via l'application",
+        ],
+        detail: [
+          "2 consultations médicales longues",
+          "3 bilans biologiques approfondis",
+          "Un accompagnement mouvement régulier (APA), en petit groupe",
+          "Des séances de Do-In pour apaiser le système nerveux",
+          "1 atelier nutrition",
+          "Un plan personnalisé + un suivi prioritaire via l'application",
+        ],
+        btn: "Choisir cette formule →", featured: false, tag: "Accompagnement renforcé", sageTag: true,
       },
     ],
+    tarifsDetail: "Voir le détail",
     paySecure: "Paiement sécurisé · abonnement mensuel",
     payNote: "Tout commence par un échange gratuit et sans engagement. Vous ne démarrez l'abonnement qu'ensuite, si le programme vous convient.",
     cmpEyebrow: "La différence",
@@ -154,7 +177,7 @@ const T = {
       ["Qui coordonne tout", "Personne, c'est à vous", "Une care manager, votre chef d'orchestre"],
       ["Entre les rendez-vous", "Vous êtes seule", "Suivi continu via l'app"],
       ["Le mouvement & le corps", "Rarement abordés", "APA en groupe + Do-In intégrés"],
-      ["Après le programme", "Plus de lien", "Suivi gardé à vie, on ne vous lâche pas"],
+      ["Après le programme", "Plus de lien", "On garde le lien, avec un suivi allégé"],
     ],
     cmpNote: "Nous travaillons en coordination avec votre médecin traitant, dans votre intérêt.",
     testEyebrow: "Elles en parlent",
@@ -210,7 +233,7 @@ const T = {
     heroCtaPrimary: "Book my free call →",
     heroCtaGhost: "Understand our approach",
     heroRsr: "No-commitment call · you only start afterwards",
-    trust: ["FMH physician", "Dedicated care manager", "Everything coordinated, under one roof", "Follow-up kept for life"],
+    trust: ["FMH physician", "Dedicated care manager", "Everything coordinated, under one roof", "We stay in touch after the program"],
     probEyebrow: "The real problem",
     probH2: "It's not you. It's that no one coordinates.",
     probP: "You've surely already tried, each of you doing your best:",
@@ -230,7 +253,7 @@ const T = {
     uniqueEyebrow: "What no one else does",
     uniqueH2: "A conductor for your health.",
     uniqueP:
-      "Our difference comes down to one word: coordination. A dedicated care manager, like a butler for your health, connected to your tracking app. It's the heart of all three plans; only its intensity changes.",
+      "Our difference comes down to one word: coordination. A dedicated care manager, like a butler for your health, connected to your tracking app. It's the heart of both plans; only its intensity changes.",
     maj: [
       { ic: "She orchestrates", h3: "Everything is connected", p: "Doctor, movement, bodywork: she makes the link between every practitioner, so everything pulls in the same direction." },
       { ic: "She handles it", h3: "Your appointments, your follow-ups", p: "No more logistics to carry: she plans, reminds, adjusts. You only have to show up." },
@@ -273,7 +296,7 @@ const T = {
     assetNoteRest: " Sessions take place in dedicated spaces in Lausanne. From September 2026, your journey will move to the Centre Selinoa Malley.",
     tarifsEyebrow: "The plans",
     tarifsH2: "Coordination, at your intensity.",
-    tarifsP: "The same backbone in all three: a care manager who orchestrates. Only the intensity of the support changes.",
+    tarifsP: "The same backbone in both: a care manager who orchestrates. Only the intensity of the support changes.",
     reframeA: "You ",
     reframeB: "already",
     reframeC: " pay: a class here, a session there, supplements, a consultation, with nothing connected. Here, everything is ",
@@ -281,24 +304,47 @@ const T = {
     reframeE: " in a single subscription.",
     plans: [
       {
-        tierLead: "Coordination, to begin", name: "Discover", who: "Take stock, set a coordinated plan.",
-        amt: "390", per: "CHF / month", eng: "Subscription · 2-month commitment",
-        items: [{ t: "A complete medical assessment, to understand the cause" }, { t: "A meeting with your dedicated care manager" }, { t: "Your personalized health plan" }, { t: "Follow-up via the app, between appointments" }],
-        btn: "Choose this plan →", featured: false, tag: "",
-      },
-      {
-        tierLead: "Coordination, day to day", name: "Support", who: "In-depth coordinated follow-up, over 6 months.",
+        name: "The Journey",
+        promise: "Everything coordinated, one point of contact. You have nothing left to carry.",
         amt: "590", per: "CHF / month", eng: "Subscription · 6-month commitment",
-        items: [{ t: "2 in-depth medical consultations (not 15 minutes)" }, { t: "A dedicated care manager who coordinates everything for you" }, { t: "5 Do-In sessions to release tension" }, { t: "1 nutrition workshop" }, { t: "2 in-depth blood work-ups" }, { t: "App & platform follow-up, free for life", life: true }],
-        btn: "Choose this plan →", featured: true, tag: "Most chosen",
+        benefits: [
+          "A dedicated care manager who orchestrates your whole journey",
+          "In-depth medical follow-up and blood work-ups",
+          "Movement and bodywork, in a small group",
+          "Continuous follow-up via the app, between appointments",
+        ],
+        detail: [
+          "1 long medical consultation (in-depth assessment, not 15 minutes)",
+          "2 in-depth blood work-ups",
+          "Regular movement support (adapted activity), in a small group",
+          "Do-In sessions to calm the nervous system",
+          "1 nutrition workshop",
+          "A personalized plan + follow-up via the app",
+        ],
+        btn: "Choose this plan →", featured: true, tag: "Most chosen", sageTag: false,
       },
       {
-        tierLead: "Coordination, without limits", name: "Concierge", who: "The full program, in a small group.",
-        amt: "890", per: "CHF / month", eng: "Subscription · 6-month commitment",
-        items: [{ t: "2 in-depth medical consultations" }, { t: "A care manager reachable without limit, just for you" }, { t: "10 tailored movement sessions, in a small group of 8" }, { t: "5 Do-In sessions to release tension" }, { t: "1 nutrition workshop" }, { t: "2 in-depth blood work-ups" }, { t: "App & platform follow-up, free for life", life: true }],
-        btn: "Choose this plan →", featured: false, tag: "Limited spots", sageTag: true,
+        name: "The Serenity",
+        promise: "The same journey, with an unlimited care manager and reinforced medical follow-up.",
+        amt: "900", per: "CHF / month", eng: "Subscription · 6-month commitment",
+        benefits: [
+          "Your care manager reachable without limit, absolute priority",
+          "Reinforced medical follow-up: additional consultations and work-ups",
+          "Movement and bodywork, in a small group",
+          "Continuous, priority follow-up via the app",
+        ],
+        detail: [
+          "2 long medical consultations",
+          "3 in-depth blood work-ups",
+          "Regular movement support (adapted activity), in a small group",
+          "Do-In sessions to calm the nervous system",
+          "1 nutrition workshop",
+          "A personalized plan + priority follow-up via the app",
+        ],
+        btn: "Choose this plan →", featured: false, tag: "Enhanced support", sageTag: true,
       },
     ],
+    tarifsDetail: "See the details",
     paySecure: "Secure payment · monthly subscription",
     payNote: "It all starts with a free, no-commitment call. You only begin the subscription afterwards, if the program suits you.",
     cmpEyebrow: "The difference",
@@ -311,7 +357,7 @@ const T = {
       ["Who coordinates it all", "No one, it's up to you", "A care manager, your conductor"],
       ["Between appointments", "You're on your own", "Continuous follow-up via the app"],
       ["Movement & the body", "Rarely addressed", "Group adapted activity + Do-In built in"],
-      ["After the program", "No more link", "Follow-up kept for life, we don't let go"],
+      ["After the program", "No more link", "We stay in touch, with lighter follow-up"],
     ],
     cmpNote: "We work in coordination with your GP, in your interest.",
     testEyebrow: "In their words",
@@ -477,7 +523,7 @@ const lock = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none"><rect 
       @media(max-width:760px){.inc-grid{grid-template-columns:1fr;}}
 
       /* pricing */
-      .prices{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:start;}
+      .prices{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:stretch;max-width:800px;margin:0 auto;}
       .price{background:#fff;border:1px solid var(--line);border-radius:20px;padding:30px 26px;display:flex;flex-direction:column;position:relative;}
       .tag.sagetag{background:var(--sage-deep);}
       .price li.life{font-weight:600;color:var(--sage-deep);}
@@ -517,11 +563,19 @@ const lock = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none"><rect 
       .price .amt{font-family:'Fraunces';font-weight:600;font-size:40px;color:var(--ink);line-height:1;}
       .price .amt small{font-family:'Inter';font-size:15px;font-weight:500;color:var(--muted);}
       .price .eng{font-size:12.5px;color:var(--muted);margin:6px 0 20px;}
-      .price ul{list-style:none;margin-bottom:24px;flex:1;}
-      .price li{font-size:14px;padding:7px 0 7px 24px;position:relative;border-top:1px solid var(--line);}
-      .price li:first-child{border-top:none;}
-      .price li::before{content:"";position:absolute;left:0;top:13px;width:11px;height:6px;border-left:2px solid var(--sage);border-bottom:2px solid var(--sage);transform:rotate(-45deg);}
-      .price .btn{width:100%;justify-content:center;}
+      .price > ul{list-style:none;margin-bottom:6px;}
+      .price > ul li{font-size:14px;padding:7px 0 7px 24px;position:relative;border-top:1px solid var(--line);}
+      .price > ul li:first-child{border-top:none;}
+      .price > ul li::before{content:"";position:absolute;left:0;top:13px;width:11px;height:6px;border-left:2px solid var(--sage);border-bottom:2px solid var(--sage);transform:rotate(-45deg);}
+      .price details.detail{border-top:1px solid var(--line);margin:2px 0 4px;}
+      .price details.detail summary{list-style:none;cursor:pointer;font-size:13.5px;font-weight:600;color:var(--aub);padding:12px 0;display:flex;align-items:center;}
+      .price details.detail summary::-webkit-details-marker{display:none;}
+      .price details.detail summary .chev{transition:transform .2s ease;font-size:11px;display:inline-block;}
+      .price details.detail[open] summary .chev{transform:rotate(90deg);}
+      .price ul.fine{list-style:none;margin:0 0 8px;padding:0;}
+      .price ul.fine li{position:relative;padding:5px 0 5px 18px;font-size:13px;color:var(--muted);border:none;}
+      .price ul.fine li::before{content:"·";position:absolute;left:5px;top:1px;color:var(--gold);font-weight:700;border:none;width:auto;height:auto;transform:none;}
+      .price .btn{width:100%;justify-content:center;margin-top:auto;}
       .pay-rsr{margin-top:28px;text-align:center;font-size:13.5px;color:var(--muted);display:flex;flex-direction:column;gap:6px;align-items:center;}
       .pay-rsr .secure{display:inline-flex;align-items:center;gap:7px;font-weight:500;color:var(--ink);}
       @media(max-width:860px){.prices{grid-template-columns:1fr;max-width:420px;margin:0 auto;}}
@@ -620,7 +674,7 @@ const lock = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none"><rect 
           <a href="#tarifs">{t.navTarifs}</a>
           <a href="#faq">{t.navQuestions}</a>
           <a href={altUrl} class="lang-switch" hreflang={lang === "en" ? "fr" : "en"} aria-label={altFull}>{altLabel}</a>
-          <a href={cta} class="btn btn-headcta">{t.navReserver}</a>
+          <a href={cta} class="btn btn-headcta js-app-cta">{t.navReserver}</a>
         </nav>
       </div>
     </header>
@@ -632,7 +686,7 @@ const lock = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none"><rect 
         <h1>{t.heroH1a}<em>{t.heroH1em}</em></h1>
         <p class="lead">{t.heroLead}</p>
         <div class="hero-cta">
-          <a href={cta} class="btn btn-primary">{t.heroCtaPrimary}</a>
+          <a href={cta} class="btn btn-primary js-app-cta">{t.heroCtaPrimary}</a>
           <a href="#solution" class="btn btn-ghost">{t.heroCtaGhost}</a>
         </div>
         <p class="hero-rsr"><Fragment set:html={lock} />&nbsp;{t.heroRsr}</p>
@@ -739,14 +793,19 @@ const lock = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none"><rect 
           {t.plans.map((p) => (
             <div class={`price reveal${p.featured ? " feat" : ""}`}>
               {p.tag && <span class={`tag${p.sageTag ? " sagetag" : ""}`}>{p.tag}</span>}
-              <p class="tier-lead">{p.tierLead}</p>
               <h3>{p.name}</h3>
-              <p class="who">{p.who}</p>
+              <p class="who">{p.promise}</p>
               <div class="amt">{p.amt} <small>{p.per}</small></div>
               <p class="eng">{p.eng}</p>
               <ul>
-                {p.items.map((it) => (<li class={it.life ? "life" : ""}>{it.t}</li>))}
+                {p.benefits.map((b) => (<li>{b}</li>))}
               </ul>
+              <details class="detail">
+                <summary><span class="chev">▸</span>&nbsp;{t.tarifsDetail}</summary>
+                <ul class="fine">
+                  {p.detail.map((d) => (<li>{d}</li>))}
+                </ul>
+              </details>
               <a href={cta} class={`btn ${p.featured ? "btn-primary" : "btn-ghost"}`}>{p.btn}</a>
             </div>
           ))}
@@ -793,7 +852,7 @@ const lock = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none"><rect 
       </div>
     </section>
 
-    <section class="malley">
+    <section id="malley" class="malley">
       <div class="wrap malley-in">
         <div class="txt reveal">
           <span class="eyebrow">{t.malleyEyebrow}</span>
@@ -820,7 +879,7 @@ const lock = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none"><rect 
       <div class="wrap">
         <h2>{t.finalH2a}<em>{t.finalH2em}</em></h2>
         <p>{t.finalP}</p>
-        <a href={cta} class="btn btn-primary">{t.finalBtn}</a>
+        <a href={cta} class="btn btn-primary js-app-cta">{t.finalBtn}</a>
       </div>
     </section>
 
@@ -865,6 +924,25 @@ const lock = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none"><rect 
           });
         }, { threshold: 0.12 });
         els.forEach(function (el) { io.observe(el); });
+      })();
+    </script>
+
+    <script is:inline>
+      // « Réserver mon échange » → ouvre l'app selon l'appareil.
+      //   iOS  → App Store · Android → Play Store · Desktop → garde le formulaire /contact.
+      (function () {
+        var ua = navigator.userAgent || "";
+        var isIOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+        var isAndroid = /Android/.test(ua);
+        var STORE = isIOS
+          ? "https://apps.apple.com/ch/app/ncare/id6499439269"
+          : (isAndroid ? "https://play.google.com/store/apps/details?id=com.sylvanacare.pills" : null);
+        if (!STORE) return;
+        document.querySelectorAll('a.js-app-cta').forEach(function (a) {
+          a.setAttribute("href", STORE);
+          a.setAttribute("target", "_blank");
+          a.setAttribute("rel", "noopener");
+        });
       })();
     </script>
   </body>

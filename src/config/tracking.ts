@@ -28,7 +28,7 @@ export const tracking = {
    * Google Analytics 4 — ID de mesure (format "G-XXXXXXXXXX")
    * Récupéré depuis https://analytics.google.com → Admin → Flux de données
    */
-  ga4Id: 'G-RKWRLN87S0',
+  ga4Id: 'G-PFFY9PBZK0',
 
   /**
    * Google Ads — ID de suivi des conversions (format "AW-XXXXXXXXX")

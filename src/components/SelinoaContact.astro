@@ -439,5 +439,23 @@ const n = NAV[lang];
         });
       })();
     </script>
+
+    <script is:inline>
+      // Bouton « Réserver » de l'en-tête → ouvre l'app selon l'appareil (iOS/Android), desktop inchangé.
+      (function () {
+        var ua = navigator.userAgent || "";
+        var isIOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+        var isAndroid = /Android/.test(ua);
+        var STORE = isIOS
+          ? "https://apps.apple.com/ch/app/ncare/id6499439269"
+          : (isAndroid ? "https://play.google.com/store/apps/details?id=com.sylvanacare.pills" : null);
+        if (!STORE) return;
+        document.querySelectorAll('header a[href$="/contact"]').forEach(function (a) {
+          a.setAttribute("href", STORE);
+          a.setAttribute("target", "_blank");
+          a.setAttribute("rel", "noopener");
+        });
+      })();
+    </script>
   </body>
 </html>
