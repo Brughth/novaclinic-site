@@ -1,0 +1,196 @@
+---
+import LegalLayout from '../../layouts/LegalLayout.astro';
+---
+
+<LegalLayout
+  title="Privacy Policy — NCare (Sylvana Care)"
+  description="Privacy policy for the NCare mobile application, published by Sylvana Care. Treatment management, medication reminders, appointments and health tracking. nFADP and GDPR compliance."
+  canonicalPath="/en/privacy-ncare"
+  pageTitle="Privacy Policy — NCare"
+  pageSubtitle="Mobile app for treatment management and health tracking"
+  effectiveDate="August 12, 2026"
+>
+  <h2>1. App and publisher identification</h2>
+  <p>
+    This privacy policy applies to the <strong>NCare</strong> mobile application
+    (Google Play ID: <strong>com.sylvanacare.pills</strong>), hereinafter “the App”.
+  </p>
+  <p>The App is published by:</p>
+  <ul>
+    <li><strong>Publisher (Google Play Developer):</strong> Sylvana Care</li>
+    <li><strong>Application:</strong> NCare</li>
+    <li><strong>Package ID:</strong> com.sylvanacare.pills</li>
+    <li><strong>Data protection contact:</strong> <a href="mailto:dr.aneyret@hin.ch">dr.aneyret@hin.ch</a></li>
+    <li><strong>Jurisdiction:</strong> Switzerland</li>
+  </ul>
+  <div class="legal-note">
+    This document, together with the disclosures shown inside the App, describes how
+    <strong>Sylvana Care</strong> accesses, collects, uses, shares and protects your data
+    within the <strong>NCare</strong> App.
+  </div>
+
+  <h2>2. Legal framework</h2>
+  <p>
+    We process your data in accordance with the
+    <em>Swiss Federal Act on Data Protection (nFADP)</em> and the
+    <em>General Data Protection Regulation (GDPR)</em> of the European Union.
+    As NCare is a health application, your medical data is treated as
+    <strong>sensitive data</strong> with a reinforced level of protection.
+  </p>
+
+  <h2>3. Data we collect</h2>
+
+  <h3>3.1 Account and identity</h3>
+  <p>To create and secure your account via Firebase Authentication, we collect:</p>
+  <ul>
+    <li>Email address and, where applicable, password (stored encrypted by Firebase)</li>
+    <li>First and last name</li>
+    <li>Phone number (if you provide it)</li>
+    <li>Third-party sign-in identifiers when you use <strong>Google Sign-In</strong> or <strong>Sign in with Apple</strong></li>
+  </ul>
+
+  <h3>3.2 Health data (sensitive)</h3>
+  <p>At the core of the App, you can enter and view:</p>
+  <ul>
+    <li>Your medications, prescriptions, dosages and schedules</li>
+    <li>Your reminders and medication intake times</li>
+    <li>Your medical appointments</li>
+    <li>Your biomarkers, health scores, goals and targets</li>
+    <li>Your dietetics information and exercise programs</li>
+    <li>Any personal notes you add to these items</li>
+  </ul>
+
+  <h3>3.3 AI assistant (chatbot)</h3>
+  <p>
+    When you use the AI assistant, the content of your messages is sent to our service to
+    generate a response. Please avoid entering information you do not wish to have processed.
+  </p>
+
+  <h3>3.4 Technical and diagnostic data</h3>
+  <p>To ensure the App's stability and security, we collect:</p>
+  <ul>
+    <li>Crash and performance reports via <strong>Firebase Crashlytics</strong></li>
+    <li>Device model, operating system and App version</li>
+    <li>Technical logs of exchanges with our server (for debugging purposes)</li>
+  </ul>
+
+  <h3>3.5 Push notifications</h3>
+  <p>
+    A notification identifier (<strong>Firebase Cloud Messaging</strong> token) is associated
+    with your device to send you treatment reminders and important messages.
+  </p>
+
+  <h3>3.6 Camera and barcode scanning</h3>
+  <p>
+    The App may use the camera to scan a medication barcode (GS1 standard) to make data entry
+    easier. Camera images are processed to read the code and are not retained for this purpose.
+  </p>
+
+  <h2>4. Device permissions</h2>
+  <p>The App requests certain permissions, only for the related features:</p>
+  <ul>
+    <li><strong>Camera</strong>: scanning medication barcodes</li>
+    <li><strong>Microphone / audio</strong>: video playback and interactive features</li>
+    <li><strong>Notifications & exact alarms</strong>: medication reminders at the scheduled time</li>
+    <li><strong>Storage / files</strong>: viewing and sharing resources and documents</li>
+    <li><strong>Run at boot</strong>: rescheduling reminders after a device restart</li>
+    <li><strong>Internet</strong>: synchronization with our servers</li>
+  </ul>
+
+  <h2>5. Why we use your data</h2>
+  <ul>
+    <li>Provide the App's features: reminders, treatment tracking, appointments, health monitoring</li>
+    <li>Authenticate you and secure access to your account</li>
+    <li>Send you the reminder notifications you have configured</li>
+    <li>Ensure proper operation, fix bugs and improve the App</li>
+    <li>Respond to your support requests</li>
+  </ul>
+
+  <h2>6. Legal basis for processing</h2>
+  <ul>
+    <li><strong>Performance of the service</strong>: processing necessary to provide the features you request</li>
+    <li><strong>Consent</strong>: for sensitive health data and notifications, withdrawable at any time</li>
+    <li><strong>Legitimate interest</strong>: security, fraud prevention and improvement of the App</li>
+  </ul>
+
+  <h2>7. Data sharing</h2>
+  <p>
+    Your data is <strong>never sold</strong> or used for advertising purposes.
+    It may only be processed by technical providers acting on our behalf:
+  </p>
+  <ul>
+    <li><strong>Google Firebase</strong> (Authentication, Cloud Messaging, Crashlytics) — authentication, notifications and diagnostics infrastructure</li>
+    <li>Our <strong>application server (NCare API)</strong>, which hosts your health data</li>
+    <li>The <strong>AI assistant</strong> provider, for conversation content only</li>
+    <li><strong>Competent authorities</strong>, only where required by law (e.g. a court order)</li>
+  </ul>
+
+  <h2>8. International transfers</h2>
+  <p>
+    Some providers (notably Google Firebase) may process data outside Switzerland or the
+    European Union. Such transfers are governed by appropriate safeguards (standard contractual
+    clauses, adequacy decisions) in accordance with the nFADP and the GDPR.
+  </p>
+
+  <h2>9. Data retention</h2>
+  <p>
+    Your data is retained for as long as your account is active. If you delete your account,
+    your personal and health data is deleted or anonymized within a reasonable timeframe, unless
+    a legal retention obligation applies. Diagnostic reports are kept for a limited period.
+  </p>
+
+  <h2>10. Security</h2>
+  <ul>
+    <li>Authentication tokens are stored encrypted on the device (secure storage)</li>
+    <li>Data cached locally is encrypted (AES-256)</li>
+    <li>Exchanges with our servers are protected by HTTPS/TLS</li>
+  </ul>
+
+  <h2>11. Your rights</h2>
+  <p>Under the nFADP and the GDPR, you have the following rights:</p>
+  <ul>
+    <li><strong>Right of access</strong> to your data</li>
+    <li><strong>Right to rectification</strong> of inaccurate data</li>
+    <li><strong>Right to erasure</strong> (right to be forgotten)</li>
+    <li><strong>Right to data portability</strong></li>
+    <li><strong>Right to object</strong> and to restrict processing</li>
+    <li><strong>Right to withdraw consent</strong> at any time</li>
+  </ul>
+  <p>
+    To exercise these rights, contact us at
+    <a href="mailto:dr.aneyret@hin.ch">dr.aneyret@hin.ch</a>. We respond within a maximum of 30 days.
+  </p>
+
+  <h2>12. Deleting your account and data</h2>
+  <p>You can request deletion of your account and associated data:</p>
+  <ul>
+    <li>From within the App, via your profile options (account deletion)</li>
+    <li>Or by emailing <a href="mailto:dr.aneyret@hin.ch">dr.aneyret@hin.ch</a> with the subject “Account deletion”</li>
+  </ul>
+  <div class="legal-note">
+    Deleting your account results in the erasure of your personal and health data, subject to any
+    applicable legal retention obligations.
+  </div>
+
+  <h2>13. Children</h2>
+  <p>
+    NCare is not intended for children under 16. We do not knowingly collect data about minors
+    without the consent of a holder of parental authority.
+  </p>
+
+  <h2>14. Changes to this policy</h2>
+  <p>
+    This policy may change to comply with legal requirements or reflect updates to the App.
+    The online version always prevails; the effective date at the top of this page indicates the
+    latest update.
+  </p>
+
+  <h2>Contact</h2>
+  <p>
+    For any question about your data or this policy, contact the publisher
+    <strong>Sylvana Care</strong>:
+    <a href="mailto:dr.aneyret@hin.ch">dr.aneyret@hin.ch</a>.
+  </p>
+
+  <a href="/en/" class="legal-back">← Back to homepage</a>
+</LegalLayout>

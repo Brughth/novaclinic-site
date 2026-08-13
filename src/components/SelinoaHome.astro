@@ -183,6 +183,25 @@ const T = {
     testEyebrow: "Elles en parlent",
     testQuote: "« Votre écoute et votre bienveillance m'ont énormément touchée. Vous avez pris mon état de santé au sérieux et pris le temps de m'expliquer, ça m'a vraiment soulagée. »",
     testCite: "F., patiente",
+    partnersEyebrow: "Un écosystème de soin",
+    partnersH2: "Vous n'êtes plus seule : tout un réseau autour de vous",
+    partnersP: "Nous nous entourons de partenaires locaux d'excellence. Peau, analyses, nutrition, mouvement, équilibre : chaque expertise est coordonnée pour vous, pour ne rien laisser de côté.",
+    partnersCta: "Découvrir le partenariat",
+    partners: [
+      { name: "C-Derma", by: "by Céline", c: "#D9799B", img: "/partners/c-derma.webp", desc: "Soins de la peau : retrouver un teint qui respire la vitalité, pas la fatigue." },
+      { name: "HubisLab", by: "", c: "#E0959B", img: "/partners/hubislab.webp", desc: "Cosmétique bio-science : des soins innovants, sûrs et efficaces pour votre peau." },
+      { name: "Labor Team", by: "", c: "#9B8AD4", img: "/partners/labor-team.webp", desc: "Analyses de laboratoire de pointe pour comprendre ce que votre corps essaie de vous dire." },
+      { name: "The Yogarden", by: "", c: "#8DA37F", img: "/partners/yogarden.webp", desc: "Mouvement conscient : relâcher les tensions et réapprendre à respirer." },
+      { name: "Vers l'équilibre", by: "", c: "#3A4A73", img: "/partners/vers-equilibre.webp", desc: "Shiatsu & oligothérapie : apaiser le mental et soutenir votre énergie au quotidien." },
+      { name: "Luncheonette", by: "", c: "#8A9A5B", img: "/partners/luncheonette.webp", desc: "Cuisine saine et locale, à deux pas du centre : bien manger sans y penser." },
+    ],
+    launchEyebrow: "Le début d'une belle aventure",
+    launchH2a: "Vous êtes les premières à ",
+    launchH2em: "écrire cette histoire.",
+    launchP: "Aujourd'hui marque le début d'un chemin vers plus d'énergie, d'équilibre et de sérénité. Nous ouvrons les portes à un premier cercle de pionnières, et nous vous préparons un espace à la hauteur de ce que vous méritez.",
+    launchPoints: ["Prendre soin de soi", "Une approche globale", "Un accompagnement personnalisé", "Retrouver énergie & équilibre"],
+    launchBtn: "Rejoindre les pionnières →",
+    launchAlt: "Aventure Selinoa — le lancement du programme",
     pioEyebrow: "Les Pionnières",
     pioH2a: "Le premier groupe est déjà ",
     pioH2em: "complet.",
@@ -363,6 +382,25 @@ const T = {
     testEyebrow: "In their words",
     testQuote: "“Your listening and your kindness touched me enormously. You took my health seriously and took the time to explain — it truly relieved me.”",
     testCite: "F., patient",
+    partnersEyebrow: "An ecosystem of care",
+    partnersH2: "You're no longer alone: a whole network around you",
+    partnersP: "We surround ourselves with the finest local partners. Skin, lab work, nutrition, movement, balance: every expertise is coordinated for you, so nothing is left aside.",
+    partnersCta: "Discover the partnership",
+    partners: [
+      { name: "C-Derma", by: "by Céline", c: "#D9799B", img: "/partners/c-derma.webp", desc: "Skin care to bring back a complexion that glows with vitality, not fatigue." },
+      { name: "HubisLab", by: "", c: "#E0959B", img: "/partners/hubislab.webp", desc: "Bio-science cosmetics: innovative, safe and effective care for your skin." },
+      { name: "Labor Team", by: "", c: "#9B8AD4", img: "/partners/labor-team.webp", desc: "Advanced lab analyses to understand what your body is trying to tell you." },
+      { name: "The Yogarden", by: "", c: "#8DA37F", img: "/partners/yogarden.webp", desc: "Mindful movement to release tension and learn to breathe again." },
+      { name: "Vers l'équilibre", by: "", c: "#3A4A73", img: "/partners/vers-equilibre.webp", desc: "Shiatsu & trace-element therapy to calm the mind and support your daily energy." },
+      { name: "Luncheonette", by: "", c: "#8A9A5B", img: "/partners/luncheonette.webp", desc: "Healthy local food, steps from the center: eating well without thinking about it." },
+    ],
+    launchEyebrow: "The start of a beautiful journey",
+    launchH2a: "You are the first to ",
+    launchH2em: "write this story.",
+    launchP: "Today marks the beginning of a path toward more energy, balance and serenity. We're opening the doors to a first circle of pioneers, and preparing a space worthy of what you deserve.",
+    launchPoints: ["Take care of yourself", "A holistic approach", "Personalized support", "Regain energy & balance"],
+    launchBtn: "Join the pioneers →",
+    launchAlt: "Selinoa journey — the program launch",
     pioEyebrow: "The Pioneers",
     pioH2a: "The first group is already ",
     pioH2em: "full.",
@@ -660,6 +698,41 @@ const lock = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none"><rect 
       .pio h2{color:#fff;font-size:clamp(28px,4vw,42px);max-width:18ch;margin:14px auto 16px;}
       .pio h2 em{font-style:italic;color:var(--gold);}
       .pio p{color:#EAD9DE;max-width:56ch;margin:0 auto 26px;font-size:16px;}
+
+      /* ── Partenaires (écosystème) ── */
+      .partners{background:var(--paper);}
+      .partner-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:8px;}
+      .partner-card{position:relative;overflow:hidden;text-align:left;background:#fff;border:1px solid var(--line);border-radius:16px;padding:28px 24px 22px;cursor:pointer;font-family:'Inter';display:flex;flex-direction:column;gap:10px;box-shadow:0 4px 16px rgba(70,32,47,.04);transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;}
+      .partner-card:hover{transform:translateY(-4px);box-shadow:0 16px 34px rgba(70,32,47,.13);border-color:transparent;}
+      .partner-card .pc-bar{position:absolute;top:0;left:0;right:0;height:5px;background:var(--pc);}
+      .partner-card .pc-name{font-family:'Fraunces';font-weight:600;font-size:21px;color:var(--aub);margin-top:4px;}
+      .partner-card .pc-name em{font-style:italic;font-weight:400;font-size:14px;color:var(--muted);}
+      .partner-card .pc-desc{font-size:14.5px;line-height:1.55;color:var(--ink);flex:1;}
+      .partner-card .pc-cta{font-size:13px;font-weight:600;letter-spacing:.02em;color:var(--aub);display:inline-flex;align-items:center;gap:6px;margin-top:4px;}
+      .partner-card .pc-cta span{transition:transform .18s ease;}
+      .partner-card:hover .pc-cta span{transform:translateX(4px);}
+
+      /* ── Lightbox visuel partenaire ── */
+      .lightbox{position:fixed;inset:0;z-index:1000;display:none;align-items:center;justify-content:center;padding:24px;background:rgba(46,32,47,.82);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);}
+      .lightbox.open{display:flex;}
+      .lightbox img{max-width:min(92vw,540px);max-height:90vh;border-radius:14px;box-shadow:0 30px 80px rgba(0,0,0,.5);}
+      .lb-close{position:absolute;top:18px;right:22px;width:44px;height:44px;border-radius:50%;border:none;background:rgba(255,255,255,.92);color:var(--aub-deep);font-size:26px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+      .lb-close:hover{background:#fff;}
+
+      /* ── Lancement / Pionnières (visuel) ── */
+      .launch{background:linear-gradient(160deg,var(--aub-deep),#33161f);color:#fff;overflow:hidden;}
+      .launch-in{display:grid;grid-template-columns:1fr 0.8fr;gap:48px;align-items:center;}
+      .launch-txt .eyebrow{color:var(--gold);}
+      .launch-txt h2{font-size:clamp(28px,4vw,42px);color:#fff;margin:14px 0 16px;line-height:1.12;}
+      .launch-txt h2 em{font-style:italic;font-family:'Fraunces';color:var(--gold);}
+      .launch-txt p{color:#EAD9DE;font-size:16px;line-height:1.65;max-width:52ch;}
+      .launch-points{list-style:none;display:flex;flex-wrap:wrap;gap:10px 12px;margin:22px 0 28px;padding:0;}
+      .launch-points li{font-size:13px;font-weight:600;color:#F3E7D6;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);padding:8px 14px;border-radius:30px;}
+      .launch-points li::before{content:"✦";color:var(--gold);margin-right:7px;}
+      .launch-visual img{width:100%;max-width:360px;border-radius:18px;box-shadow:0 24px 60px rgba(0,0,0,.42);display:block;margin:0 auto;}
+      @media(max-width:980px){.partner-grid{grid-template-columns:repeat(2,1fr);}}
+      @media(max-width:860px){.launch-in{grid-template-columns:1fr;gap:30px;}.launch-visual{order:-1;}.launch-visual img{max-width:300px;}}
+      @media(max-width:620px){.partner-grid{grid-template-columns:1fr;}}
       .urgency{display:inline-block;background:rgba(176,122,60,.2);border:1px solid var(--gold);color:#F2D9E0;border-radius:30px;padding:9px 22px;font-size:14px;font-weight:500;margin-top:8px;}
       @media(max-width:760px){.maj{grid-template-columns:1fr;}.inaction-grid{flex-direction:column;align-items:center;}}
     </style>
@@ -842,6 +915,26 @@ const lock = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none"><rect 
       </div>
     </section>
 
+    <section id="partenaires" class="partners">
+      <div class="wrap">
+        <div class="sec-head reveal" style="text-align:center;margin-left:auto;margin-right:auto;max-width:64ch;">
+          <span class="eyebrow">{t.partnersEyebrow}</span>
+          <h2>{t.partnersH2}</h2>
+          <p style="margin-left:auto;margin-right:auto;">{t.partnersP}</p>
+        </div>
+        <div class="partner-grid">
+          {t.partners.map((p) => (
+            <button type="button" class="partner-card reveal" style={`--pc:${p.c}`} data-img={p.img} data-name={p.name} aria-label={`${t.partnersCta} — ${p.name}`}>
+              <span class="pc-bar"></span>
+              <span class="pc-name">{p.name}{p.by && <em> {p.by}</em>}</span>
+              <span class="pc-desc">{p.desc}</span>
+              <span class="pc-cta">{t.partnersCta} <span aria-hidden="true">→</span></span>
+            </button>
+          ))}
+        </div>
+      </div>
+    </section>
+
     <section class="pio">
       <div class="wrap">
         <span class="eyebrow">{t.pioEyebrow}</span>
@@ -849,6 +942,23 @@ const lock = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none"><rect 
         <p>{t.pioP}</p>
         <div><span class="urgency">{t.pioUrgency}</span></div>
         <div style="margin-top:26px;"><a href={cta} class="btn btn-sage">{t.pioBtn}</a></div>
+      </div>
+    </section>
+
+    <section id="lancement" class="launch">
+      <div class="wrap launch-in">
+        <div class="launch-txt reveal">
+          <span class="eyebrow">{t.launchEyebrow}</span>
+          <h2>{t.launchH2a}<em>{t.launchH2em}</em></h2>
+          <p>{t.launchP}</p>
+          <ul class="launch-points">
+            {t.launchPoints.map((pt) => (<li>{pt}</li>))}
+          </ul>
+          <a href={cta} class="btn btn-sage">{t.launchBtn}</a>
+        </div>
+        <div class="launch-visual reveal">
+          <img src="/launch/aventure-selinoa.webp" alt={t.launchAlt} loading="lazy" width="380" height="570" />
+        </div>
       </div>
     </section>
 
@@ -909,6 +1019,42 @@ const lock = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none"><rect 
         </div>
       </div>
     </footer>
+
+    <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-modal="true">
+      <button class="lb-close" id="lbClose" type="button" aria-label="Fermer">×</button>
+      <img id="lbImg" src="" alt="" />
+    </div>
+
+    <script is:inline>
+      // Lightbox partenaires : ouvre le visuel complet au clic sur une carte.
+      (function () {
+        var lb = document.getElementById("lightbox");
+        var img = document.getElementById("lbImg");
+        var closeBtn = document.getElementById("lbClose");
+        if (!lb || !img) return;
+        function open(src, name) {
+          img.setAttribute("src", src);
+          img.setAttribute("alt", name || "");
+          lb.classList.add("open");
+          lb.setAttribute("aria-hidden", "false");
+          document.body.style.overflow = "hidden";
+        }
+        function close() {
+          lb.classList.remove("open");
+          lb.setAttribute("aria-hidden", "true");
+          document.body.style.overflow = "";
+          img.setAttribute("src", "");
+        }
+        document.querySelectorAll(".partner-card").forEach(function (c) {
+          c.addEventListener("click", function () {
+            open(c.getAttribute("data-img"), c.getAttribute("data-name"));
+          });
+        });
+        closeBtn.addEventListener("click", close);
+        lb.addEventListener("click", function (e) { if (e.target === lb) close(); });
+        document.addEventListener("keydown", function (e) { if (e.key === "Escape" && lb.classList.contains("open")) close(); });
+      })();
+    </script>
 
     <script is:inline>
       // Révélation au scroll (identique à l'original)
